@@ -1,0 +1,39 @@
+This yaml file creates a pod with 3 containers which have
+# a simple busybox container image
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: busybox
+  name: busybox
+spec:
+  containers:
+    image: busybox
+    name: busybox1
+    resources:
+      limits:
+        cpu: "1"
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    image: busybox
+    name: busybox2
+    resources:
+      limits:
+        cpu: "1"
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    image: busybox
+    name: busybox3
+    resources:
+      limits:
+        cpu: "1"
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-rc
+  labels:
+     app: nginx
+     type: front-end
+spec:
+  template:
+    # From Here we used the Pod-Defination.yml `metadata`
+    metadata:
+       name: my-nginx
+       labels:
+         app: nginx # This Labels can be used by Other Objects as a `Selector`
+    spec:
+      containers:
+        name: nginx
+        image: nginx:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1"
+            memory: 2Gi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        # We can Specify the environment variables and which can be used in the Container
+        env:
+          - name: Var
+            value: value
+        # Specify the Ports as below
+        ports:
+          - name: web
+            containerPort: 80
+            protocol: TCP
+      replicas: 3

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  type: ClusterIP
+  # ClusterIP is the default service
+  ports:
+    - targetPort: 80
+      port: 80
+  selector: 
+  # to select a POD, below are POD labels
+    app: nginx
