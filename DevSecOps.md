@@ -23,7 +23,6 @@
       - [Advantages and DisAdvantages](#advantages-and-disadvantages)
       - [Roles and Responsibilies](#roles-and-responsibilies)
       - [DevOps Tools](#devops-tools)
-- [Kubernetes](#kubernetes)
   - [**kubernetes-Beginners**](#kubernetes-beginners)
     - [Kubernetes Basics](#kubernetes-basics)
     - [Kubernetes Overview](#kubernetes-overview)
@@ -49,34 +48,129 @@
         - [Pros of Docker Swarm](#pros-of-docker-swarm)
         - [Cons of Docker Swarm](#cons-of-docker-swarm)
       - [K8s vs K3s](#k8s-vs-k3s)
-    - [**Kubernetes Development**](#kubernetes-development)
-      - [What is Kubernets?](#what-is-kubernets)
-      - [Demo App in Kubernets](#demo-app-in-kubernets)
-      - [Docker Container for App](#docker-container-for-app)
-      - [Kubernetes On Minikube](#kubernetes-on-minikube)
-      - [Moving to Azure AKS](#moving-to-azure-aks)
-      - [DevOps for Kubernetes using Azure DevOps](#devops-for-kubernetes-using-azure-devops)
-      - [CI/CD Pipelines for Kubernetes using YAML pipelines](#cicd-pipelines-for-kubernetes-using-yaml-pipelines)
-      - [Deploying using Helm](#deploying-using-helm)
-      - [Ingress Controller](#ingress-controller)
-      - [GitOps with Kubernetes](#gitops-with-kubernetes)
-      - [Kubernetes NodePools](#kubernetes-nodepools)
-      - [Upgrade the Cluster](#upgrade-the-cluster)
-      - [Cluster backup](#cluster-backup)
-    - [**Kubernetes Administration**](#kubernetes-administration)
-      - [Introduction](#introduction)
-      - [Core Concepts](#core-concepts)
-      - [Scheduling](#scheduling)
-      - [Logging and Monotoring](#logging-and-monotoring)
-      - [Application Lifecycle Management](#application-lifecycle-management)
-      - [Cluster Maintainance](#cluster-maintainance)
-      - [Security](#security)
-      - [Storage](#storage)
-      - [Network](#network)
-      - [Design and Install Kubernetes Cluster](#design-and-install-kubernetes-cluster)
-      - [Install Kubernets hardway](#install-kubernets-hardway)
-      - [End to End Test on a kubernets Cluster](#end-to-end-test-on-a-kubernets-cluster)
-      - [Troubleshooting](#troubleshooting)
+  - [**Kubernetes Development**](#kubernetes-development)
+    - [What is Kubernets?](#what-is-kubernets)
+    - [Demo App in Kubernets](#demo-app-in-kubernets)
+    - [Docker Container for App](#docker-container-for-app)
+    - [Kubernetes On Minikube](#kubernetes-on-minikube)
+    - [Moving to Azure AKS](#moving-to-azure-aks)
+    - [DevOps for Kubernetes using Azure DevOps](#devops-for-kubernetes-using-azure-devops)
+    - [CI/CD Pipelines for Kubernetes using YAML pipelines](#cicd-pipelines-for-kubernetes-using-yaml-pipelines)
+    - [Deploying using Helm](#deploying-using-helm)
+    - [Ingress Controller](#ingress-controller)
+    - [GitOps with Kubernetes](#gitops-with-kubernetes)
+    - [Kubernetes NodePools](#kubernetes-nodepools)
+    - [Upgrade the Cluster](#upgrade-the-cluster)
+    - [Cluster backup](#cluster-backup)
+  - [**Kubernetes Administration**](#kubernetes-administration)
+    - [Introduction](#introduction)
+    - [Core Concepts](#core-concepts)
+      - [Cluster Architechture](#cluster-architechture)
+        - [ETCD](#etcd)
+        - [kube-apiserver](#kube-apiserver)
+        - [kube-controller-manager](#kube-controller-manager)
+        - [kube-scheduler](#kube-scheduler)
+        - [Kubelet](#kubelet)
+        - [Container runtime](#container-runtime)
+        - [Kube-Proxy](#kube-proxy)
+    - [Scheduling](#scheduling)
+      - [Manual Scheduling](#manual-scheduling)
+      - [Labels and Selectors](#labels-and-selectors)
+      - [Taint and Toleration](#taint-and-toleration)
+      - [Node Selectors](#node-selectors)
+      - [Node Affinity](#node-affinity)
+      - [Taint and Toleration vs Node Affinity](#taint-and-toleration-vs-node-affinity)
+      - [Resource Requirements and Limits](#resource-requirements-and-limits)
+      - [Editing Pods and Deployments](#editing-pods-and-deployments)
+      - [Daemon Sets](#daemon-sets)
+      - [Static pods](#static-pods)
+      - [Multiple Scheduler](#multiple-scheduler)
+      - [Configure K8s Scheduler](#configure-k8s-scheduler)
+    - [Logging and Monotoring](#logging-and-monotoring)
+      - [Monitor Cluster Components](#monitor-cluster-components)
+      - [Manage Application Logs](#manage-application-logs)
+    - [Application Lifecycle Management](#application-lifecycle-management)
+      - [Rolling Updates and Rollbacks](#rolling-updates-and-rollbacks)
+      - [Commands and Arguments](#commands-and-arguments)
+      - [Env Variables](#env-variables)
+      - [Secrets](#secrets)
+      - [ConfigMap](#configmap)
+      - [Scale Application](#scale-application)
+      - [Multi Container](#multi-container)
+      - [Init Container](#init-container)
+      - [Probes](#probes)
+      - [Jobs](#jobs)
+      - [Self-Healing](#self-healing)
+    - [Cluster Maintainance](#cluster-maintainance)
+      - [OS Upgrades](#os-upgrades)
+      - [Kubernetes Software Version](#kubernetes-software-version)
+      - [Cluster Upgrade Process](#cluster-upgrade-process)
+      - [BackUp and Restore Method](#backup-and-restore-method)
+      - [Working with ETCDCTL](#working-with-etcdctl)
+    - [Security](#security)
+      - [Kubernetes Security Primitives](#kubernetes-security-primitives)
+      - [Authentication](#authentication)
+      - [TLS Introduction](#tls-introduction)
+      - [TLS in Basics](#tls-in-basics)
+      - [TLS in Kubernetes](#tls-in-kubernetes)
+      - [TLS in Kubernetes - certificatin details](#tls-in-kubernetes---certificatin-details)
+      - [Certificate API](#certificate-api)
+      - [Kubeconfig](#kubeconfig)
+      - [Persistance key/value pair](#persistance-keyvalue-pair)
+      - [API Groups](#api-groups)
+      - [Authorization](#authorization)
+      - [Role Based Access Controll](#role-based-access-controll)
+      - [Cluster Role and Role Binding](#cluster-role-and-role-binding)
+      - [Service Account](#service-account)
+      - [Image Security](#image-security)
+      - [Security Context](#security-context)
+      - [Network Polocies](#network-polocies)
+      - [Developing Network Policies](#developing-network-policies)
+    - [Storage](#storage)
+      - [Intoduction to Docker Storage](#intoduction-to-docker-storage)
+      - [Storage in Docker](#storage-in-docker)
+      - [Volume Driver Plugin in Docker](#volume-driver-plugin-in-docker)
+      - [Container Storage Interface](#container-storage-interface)
+      - [Volumes](#volumes)
+      - [Persistent Volumes](#persistent-volumes)
+      - [Persistent Volume Claims](#persistent-volume-claims)
+      - [Using PVC's in Pods](#using-pvcs-in-pods)
+      - [Application Configuration](#application-configuration)
+      - [Additional Topics](#additional-topics)
+      - [Storage Class](#storage-class)
+    - [Network](#network)
+      - [DNS](#dns)
+      - [CoreDNS](#coredns)
+      - [Network Namespace](#network-namespace)
+      - [FAQ](#faq)
+      - [Docker Network](#docker-network)
+      - [CNI](#cni)
+      - [Cluster Network](#cluster-network)
+      - [Pod Network](#pod-network)
+      - [CNI in Kubernetes](#cni-in-kubernetes)
+      - [CNI Weave](#cni-weave)
+      - [IP Address Management - Weave](#ip-address-management---weave)
+      - [Service Network](#service-network)
+      - [DNS in Kubernetes](#dns-in-kubernetes)
+      - [Core DNS in Kubernetes](#core-dns-in-kubernetes)
+      - [Ingress](#ingress)
+    - [Design and Install Kubernetes Cluster](#design-and-install-kubernetes-cluster)
+      - [Design Kubernetes Cluster](#design-kubernetes-cluster)
+      - [Choose Kubernetes Infrastructure](#choose-kubernetes-infrastructure)
+      - [Configure High Availability](#configure-high-availability)
+      - [ETCD in HA](#etcd-in-ha)
+    - [Install Kubernets hardway](#install-kubernets-hardway)
+      - [Resources](#resources)
+      - [Deploy with Kubeadm](#deploy-with-kubeadm)
+    - [End to End Test on a kubernets Cluster](#end-to-end-test-on-a-kubernets-cluster)
+    - [Troubleshooting](#troubleshooting)
+      - [Application Failure](#application-failure)
+      - [Control Plane Failure](#control-plane-failure)
+      - [Worker Node Failuer](#worker-node-failuer)
+      - [Network Troubleshooting](#network-troubleshooting)
+      - [Other Topics](#other-topics)
+        - [JSON Path](#json-path)
+        - [Advance Kubectl Commands](#advance-kubectl-commands)
     - [**Kubernetes Master Course**](#kubernetes-master-course)
       - [Kubernetes Introduction](#kubernetes-introduction)
       - [Understanding the Kubernetes Architechture](#understanding-the-kubernetes-architechture)
@@ -89,47 +183,6 @@
       - [Storage In Kubernetes](#storage-in-kubernetes)
       - [Security In Kubernetes](#security-in-kubernetes)
       - [Monitoring and Autoscaling kubernetes Cluster](#monitoring-and-autoscaling-kubernetes-cluster)
-  
-- GitLab
-- OpenShift
-- GitLab
-- Git
-- Nexus
-- Prometheus, grafana and Alertmanger
-- Vault
-- ELK
-- Linux
-- IBM ACE
-- MQ
-- APIC and DP
-- Docker
-- Cri-O
-- Nginx
-- Apache
-- Tomcat
-- Maven
-- Ant
-- Jenkins
-- UCD
-- Ansible
-- Eclipse
-- Java
-- Python
-- Go
-- Github
-- AWS
-- Bitbucket
-- Junit
-- Svn
-- Jira
-- Vs Code
-- Confluence
-- Nagois
-- Splunk
-- Release Management Tool
-- Gradle
-- NodeS
-- Junit
 
 --------------------------------------
 
@@ -785,11 +838,9 @@ PROD: Production is the final environment in your software development process. 
 
 --------------------------------------
 
-# Kubernetes
+## **kubernetes-Beginners**
 
 "CKA Certification Should be my first Certification"
-
-## **kubernetes-Beginners**
 
 ### Kubernetes Basics
 
@@ -1382,63 +1433,2981 @@ The main reason we have chosen Kubernetes over Docker Swarm is related to the fo
 
 --------------------------------------
 
-### **Kubernetes Development**
+## **Kubernetes Development**
 
-#### What is Kubernets?
+### What is Kubernets?
 
-#### Demo App in Kubernets
+### Demo App in Kubernets
 
-#### Docker Container for App
+### Docker Container for App
 
-#### Kubernetes On Minikube
+### Kubernetes On Minikube
 
-#### Moving to Azure AKS
+### Moving to Azure AKS
 
-#### DevOps for Kubernetes using Azure DevOps
+### DevOps for Kubernetes using Azure DevOps
 
-#### CI/CD Pipelines for Kubernetes using YAML pipelines
+### CI/CD Pipelines for Kubernetes using YAML pipelines
 
-#### Deploying using Helm
+### Deploying using Helm
 
-#### Ingress Controller
+### Ingress Controller
 
-#### GitOps with Kubernetes
+### GitOps with Kubernetes
 
-#### Kubernetes NodePools
+### Kubernetes NodePools
 
-#### Upgrade the Cluster
+### Upgrade the Cluster
 
-#### Cluster backup
+### Cluster backup
 
-### **Kubernetes Administration**
+--------------------------------------
 
-#### Introduction
+## **Kubernetes Administration**
 
-#### Core Concepts
+### Introduction
 
-#### Scheduling
+What is Kubernetes?
+It's is an open-source container orchestration tool designed to automate deploying, scaling, and operating containerized applications. Kubernetes was born from Google's 15-year experience running production workloads. It is designed to grow from tens, thousands, or even millions of containers.
 
-#### Logging and Monotoring
+Difference between Docker and Kubernetes
+A fundamental difference between Kubernetes and Docker is that Kubernetes is meant to run across a cluster while Docker runs on a single node. Kubernetes is more extensive than Docker Swarm and is meant to coordinate clusters of nodes at scale in production in an efficient manner.
 
-#### Application Lifecycle Management
+what is CKAD?
+According to cncf,
+A Certified Kubernetes Application Developer can define application resources and use core primitives to build, monitor, and troubleshoot scalable applications and tools in Kubernetes. The exam assumes knowledge of, but does not test for, container runtimes and a microservice architecture.
 
-#### Cluster Maintainance
+Certification Details:
 
-#### Security
+Below are some references:
 
-#### Storage
+- Certified Kubernetes Administrator: <https://www.cncf.io/certification/cka/>
+- Exam Curriculum (Topics): <https://github.com/cncf/curriculum>
+- Candidate Handbook: <https://www.cncf.io/certification/candidate-handbook>
+- Exam Tips: <http://training.linuxfoundation.org/go//Important-Tips-CKA-CKAD>
+Use the code - DEVOPS15 - while registering for the CKA or CKAD exams at Linux Foundation to get a 15% discount.
 
-#### Network
+Practice Reference:
 
-#### Design and Install Kubernetes Cluster
+- **K8s Hard Way: <https://github.com/mmumshad/kubernetes-the-hard-way>**
+- **CKA: <https://github.com/kodekloudhub/certified-kubernetes-administrator-course>**
+- **Killer shell: <https://killercoda.com/killer-shell-cka>**
+- practice: <https://github.com/vzhovtan/cka_practice_questions>, <https://gist.github.com/texasdave2/8f4ce19a467180b6e3a02d7be0c765e7>, <https://github.com/alijahnas/CKA-practice-exercises>, <https://gist.github.com/PavelSlepushkin/43717d9383eb47d1ec2c87d6275ccea6>, <https://github.com/MatthewAtkinson24/Build-Your-Career-With-Latest-Linux-Foundation-CKA-PDF-Dumps-2022->
 
-#### Install Kubernets hardway
+### Core Concepts
 
-#### End to End Test on a kubernets Cluster
+#### Cluster Architechture
 
-#### Troubleshooting
+In Kubernetes we have Master and Worker Node. Master node is also known as Control Panel node and Worker node is known as Minion.
+
+![Image Info](Image/CKA-1.png)
+
+**Master Node or Control Panel Node**: A master is other node with kubernetes installed in it and is configured as a master.
+The master watches over the nodes in the cluster and is reponsible for the actual orchestration of containers on the worker nodes.
+Master node manages the cluster, this will have information about the members of the cluster, this monitor the nodes and when a node fails, this will move the load of the failed node to other worker nodes.
+
+**Worker Node or Minion or Compute Machine**: Worker Node or Minion is where the containers are hosted. To run containers on the system, we need container runtime installed. Therefore, worker nodes will have container runtime.
+
+**Node**: Node is a physical machine or virtual machine on which kubernetes is installed. A node is a worker machine(minions), where containers are launched by kubernetes. We need to have more than one node, inorder to maintain the application if one node fails.
+
+**Cluster**: A cluster is a set of nodes grouped together. If one node fails, our application will be still accessible from other nodes. Having multiple nodes help in sharing load as well.
+
+![Image info](Image/CKA-3.png)
+
+**Components**:
+
+![Image Info](Image/CKA-2.png)
+
+When we install the kubernetes in the system, we are actually installing the following components.
+
+Master Components:
+
+- API Server --> frontend for kubernetes. Users, management devices, CLI all talk to the apiServer to interact with kubernetes cluster.
+- etcd --> key-value store (to store all data (in distributed manner) to manage cluster)
+- Controller --> brain behind otchestration, responsible for noticing and managing when nodes, containers, endpoints goes down.
+- scheduler --> distributes work to all containers across multiple nodes.
+
+Worker Components:
+
+- kubelet --> agent that runs on each node on the cluster and make sure that containers are running as expected.
+- Container Runtime --> used to run containers i.e., docker
+
+**Master vs Worker Nodes:**
+
+- Worker Node or Minion is where the containers are hosted. To run containers on the system, we need container runtime installed. Therefore, worker nodes will have container runtime (docker).
+- Master node will have Kube-API server and thats make it a master.
+- Worker node will have kubelet agent that is responsible to interact with the master to provide health information of the worker node and to carry out actions requested by the master on the worker nodes.
+- All the information gathered is stored in the key-value store on the master. The key-value store is based on the popular etcd framework.
+- The master also has Controller and Scheduler.
+
+##### ETCD
+
+Configuration data and information about the state of the cluster lives in etcd, a key-value store database. Fault-tolerant and distributed, etcd is designed to be the ultimate source of truth about your cluster.
+Port: **2379**
+
+Outside K8s ETCD:
+
+1. Download Binaries: curl -L <https://github.com/etcd-io/etcd/releases/download/v3.3.11/etcd-v3.3.11-linux-amd64.tar.gz> -o etcd-v3.3.11-linux-amd64.tar.gz
+
+2. Extract: tar xzvf etcd-v3.3.11-linux-amd64.tar.gz
+
+3. Run ETCD Service: ./etcd
+
+Manual Setup of ETCD on K8s:
+
+step-1
+
+```sh
+$ wget -q --https-only \
+"https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz"
+```
+
+step-2
+
+```sh
+etcd.service
+```
+
+```yaml
+ExecStart=/usr/local/bin/etcd \\
+--name ${ETCD_NAME} \\
+--cert-file=/etc/etcd/kubernetes.pem \\
+--key-file=/etc/etcd/kubernetes-key.pem \\
+--peer-cert-file=/etc/etcd/kubernetes.pem \\
+--peer-key-file=/etc/etcd/kubernetes-key.pem \\
+--trusted-ca-file=/etc/etcd/ca.pem \\
+--peer-trusted-ca-file=/etc/etcd/ca.pem \\
+--peer-client-cert-auth \\
+--client-cert-auth \\
+--initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\
+--listen-peer-urls https://${INTERNAL_IP}:2380 \\
+--listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\
+--advertise-client-urls https://${INTERNAL_IP}:2379 \\
+--initial-cluster-token etcd-cluster-0 \\
+**--initial-cluster controller-0=https://${CONTROLLER0_IP}:2380,controller-1=https://${CONTROLLER1_IP}:2380 \\**
+--initial-cluster-state new \\
+--data-dir=/var/lib/etcd
+```
+
+Kubeadm Setup:
+
+step-1
+
+```sh
+$ kubectl get pods -n kube-system
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-78fcdf6894-prwvl 1/1 Running 0 1h
+kube-system coredns-78fcdf6894-vqd9w 1/1 Running 0 1h
+kube-system etcd-master 1/1 Running 0 1h
+kube-system kube-apiserver-master 1/1 Running 0 1h
+kube-system kube-controller-manager-master 1/1 Running 0 1h
+kube-system kube-proxy-f6k26 1/1 Running 0 1h
+kube-system kube-proxy-hnzsw 1/1 Running 0 1h
+kube-system kube-scheduler-master 1/1 Running 0 1h
+kube-system weave-net-924k8 2/2 Running 1 1h
+kube-system weave-net-hzfcz 2/2 Running 1 1h
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-78fcdf6894-prwvl 1/1 Running 0 1h
+kube-system coredns-78fcdf6894-vqd9w 1/1 Running 0 1h
+kube-system etcd-master 1/1 Running 0 1h
+kube-system kube-apiserver-master 1/1 Running 0 1h
+kube-system kube-controller-manager-master 1/1 Running 0 1h
+kube-system kube-proxy-f6k26 1/1 Running 0 1h
+kube-system kube-proxy-hnzsw 1/1 Running 0 1h
+kube-system kube-scheduler-master 1/1 Running 0 1h
+kube-system weave-net-924k8 2/2 Running 1 1h
+kube-system weave-net-hzfcz 2/2 Running 1 1h
+```
+
+```sh
+# Run below on the ETCD Master Node
+$ kubectl exec etcd-master –n kube-system etcdctl get / --prefix –keys-only
+/registry/apiregistration.k8s.io/apiservices/v1.
+/registry/apiregistration.k8s.io/apiservices/v1.apps
+/registry/apiregistration.k8s.io/apiservices/v1.authentication.k8s.io
+/registry/apiregistration.k8s.io/apiservices/v1.authorization.k8s.io
+/registry/apiregistration.k8s.io/apiservices/v1.autoscaling
+/registry/apiregistration.k8s.io/apiservices/v1.batch
+/registry/apiregistration.k8s.io/apiservices/v1.networking.k8s.io
+/registry/apiregistration.k8s.io/apiservices/v1.rbac.authorization.k8s.io
+/registry/apiregistration.k8s.io/apiservices/v1.storage.k8s.io
+/registry/apiregistration.k8s.io/apiservices/v1beta1.admissionregistration.k8s.io
+```
+
+ETCD will explore on below from etcd master node:
+
+|                   | Pods        |
+| ----------------- | ----------- |
+|                   | Replicasets |
+| Registry  minions | deployment  |
+|                   | roles       |
+|                   | serets      |
+
+etcd on HA:
+
+```sh
+etcd.service
+```
+
+```yaml
+ExecStart=/usr/local/bin/etcd \\
+--name ${ETCD_NAME} \\
+--cert-file=/etc/etcd/kubernetes.pem \\
+--key-file=/etc/etcd/kubernetes-key.pem \\
+--peer-cert-file=/etc/etcd/kubernetes.pem \\
+--peer-key-file=/etc/etcd/kubernetes-key.pem \\
+--trusted-ca-file=/etc/etcd/ca.pem \\
+--peer-trusted-ca-file=/etc/etcd/ca.pem \\
+--peer-client-cert-auth \\
+--client-cert-auth \\
+--initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\
+--listen-peer-urls https://${INTERNAL_IP}:2380 \\
+--listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\
+--advertise-client-urls https://${INTERNAL_IP}:2379 \\
+--initial-cluster-token etcd-cluster-0 \\
+**--initial-cluster controller-0=https://${CONTROLLER0_IP}:2380,controller-1=https://${CONTROLLER1_IP}:2380 \\**
+--initial-cluster-state new \\
+--data-dir=/var/lib/etcd
+```
+
+##### kube-apiserver
+
+Need to interact with your Kubernetes cluster? Talk to the API. The Kubernetes API is the front end of the Kubernetes control plane, handling internal and external requests. The API server determines if a request is valid and, if it is, processes it. You can access the API through REST calls, through the kubectl command-line interface, or through other command-line tools such as kubeadm.
+
+![Image Info](Image/CKA-4.png)
+
+Manual setup:
+
+```sh
+wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-apiserver
+```
+
+```yaml
+ExecStart=/usr/local/bin/kube-apiserver \\
+--advertise-address=${INTERNAL_IP} \\
+--allow-privileged=true \\
+--apiserver-count=3 \\
+--authorization-mode=Node,RBAC \\
+--bind-address=0.0.0.0 \\
+--enable-admission-
+plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
+--enable-swagger-ui=true \\
+--etcd-cafile=/var/lib/kubernetes/ca.pem \\
+--etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
+--etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
+--etcd-servers=https://127.0.0.1:2379 \\
+--event-ttl=1h \\
+--experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
+--kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
+--kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
+--kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\
+--kubelet-https=true \\
+--runtime-config=api/all \\
+--service-account-key-file=/var/lib/kubernetes/service-account.pem \\
+--service-cluster-ip-range=10.32.0.0/24 \\
+--service-node-port-range=30000-32767 \\
+--v=2
+```
+
+Kubeadm Setup:
+
+```sh
+$ kubectl get pods -n kube-system
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-78fcdf6894-hwrq9 1/1 Running 0 16m
+kube-system coredns-78fcdf6894-rzhjr 1/1 Running 0 16m
+kube-system etcd-master 1/1 Running 0 15m
+kube-system kube-apiserver-master 1/1 Running 0 15m
+kube-system kube-controller-manager-master 1/1 Running 0 15m
+kube-system kube-proxy-lzt6f 1/1 Running 0 16m
+kube-system kube-proxy-zm5qd 1/1 Running 0 16m
+kube-system kube-scheduler-master 1/1 Running 0 15m
+kube-system weave-net-29z42 2/2 Running 1 16m
+kube-system weave-net-snmdl 2/2 Running 1 16m
+```
+
+```yaml
+cat /etc/kubernetes/manifests/kube-apiserver.yaml
+spec:
+containers:
+- command:
+- kube-apiserver
+- --authorization-mode=Node,RBAC
+- --advertise-address=172.17.0.32
+- --allow-privileged=true
+- --client-ca-file=/etc/kubernetes/pki/ca.crt
+- --disable-admission-plugins=PersistentVolumeLabel
+- --enable-admission-plugins=NodeRestriction
+- --enable-bootstrap-token-auth=true
+- --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt
+- --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
+- --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
+- --etcd-servers=https://127.0.0.1:2379
+- --insecure-port=0
+- --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
+- --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
+- --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+- --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
+- --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
+- --requestheader-allowed-names=front-proxy-client
+- --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
+- --requestheader-extra-headers-prefix=X-Remote-Extra-
+- --requestheader-group-headers=X-Remote-Group
+- --requestheader-username-headers=X-Remote-User
+```
+
+```sh
+$ cat /etc/systemd/system/kube-apiserver.service
+[Service]
+ExecStart=/usr/local/bin/kube-apiserver \\
+--advertise-address=${INTERNAL_IP} \\
+--allow-privileged=true \\
+--apiserver-count=3 \\
+--audit-log-maxage=30 \\
+--audit-log-maxbackup=3 \\
+--audit-log-maxsize=100 \\
+--audit-log-path=/var/log/audit.log \\
+--authorization-mode=Node,RBAC \\
+--bind-address=0.0.0.0 \\
+--client-ca-file=/var/lib/kubernetes/ca.pem \\
+--enable-admission-
+plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
+--enable-swagger-ui=true \\
+--etcd-cafile=/var/lib/kubernetes/ca.pem \\
+--etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
+--etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
+--etcd-
+servers=https://10.240.0.10:2379,https://10.240.0.11:2379,https://10.240.0.12:2379 \\
+--event-ttl=1h \\
+--experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml
+\\
+--kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
+--kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
+```
+
+```sh
+$ ps -aux | grep kube-apiserver
+root 2348 3.3 15.4 399040 315604 ? Ssl 15:46 1:22 kube-apiserver --authorization-mode=Node,RBAC --advertise-address=172.17.0.32 --allow-privileged=true --client-ca-file=/etc/kubernetes/pki/ca.crt --disable-
+admission-plugins=PersistentVolumeLabel --enable-admission-plugins=NodeRestriction --enable-bootstrap-token-auth=true --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --insecure-port=0 --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-key-file=/etc/kubernetes/pki/sa.pub --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+```
+
+##### kube-controller-manager
+
+![Replication Controller](Image/CKA-5.png)
+
+Controllers take care of actually running the cluster, and the Kubernetes controller-manager contains several controller functions in one. One controller consults the scheduler and makes sure the correct number of pods is running. If a pod goes down, another controller notices and responds. A controller connects services to pods, so requests go to the right endpoints. And there are controllers for creating accounts and API access tokens.
+
+![Node Controller](Image/CKA-6.png)
+
+![All Controllers](Image/CKA-7.png)
+
+Manual SetUp:
+
+```sh
+$ wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-controller-manager
+
+ExecStart=/usr/local/bin/kube-controller-manager \\
+--address=0.0.0.0 \\
+--cluster-cidr=10.200.0.0/16 \\
+--cluster-name=kubernetes \\
+--cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
+--cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
+--kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
+--leader-elect=true \\
+--root-ca-file=/var/lib/kubernetes/ca.pem \\
+--service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
+--service-cluster-ip-range=10.32.0.0/24 \\
+--use-service-account-credentials=true \\
+--v=2
+```
+
+```sh
+--controllers stringSlice Default: [*]
+A list of controllers to enable. '*' enables all on-by-default controllers, 'foo' enables the controller
+named 'foo', '-foo' disables the controller named 'foo'.
+All controllers: attachdetach, bootstrapsigner, clusterrole-aggregation, cronjob, csrapproving,
+csrcleaner, csrsigning, daemonset, deployment, disruption, endpoint, garbagecollector,
+horizontalpodautoscaling, job, namespace, nodeipam, nodelifecycle, persistentvolume-binder,
+persistentvolume-expander, podgc, pv-protection, pvc-protection, replicaset, replicationcontroller,
+resourcequota, root-ca-cert-publisher, route, service, serviceaccount, serviceaccount-token, statefulset,
+tokencleaner, ttl, ttl-after-finished
+Disabled-by-default controllers: bootstrapsigner, tokencleaner
+```
+
+Kubeadm Setup:
+
+```sh
+$ kubectl get pods -n kube-system
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-78fcdf6894-hwrq9 1/1 Running 0 16m
+kube-system coredns-78fcdf6894-rzhjr 1/1 Running 0 16m
+kube-system etcd-master 1/1 Running 0 15m
+kube-system kube-apiserver-master 1/1 Running 0 15m
+kube-system kube-controller-manager-master 1/1 Running 0 15m
+kube-system kube-proxy-lzt6f 1/1 Running 0 16m
+kube-system kube-proxy-zm5qd 1/1 Running 0 16m
+kube-system kube-scheduler-master 1/1 Running 0 15m
+kube-system weave-net-29z42 2/2 Running 1 16m
+kube-system weave-net-snmdl 2/2 Running 1 16m
+```
+
+```yaml
+$ cat /etc/kubernetes/manifests/kube-controller-manager.yaml
+spec:
+containers:
+- command:
+- kube-controller-manager
+- --address=127.0.0.1
+- --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
+- --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
+- --controllers=*,bootstrapsigner,tokencleaner
+- --kubeconfig=/etc/kubernetes/controller-manager.conf
+- --leader-elect=true
+- --root-ca-file=/etc/kubernetes/pki/ca.crt
+- --service-account-private-key-file=/etc/kubernetes/pki/sa.key
+- --use-service-account-credentials=true
+```
+
+```sh
+cat /etc/systemd/system/kube-controller-manager.service
+[Service]
+ExecStart=/usr/local/bin/kube-controller-manager \\
+--address=0.0.0.0 \\
+--cluster-cidr=10.200.0.0/16 \\
+--cluster-name=kubernetes \\
+--cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
+--cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
+--kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
+--leader-elect=true \\
+--root-ca-file=/var/lib/kubernetes/ca.pem \\
+--service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
+--service-cluster-ip-range=10.32.0.0/24 \\
+--use-service-account-credentials=true \\
+--v=2
+Restart=on-failure
+RestartSec=5
+```
+
+```sh
+$ ps -aux | grep kube-controller-manager
+root 1994 2.7 5.1 154360 105024 ? Ssl 06:45 1:25 kube-controller-manager --address=127.0.0.1 --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --controllers=*,bootstrapsigner,tokencleaner --kubeconfig=/etc/kubernetes/controller-manager.conf --leader-elect=true --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/sa.key --use-service-account-credentials=true
+```
+
+##### kube-scheduler
+
+Is your cluster healthy? If new containers are needed, where will they fit? These are the concerns of the Kubernetes scheduler.
+
+The scheduler considers the resource needs of a pod, such as CPU or memory, along with the health of the cluster. Then it schedules the pod to an appropriate compute node.
+
+![Kube-Scheduler](Image/CKA-8.png)
+
+Manual SetUp:
+
+```sh
+$ wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-scheduler
+ExecStart=/usr/local/bin/kube-scheduler \\
+--config=/etc/kubernetes/config/kube-scheduler.yaml \\
+--v=2
+```
+
+Kubeadm SetUp:
+
+```yaml
+$ cat /etc/kubernetes/manifests/kube-scheduler.yaml
+spec:
+containers:
+- command:
+- kube-scheduler
+- --address=127.0.0.1
+- --kubeconfig=/etc/kubernetes/scheduler.conf
+- --leader-elect=true
+```
+
+```sh
+$ ps -aux | grep kube-scheduler
+root 2477 0.8 1.6 48524 34044 ? Ssl 17:31 0:08 kube-scheduler --
+address=127.0.0.1 --kubeconfig=/etc/kubernetes/scheduler.conf --leader-elect=true
+```
+
+##### Kubelet
+
+Each compute node contains a kubelet, a tiny application that communicates with the control plane. The kublet makes sure containers are running in a pod. When the control plane needs something to happen in a node, the kubelet executes the action.
+
+![Kubelet](Image/CKA-9.png)
+
+Kubeadm does not deploy `Kubelets`
+
+```sh
+$ wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kubelet
+
+ExecStart=/usr/local/bin/kubelet \\
+--config=/var/lib/kubelet/kubelet-config.yaml \\
+--container-runtime=remote \\
+--container-runtime-endpoint=unix:///var/run/containerd/containerd.sock \\
+--image-pull-progress-deadline=2m \\
+--kubeconfig=/var/lib/kubelet/kubeconfig \\
+--network-plugin=cni \\
+--register-node=true \\
+--v=2
+```
+
+```sh
+$ ps -aux | grep kubelet
+
+root 2095 1.8 2.4 960676 98788 ? Ssl 02:32 0:36 /usr/bin/kubelet --bootstrap-
+kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml --cgroup-driver=cgroupfs --cni-bin-dir=/opt/cni/bin --cni-conf-dir=/etc/cni/net.d --network-plugin=cni
+```
+
+##### Container runtime
+
+To run the containers, each compute node has a container runtime engine. Docker is one example, but Kubernetes supports other Open Container Initiative-compliant runtimes as well, such as rkt and CRI-O.
+
+##### Kube-Proxy
+
+Each compute node also contains kube-proxy, a network proxy for facilitating Kubernetes networking services. The kube-proxy handles network communications inside or outside of your cluster—relying either on your operating system’s packet filtering layer, or forwarding the traffic itself.
+
+![Kube-Proxy](Image/CKA-10.png)
+
+Manual SetUp:
+
+```sh
+$ wget https://storage.googleapis.com/kubernetes-release/release/v1.13.0/bin/linux/amd64/kube-proxy
+ExecStart=/usr/local/bin/kube-proxy \\
+--config=/var/lib/kube-proxy/kube-proxy-config.yaml
+Restart=on-failure
+RestartSec=5
+```
+
+Kubeadm SetUp:
+
+```sh
+$ kubectl get pods -n kube-system
+NAMESPACE NAME READY STATUS RESTARTS AGE
+kube-system coredns-78fcdf6894-hwrq9 1/1 Running 0 16m
+kube-system coredns-78fcdf6894-rzhjr 1/1 Running 0 16m
+kube-system etcd-master 1/1 Running 0 15m
+kube-system kube-apiserver-master 1/1 Running 0 15m
+kube-system kube-controller-manager-master 1/1 Running 0 15m
+kube-system kube-proxy-lzt6f 1/1 Running 0 16m
+kube-system kube-proxy-zm5qd 1/1 Running 0 16m
+kube-system kube-scheduler-master 1/1 Running 0 15m
+kube-system weave-net-29z42 2/2 Running 1 16m
+kube-system weave-net-snmdl 2/2 Running 1 16m
+```
+
+```sh
+$ kubectl get daemonset -n kube-system
+NAME DESIRED CURRENT READY UP-TO-DATE AVAILABLE NODE SELECTOR AGE
+kube-proxy 2 2 2 2 2 beta.kubernetes.io/arch=amd64 1h
+```
+
+[Refer Pod, Deployment, Services, Replicaset etc.,](#kubernetes-beginners) and [Github-Link](https://bhavyasree.github.io/CKAD/01.kubernetes-architecture)
+
+### Scheduling
+
+#### Manual Scheduling
+
+![Scheduling](Image/CKA-11.png)
+
+The Kubernetes Scheduler is a core component of Kubernetes. In this tutorial we will discuss about different ways of Kubernetes manual scheduling a POD on a node. What you do when you don’t have a scheduler in your cluster? You probably don’t want to rely on built in scheduler and instead want to schedule the PODs yourself.
+
+The scheduler goes through the all PODs and looks for those that don’t have this property set. Those are the candidates for the scheduling. It then identifies the right node for the POD by running the scheduling the algorithm. Once identified, it schedules the POD on the node by setting the nodeName property to the name of the node by creating the binding object.
+
+**No Scheduler**:
+If there is no scheduler to monitor and schedule a node what happens? The pods continue to the in a pending stage.
+
+So what can we do about it. We can manually assign the PODs to nodes yourself. Without a scheduler the easiest way to schedule a POD is to simply set the nodeName field to the name of the node in your POD specification file while creating the POD. The POD then gets assigned to the specified node.
+
+![Scheduling](Image/CKA-12.png)
+
+What if the POD is already created and you want to assign POD to a node. Kubernetes wont’ allow you to modify the nodeName property of a POD. So another way to assign existing POD to node is to create a binding object and sent a post request to the PODs binding API. This is what the actual scheduler does.
+
+![Scheduling](Image/CKA-13.png)
+
+In the binding object we specify the target node with a name of the node. Then send a post request to the PODs binding API by setting data property in the JSON format. Here you must convert your YAML to its equivalent JSON format.
+
+curl --header "Content-Type:application/json" --request POST --data http://$SERVER/api/v1/namespaces/default/pods/$PODNAME/binding/
+
+#### Labels and Selectors
+
+Labels and Selectors are standard method to group things together. For example, we have set of different species and a user wants to be able to filter them based on different criteria. Such as based on their class or kind or by their color.
+
+![Labels and Selector](Image/CKA-14.png)
+
+And not just group, you want to be able to filter them based on criteria. Such as all blue animals, or with multiple criteria such as everything green that is also a bird. Whatever the classification may be you need ability to prove things together and filter them based on your needs.
+
+The best way to do that with specific Labels. Labels are properties attached to each item. You add properties for each item. So you add properties to each item for their class, kind and color.
+
+![Labels and Selector](Image/CKA-15.png)
+
+Selectors are the filters of these items. For example, when you say class=Mammal We get a list of Mammals and when you say color is green then we get the green mammal.
+
+We use labels and selectors every where. Such as keywords you tagged in YouTube videos or blogs that have users filter and find the right content. We can see labels in online store that help you add different kinds of filters to view your products.
+
+Now coming to how are labels and selectors used in Kubernetes. We have created a lot of different types of objects in Kubernetes. PODs, Services, ReplicaSet, Deployments etc.
+
+For Kubernetes all of these are different objects. Over time you may deploy 100’s or 1000’s of these objects in your cluster. Then you will need a way to filter and view different objects by different categories. Such as to group objects by their type.
+
+![Labels and Selector](Image/CKA-16.png)
+
+also you can group by their application or group by their functionality. What ever it may be you can group and select objects using labels and selectors.
+
+So how exactly do we specify labels in Kubernetes.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp
+  labels: 
+    app: App1
+    function: Front-end
+spec:
+  containers:
+    - name: simple-webapp
+      image: simple-webapp
+      ports:
+        - containerPort: 8080
+```
+
+Once POD is created you can select the POD using the labels by following command.
+
+```sh
+$ kubectl get pods --selector app=App1
+NAME                READY   STATUS      RESTARTS   AGE
+simple-webapp       1/1     Running        0       24s
+```
+
+Kubernetes objects use labels and selectors internally to connect different objects together. For example, to create a ReplicaSet consisting of three different PODs. We first create label the POD definition and use selector in a ReplicaSet to group the PODs.
+
+Note
+
+1. The labels defined under templates section are the labels configured on the POD.
+2. Labels defined under top metadata section are the labels of ReplicaSet.
+
+#### Taint and Toleration
+
+In this tutorial we well discuss about Taints and Tolerations, — another feature for the advanced Pod scheduling in Kubernetes.
+
+The taints and toleration are all about the relationship between the pod and node. Taints and Toleration will tell what pods can be placed on what nodes.
+
+The concept of Taints and Tolerations are can be a bit confusing for Kubernetes beginners. Taints and tolerations work together to make sure that pods are not scheduled onto inappropriate nodes.
+
+Traints and tolerations are mainly used to set restrictions on what PODs can be scheduled on a node.
+
+Let us start with the simple cluster with 3 worker nodes. The nodes are named 1, 2 and 3. We also have a set of PODs that are to be deployed on these nodes. Let’s call them as A, B, C and D.
+
+![taint and toleration](Image/CKA-17.png)
+
+When the PODs are created Kubernetes scheduler tries to place these PODs on the available worker node. As of now, there are no restrictions or limitations and asserts the scheduler places the PODs across all of the nodes to balance them out equally.
+
+![taint and toleration](Image/CKA-18.png)
+
+Now let’s assume that we have dedicated resources at Node 1 for particular use case or application. So here we would like only those PODs that belongs to this application to be placed on Node 1.
+
+First we prevent all PODs from being placed on the node by placing a taint on the node. Let’s call it blue. By default PODs have no toleration which means unless specified otherwise none of the PODs can tolerate any taint.
+
+![taint and toleration](Image/CKA-19.png)
+
+So in this case none of the PODs can be placed on Node 1 as none of them can tolerate the taint blue. This solves half of our requirement.
+
+No unwanted PODs are going to be placed on this Node. The other half is to enable certain PODs to be placed on this node. For this we must specify which PODs are tolerant to this particular taint.
+
+In our case we would like to allow only POD D to be placed on this node. So we add a toleration to POD. POD D is now tolerant to blue. So when the scheduler tries to place this POD on Node 1 it goes through. Node 1 can now only accept PODs that can tolerate the taint blue.
+
+![taint and toleration](Image/CKA-20.png)
+
+So with all the taints and toleration in place. This is how the PODs would be scheduled.
+
+The scheduler tries to place POD A on Node 1 due to the taint it is thrown off and it goes to Node 2, the scheduler then tries to place POD B on Node 1 but again due to the taint it is thrown off and it is placed on Node 3 which happens to be the next free node. The scheduler then tries to place POD C on Node 1 but again due to the taint it is thrown off and ends up on Node 2. Finally the scheduler tries to place POD D on Node 1, since the POD is tolerant to the Node 1.
+
+Note:
+
+Taints are set on nodes and toleration are set on PODs. So how do we do this.
+
+How to set a Taint on the node
+
+Syntax:
+
+```sh
+kubectl taint nodes [NODE_NAME] [KEY]=[VALUE]:[TAINT-EFFECT] 
+```
+
+Taint effects define how nodes with a taint react to Pods that don’t tolerate it. There are 3 types of taint effects,
+
+1. NoSchedule: Instructs Kubernetes scheduler not to schedule any new pods to the node unless the pod tolerates the taint.
+2. PreferNoSchedule: The PreferNoSchedule taints prevents scheduling Pods on a node, BUT, if no suitable untainted node can be found then it WILL schedule the Pod on that node.
+3. NoExecute: Which means that new pods will not be scheduled on the node and the existing PODs on the node if any will be evicted if they don’t tolerate the taint.
+
+These PODs may have been scheduled on node before the taint was applied to the node.
+
+```sh
+kubectl taint nodes node1 app=blue:NoSchedule
+```
+
+Now create tolarations on PODs
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  tolerations:
+  - key: "app"
+    operator: "Equal"
+    value: "blue"
+    effect: "NoSchedule"
+```
+
+To remove the taint, you have to use the [KEY] and [EFFECT] ending with [-].
+
+Syntax:
+
+```sh
+kubectl taint nodes <node-name> [KEY]:[TAINT-EFFECT]-
+```
+
+```sh
+kubectl taint nodes node1 app=blue:NoSchedule-
+```
+
+#### Node Selectors
+
+In this tutorial we will discuss about Node Selectors in Kubernetes. Node Selector is one of the forms of node selection constraint. Hope I kept it simple as possible to understand.
+
+This is a simple POD scheduling feature that allows scheduling a POD onto a node whose labels match the Node Selector labels specified by the user. Let us start with a simple example.
+
+We have a 3 node cluster of which two are smaller nodes with lower hardware resources and one of them is a larger node configured with higher resources. We have different kinds of workloads running in our cluster.
+
+![Node Selector](Image/CKA-21.png)
+
+You would like to dedicate the data processing workloads that require higher horsepower to the larger node as that is the only node that will not run out of resources in case the job demand extra resources.
+
+However, in the current default setup, any PODs can go to any nodes.
+
+![Node Selector](Image/CKA-22.png)
+
+So POD C in this case may very well end up on nodes 2 or 3 which is not desired. To solve this we can set a limitation on the PODs. So that they only run on particular nodes. There are 2 ways to do this.
+
+The first is using Node Selectors which is the simple and easier method. For this we look at the POD definition file we created in earlier tutorials. This file has a simple definition to create a POD with a data processing image.
+
+To run on the larger nodes, we add a new property called nodeSelector to the spec section and specify the size as large.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: data-processor
+      image: data-processor
+  nodeSelector:
+      size: Large
+```
+
+In the about configuration file, where did the size Large come from and how does Kubernetes know which is the large node?
+
+The key value pair of size and Large are in fact labels assigned to the nodes the scheduler uses these labels to match and identify the right node to place the PODs on.
+
+To use labels in a nodeSelector like this, we must have first labelled our nodes prior to creating this POD. So let us see how we can label the nodes.
+
+Syntax
+
+```sh
+
+kubectl label nodes <node-name> <label-key>:<label-value>
+
+kubectl label nodes node-1 size=Large
+
+```
+
+Now we have labeled the node. Now when the POD is created it is placed on Node 1 as desired.
+
+Node Selectors served our purpose but it has limitations. We used a single label and selector to achieve our goal here. But what if our requirement is much more complex.
+
+For example, we would like to say something like place the POD on a large or medium node or something like place the POD on any nodes that are not small. You cannot achieve this using Node Selectors.
+
+For this node affinity and anti affinity features were introduced and we will look at that next tutorial.
+
+#### Node Affinity
+
+In this tutorial we will discuss about Node Affinity in Kubernetes. In simple words this allows you to tell Kubernetes to schedule pods only to specific subsets of nodes. Hope I kept it simple as possible to understand.
+
+It is recommended that you should understand the Node Selectors and Taints and Tolerations concepts before proceeding further.
+
+The primary purpose of this feature is to ensure that PODs are hosted on particular nodes. They are 3 ways to place a POD on a specific node,
+
+1. Node Selectors
+2. Taints and Tolerations
+3. Node Affinity
+
+But each method has its own advantages and disadvantages. So based on the use case we can use any one of the above methods to place POD on a node.
+
+Node Affinity is an advanced feature in Kubernetes when compared to the other two above methods.
+
+With the Node Selectors we cannot provide advanced expressions like OR or NOT with node selectors. This feature provide us advanced capabilities to limit POD placement on specific nodes.
+
+Will now look like this with this feature. Although both Node Selectors and Node affinity does exactly the same thing place the POD on the large node.
+
+Let us look at the it a bit closer. Under spec we have affinity and then nodeEffinity under that. And then we have a property that looks like a sentence called requiredDuringSchedulingIgnoredDuringExecution, then we have the node selector terms that is an array and that is where we will specify the key and value pairs.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: data-processor
+      image: data-processor
+   affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+         - matchExpressions:
+           - key: size
+             operator: In
+             values:
+               - Large
+```
+
+They key value pairs are in the form key, operator and values. Where the operator is In. The In operator ensures that the POD will be placed on a node whose label size has any value in the list of values specified here.
+
+Here in this case it is just one called Large. If you think your POD could be placed on a large or a medium node, you could simply specify add the value to the list of values
+
+```yaml
+spec:
+  containers:
+    - name: data-processor
+      image: data-processor
+   affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+         - matchExpressions:
+           - key: size
+             operator: In
+             values:
+               - Large
+               - Medium
+```
+
+![Node Afinity](Image/CKA-23.png)
+
+You could use the NOT IN operator to say something like size not in small
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+    - name: data-processor
+      image: data-processor
+   affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+       nodeSelectorTerms:
+         - matchExpressions:
+           - key: size
+             operator: NotIn
+             values:
+               - Small
+```
+
+When the PODs are created, these rules are considered and the PODs are placed onto the right nodes. But what if node affinity could not match a node with a given expression?
+
+In this case what if there are no nodes with a label called size. Say we had the labels and the PODs are scheduled. What if someone changes the label on the node at a future point in time. Will the POD continue to stay on the node?
+
+All of this is answered by the long sentence like property under this feature. which happens to be the type of node affinity. The type of this feature defines the behavior of the scheduler with respect to node affinity and stages in the life cycle of the POD.
+
+There are two types of available node affinity types available in Kubernetes.
+
+- **requiredDuringSchedulingIgnoredDuringExecution**
+- **preferredDuringSchedulingIgnoredDuringExecution**
+When considering this feature there are two stages in the life cycle of pod.
+
+1. During Scheduling
+2. During Execution
+
+During Scheduling:
+
+During Scheduling is the state where a pod does not exist and is created for the first time. If rules are available it will be scheduled into a particular node, we are clear about this. What if matching label are not available, for example, we forgot to label nodes. That’s where the type of Node Affinity used comes into play.
+
+Type 1 node affinity of requiredDuringScheduling, if you select required type, the scheduler will mandate that pod is placed on node with given node affinity rules, if cannot find one, it cannot schedule. This type is used where the placement of pod is crucial, if matching node does not exist, the POD will not be schedule.
+
+Type 2 node affinity of preferredDuringScheduling, it helps when the pod placement is less importance than running a workloads, in this type we choose preferred type, here scheduler will simply ignore node affinity rules and place the pod any available nodes.
+
+DuringExecution
+
+When pod has been running and a change is made in the environment that effects node Affinity, such changes like labels of nodes. For example say an administrator removed the label Size=Large from the node. Now what happens to pods that are running on that node? In this case again we got type 1 and type 2 both are at ignored phase in present node affinity types.
+
+Type1 and type 2 that means pods will continue to run on the nodes. Any changes in node affinity rules will not impact them once they are scheduled.
+
+There are two planned types
+
+- **requiredDuringSchedulingRequiredDuringExecution**
+- **preferredDuringSchedulingRequiredDuirngExecution.**
+
+In these types only change comes in execution part phase, required is added that means whenever there is change, pod will be evicted or terminated.
+
+#### Taint and Toleration vs Node Affinity
+
+For example we have 3 nodes and 3 PODs each in 3 colors green, red and blue. The ultimate goal is to place the green POD in the green node, red POD in the red node and blue POD in the blue node.
+
+We are sharing same Kubernetes cluster with other teams. So there are other PODs in the cluster as well as other nodes.
+
+![T&T Node Afinity](Image/CKA-24.png)
+
+Here we don’t want any other PODs to be placed on our 3 nodes, and also don’t want any out PODs to be placed on other nodes.
+
+Let’s first try to solve this problem using taints and tolerations. We apply a taint to the nodes marking them with their colors. Now we apply tolerations on the PODs to tolerate the respective colors.
+
+When the PODs are now created, the nodes ensure only accept the PODs with the right toleration. So blue POD inserted on blue node, green POD inserts green node. How ever taints and tolerations doesn’t guarantee that the PODs only prefer these nodes. So the red POD inserts one of the other node that don’t have taints and tolerations. This is not desired.
+
+![T&T Node Afinity](Image/CKA-25.png)
+
+Now let’s try to solve same problem using Node affinity. With node affinity we first labeled the nodes with their respective colors, we then set node selectors on the PODs to tie the PODs to the nodes. So PODs will be placed on right nodes.
+
+However that doesn’t guarantee that other PODs are not placed on our nodes. In this case there is a chance that one of the other PODs may end up on our nodes. This is not something we desire.
+
+![T&T Node Afinity](Image/CKA-26.png)
+
+As such a combination of taints & tolerations and node affinity rules can be used together to completely dedicate nodes for specific PODs. We first use taints and tolerations to prevent other PODs from being placed on our nodes and then we use node affinity to prevent our PODs from being placed on other nodes.
+
+#### Resource Requirements and Limits
+
+![R&R&L](Image/CKA-27.png)
+
+Let us look at a 3 node Kubernetes cluster. Each node has a set of CPU, memory and Disk resources available. Every POD consumes a set of resources. In this case 2 CPU’s, one memory and some disk space.
+
+Whenever a POD is placed on a node, it consume resources available to that node. As we have discussed before, it is the Kubernetes scheduler that decides which node a POD goes to. The scheduler takes into consideration, the amount of resources required by a POD and those available on the nodes.
+
+In this case, the scheduler schedules a new POD on node 2. If the node has no sufficient resources, the scheduler avoids placing the POD on that node. Instead places the POD on one where the sufficient resources are available.
+
+If there is no sufficient resources available on any of the node, Kubernetes holds back scheduling the POD, and you will see the POD in pending state.
+
+Let us now focus on the resource requirements for each POD. What are these blocks and what are their values?
+
+Resource Requests:
+
+By default, Kubernetes assumes that a POD or a container within a POD requires 0.5 CPU and 256 Mebibyte of memory. This is known as the resource request for a container. The minimum amount of CPU or memory requested by the container.
+
+![R&R&L](Image/CKA-28.png)
+
+When the scheduler tries to place the POD on a node, it uses these numbers to identify a node which has sufficient amount of resources available.
+
+Now if you know that your application will need more than these you can modify these values by specifying them in your POD or deployment definition files.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-webapp
+  labels:
+    name: my-webapp
+spec:
+  caontainers:
+    - name: my-webapp
+      image: my-webapp:2.0.0
+      ports:
+        - containerPort : 8080
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: 1
+```
+
+Resource Limits:
+
+Let’s now look at a container running on a node. In the docker world a docker container has no limit to the resources it can consume on a node. Say a container starts with 1 vCPU on a node, it can go up and consume as much resource as it requires.
+
+However you can set a limit for the resource usage on these PODs by default. Kubernetes sets a limit of 1 vCPU to containers. So if you don’t specify explicitly, a container will be limited to consume only 1 vCPU from the Node.
+
+The same goes with memory. By default, Kubernetes sets a limit of 512 Mebibyte on containers. If you don’t like the default limits, you can change them by adding limit section under the resources section in you POD definition file.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-webapp
+  labels:
+    name: my-webapp
+spec:
+  caontainers:
+    - name: my-webapp
+      image: my-webapp:2.0.0
+      ports:
+        - containerPort : 8080
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: 1 
+        limits:
+          memory: "1Gi"
+          cpu: 2
+```
+
+Please note that the limits and requests are set for each container within the POD.
+
+Exceed Limits:
+
+What happens when a POD tries to exceed resources beyond its specified limit.
+
+In case of the CPU, Kubernetes throttles the CPU so that it doesn’t go beyond the specified limit. A container cannot use more CPU resources than its limit.
+
+However, this is not the case with memory. A container can use more memory resources than its limit. So if a POD tries to consume more memory than its limit constantly, the POD will be terminated.
+
+#### Editing Pods and Deployments
+
+Edit a POD
+Remember, we CANNOT edit specifications of an existing POD other than the below.
+
+**spec.containers[*].image**
+**spec.initContainers[*].image**
+**spec.activeDeadlineSeconds**
+**spec.tolerations**
+For example we cannot edit the environment variables, service accounts, resource limits of a running pod. But if you really want to, you have 2 options:
+
+Run the `kubectl edit pod <pod-name>` command. This will open the pod specification in an editor (vi editor). Then edit the required properties. When you try to save it, you will be denied. This is because you are attempting to edit a field on the pod that is not editable.
+A copy of the file with your changes is saved as a yaml file in a temporary location.
+We can then delete the existing pod by running the command: `kubectl delete pod <pod-name>`
+
+Then create a new pod with changes using the temporary file `kubectl create -f <newly created yaml file with changes>`
+
+like
+
+```sh
+kubectl create -f /tmp/kubectl-edit-ccvrq.yaml
+```
+
+The second option is to extract the pod definition in YAML format to a file using the command `kubectl get pod <pod-name> -o yaml > my-new-pod.yaml`
+Then make the changes to the exported file using an editor (vi editor). Save the changes vi `my-new-pod.yaml`
+Then delete the existing pod `kubectl delete pod <pod-name>`
+Then create a new pod with the edited file `kubectl create -f my-new-pod.yaml`
+
+Edit Deployments
+
+With Deployments we can easily edit any field/property of the POD template. Since the pod template is a child of the deployment specification, with every change the deployment will automatically delete and create a new pod with the new changes. So if we are asked to edit a property of a POD part of a deployment you may do that simply by running the command
+
+```sh
+kubectl edit deployment my-deployment
+```
+
+#### Daemon Sets
+
+Every node will have a copy of the pod. When nodes are added to the cluster, PODs are added to them and when nodes are removed from the cluster, the PODs are removed. If we delete a DaemonSet it will clean up the PODs it created.
+
+So far we have deployed various PODs on different nodes in our cluster. With the help of replica sets and deployments we made sure multiple copies of our applications are made available across various different worker nodes.
+
+![Daemon](Image/CKA-29.png)
+
+Daemon sets are like replica sets, as in it helps you deploy multiple instances of POD. But it runs one copy of your POD on each node in your cluster.
+
+![Daemon](Image/CKA-30.png)
+
+Whenever a new node is added to the cluster a replica of the POD is automatically added to that node.
+
+![Daemon](Image/CKA-31.png)
+
+And when the node is removed from the cluster then the POD is automatically removed.
+
+![Daemon](Image/CKA-32.png)
+
+The daemon sets ensure that one copy of the POD always present in all nodes in the cluster.
+
+Use cases of daemon sets:
+
+For example you would like to deploy a monitoring agent or log collector on each nodes in the cluster. So you can monitor your cluster better. Daemon set is perfect for that as it can deploy your monitoring agent in the form of a POD in all the nodes in the cluster.
+
+Then, you don’t have to worry about adding/removing monitoring agents from these nodes when there are changes in your cluster. As the daemon set will take care of that for you.
+
+Kube proxy is one good use case of daemon sets. The kube proxy component can be deployed as a daemon set in the cluster.
+
+DaemonSet definition:
+
+Creating DaemonSet is similar to the ReplicaSet creation process. It has nested POD specification under the template section and selectors to link the daemon set to the PODs
+
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: monitoring-daemon
+spec: 
+  template:
+    metadata:
+      labels: 
+        app: monitoring-agent
+    spec:
+      containers:
+        - name: monitoring-agent
+          image: monitoring-agent
+  selector:
+    matchLabels:
+      app: monitoring-agent
+```
+
+Once ready, create the daemon set using the following command.
+
+```sh
+kubectl create -f daemon-set-definition.yaml
+```
+
+Now, to view the created daemon set run the following command.
+
+```sh
+kubectl get daemonsets
+```
+
+And of course to view more details run the following command.
+
+```sh
+kubectl describe daemonsets monitoring-daemon
+```
+
+So, how does a daemon set work? How does it schedule PODs on each node? and how does it ensure that every node has a POD?
+
+Now, If you were asked to schedule a POD on each node in the cluster, how would you do it?
+
+Firstly, On each POD set the nodeName property in its specification before it is created, they automatically land on the respective nodes.
+
+![Daemon](Image/CKA-33.png)
+
+So, that’s how it is used to be until Kubernetes version v1.12. From v1.12 on wards the daemon set used the default scheduler and node affinity rules that we discussed in
+
+#### Static pods
+
+In this tutorial we will discuss about Static PODs in Kubernetes. Static pods are a type of pod that is not managed via Kube API Server and is directly bound to the Kubelet agent on the node.
+
+The kubelet agent is responsible to watch each static Pod and restart it if it crashes.
+
+The static Pods running on a node are visible on the API server but cannot be controlled by the API Server.
+
+Real time example:
+
+For example, As we already know the Kubelet relies on the Kube API server for instructions on what PODs to load on its node, which is based on a decision made by the Kube Scheduler which was stored in the ETCD data store.
+
+What if there was no Kube API server, Kube Scheduler and no controllers and no ETCD cluster? What if there was no master at all, there were no other nodes and only single node alone not part of any cluster?
+
+Well, the kubelet can manage a node independently. On this node we have kubelet installed and of course we have docker as well to run containers. There is no Kubernetes cluster. So there are no Kube API server or any thing like that.
+
+Is there anything that Kubelet can do? Can it operate as an independent node? If so who would provide the instructions required to create PODs?
+
+The one thing that the Kubelet knows to do is create PODs. But we don’t have an API server here to provide POD details.
+
+By now we know that to create a POD you need the details of the POD in a POD definition file. But how do you provide a POD definition file to the Kubelet with out Kube API server?
+
+You can configure the Kubelet to read the POD definition files from a directory on the server designated to store information about PODs. Place POD definition files in this directory.
+
+The Kubelet periodically checks this directory for files, read this files and create PODs on the host. Not only does it create the POD it can ensure that the POD stays alive. If the application crashes, the kubelet attempts to restart it.
+
+If you make a change to any of the file within this directory, the kubelet recreates the POD for those changes to take effect.
+
+Kubelet will delete your POD automatically when you remove a file from this directory.
+
+Static PODs:
+
+The PODs that are created by the kubelet on its own without the interaction from the API server or rest of Kubernetes cluster components are known as Static PODs.
+
+Remember you can only create PODs this way. You can’t create Replica Sets, Deployments or Services by placing a definition file in the designated directory.
+
+The Kubelet works at a POD level and can only understand PODs. Which is why it is able to create static PODs this way.
+
+So what is that designated folder and how do we configure it? It could be any directory on the host and location of that directory is passed in to the Kubelet.service as an option while running the service.
+
+The option is named POD manifest path and here it is set to **/etc/Kubernetes/ manifests**.
+
+![Static-Pods](Image/CKA-34.png)
+
+There is also another way to configure this. Instead of specifying the option directly in the kubelet.service file, you could provide a path to another config file using the config option, and define the directory path as static POD path in that file.
+
+![Static-Pods](Image/CKA-35.png)
+
+`staticPodPath=/etc/kubernetes/manifests`
+
+Once the static PODs are created, you can view them using docker ps command.
+
+So, why not the kubectl command as we have been so far? Remember we don’t have the rest of the Kubernetes cluster. Kubectl utility works with the Kube API Server.
+
+Since we don’t have an API server there is no kubectl utility. So we need to use docker command.
+
+How does it work when the node is part of a cluster:
+
+When there is an API server requesting the kubelet to create PODs. Can the kubelet create both kinds of PODs at the same time?
+
+Well, the way the kubelet works is it can take in requests for creating PODs from different inputs.
+
+- Through the POD definition files from the static PODs folder
+- Through an HTTP API end point. (i.e., how the Kube API Server provides input to kubelet)
+
+The Kubelet can create both kinds of PODs (Static PODs and the ones from the API Server).
+
+If you run the `kubectl get pods` command on the master node, the Static PODs will be listed as any other POD. Well, how is that happen?
+
+When the kubelet creates a Static POD, if it is part of a cluster, it also creates a mirror object in the Kube API Server. What we see from the Kube API Server is just a read only mirror of the POD. You can view details about the POD, but you cannot edit or delete it like the usual PODs.
+
+You can only delete them by modifying the files from the nodes manifest folder. Note that the name of the POD is automatically appended with the node name.
+
+Why do we use Static PODs:
+
+Since static PODs are not dependent on the Kubernetes control plane, you can use static PODs to deploy the control plane components itself as PODs on node.
+
+#### Multiple Scheduler
+
+We mainly discuss on different ways of manually scheduling a POD on a node, how to view scheduler related events.
+
+As we know, the default scheduler has an algorithm that describes PODs across nodes evenly as well as takes into consideration, the various conditions we specify through taints and tolerations and node affinity etc.
+
+But what if none of these satisfies your needs?
+
+Say you have a specific application that requires its components to be placed on nodes after performing some additional checks.
+
+So you decide to have your own scheduling algorithm to place PODs on nodes. So that you can add your own custom conditions and checks in it.
+
+Kubernetes is highly extensible. You can write your own Kubernetes scheduler program, package it and deploy it as the default scheduler or an additional scheduler in the Kubernetes cluster.
+
+That way all of the other applications can go through the default scheduler, however one specific application can use your custom scheduler.
+
+Your Kubernetes Cluster can have multiple schedulers at the same time. When creating a POD or a deployment you can instruct Kubernetes to have the POD scheduled by a specific scheduler.
+
+#### Configure K8s Scheduler
+
+We need to download the kube scheduler binary and run it as a service with a set of options.
+
+```sh
+wget https://storage.googleapis.com/kubernetes-release/release/v1.18.6/bin/linux/amd64/kube-scheduler
+```
+
+One of the option is scheduler name. If not specified it assumes in name of default scheduler.
+
+```sh
+sudo vi /etc/systemd/system/kube-scheduler.service 
+
+[Service]
+ExecStart=/usr/local/bin/kube-scheduler \\
+  --config=/etc/kubernetes/config/kube-scheduler.yaml \\
+  --scheduler-name=default-scheduler
+```
+
+To deploy an additional scheduler, you can use the same kube-scheduler binary or use one that you might have built for yourself, which makes more sense.
+
+In this case we are going to use same binary to deploy the additional scheduler. This time we set the scheduler name to a custom name.
+
+```sh
+sudo vi /etc/systemd/system/my-custom-kube-scheduler.service 
+
+[Service]
+ExecStart=/usr/local/bin/kube-scheduler \\
+  --config=/etc/kubernetes/config/kube-scheduler.yaml \\
+  --scheduler-name=my-custom-kube-scheduler
+```
+
+This is important to differentiate the two schedulers and this is the name that we will be specifying in the POD. definition file later on.
+
+Lets a take a look at how it works with the kubeadm tool.
+
+The kubeadm tool deploys the scheduler as a POD. You can find the definition file. It uses under the manifest folder.
+
+```yaml
+$ cat /etc/kubernetes/manifests/kube-scheduler.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+spec:
+  containers:
+  - command: 
+    - kube-scheduler
+    - --address=127.0.0.127
+    - --kubeconfig=/etc/kubernetes/scheduler.--kubeconfig
+    - --leader-elect=true
+    image: k8s.gcr.io/kube-scheduler-amd64:v1:18.6
+    name: kube-scheduler
+```
+
+Please note that I have removed all the other details from the file. We only focus on key parts of the configuration.
+
+We can create a custom scheduler by making a copy of the same file, and by changing the name of the scheduler.
+
+```yaml
+$ cat /etc/kubernetes/manifests/my-custom-kube-scheduler.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+spec:
+  containers:
+  - command: 
+    - kube-scheduler
+    - --address=127.0.0.127
+    - --kubeconfig=/etc/kubernetes/scheduler.--kubeconfig
+    - --leader-elect=true
+    - --scheduler-name=my-custom-kube-scheduler
+    image: k8s.gcr.io/kube-scheduler-amd64:v1:18.6
+    name: kube-scheduler
+```
+
+Finally an important option to look here is leader-elect option. The leader- elect option is used when you have multiple copies of the scheduler running on different master nodes.
+
+If multiple copies of the same scheduler are running on different nodes, only one can be active at a time. That’s where the leader-elect option helps in choosing a leader who will lead scheduling activities.
+
+To get multiple schedulers working, you must either set the leader-elect option to false, in case where you don’t have multiple masters.
+
+In case you do have multiple masters, you can pass in an addition parameter to set a lock object name.
+
+```yaml
+cat /etc/kubernetes/manifests/my-custom-kube-scheduler.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+spec:
+  containers:
+  - command: 
+    - kube-scheduler
+    - --address=127.0.0.127
+    - --kubeconfig=/etc/kubernetes/scheduler.--kubeconfig
+    - --leader-elect=true
+    - --scheduler-name=my-custom-kube-scheduler
+    - --lock-object-name=my-custom-kube-scheduler
+    image: k8s.gcr.io/kube-scheduler-amd64:v1:18.6
+    name: kube-scheduler
+```
+
+Once done, create a POD using the kubectl create command. Run the get pods command in the kube-system name space and look for the new custom scheduler.
+
+```sh
+kubectl create -f /etc/kubernetes/manifests/my-custom-kube-scheduler.yaml
+kubectl get pods --namespace=kube-system
+```
+
+Make sure your custom scheduler pod is running state.
+
+The next step is to configure a new POD or a deployment to use the new scheduler.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+      
+  schedulerName: my-custom-kube-scheduler
+```
+
+When the POD is created, the right scheduler picks it up to schedule. If the scheduler was not configured correctly, then the POD will continue to remain in Pending state.
+
+So how do we know which scheduler picked up? View the events using the kubectl get events command and look for the scheduled events.
+
+### Logging and Monotoring
+
+#### Monitor Cluster Components
+
+So how do you monitor resource consumption on Kubernetes? or most importantly what would you like to monitor?
+
+I would like to know, node level metrics such as the number of nodes in the cluster, how many of them are healthy as well as performance metrics such as CPU, memory, disk and network utilization.
+
+As well as POD level metrics such as the number of PODs, and performance metrics of each POD such as CPU, memory consumption on them.
+
+So we need a solution that will monitor these metrics store them and provide analytics around this data.
+
+As of this tutorial, Kubernetes does not come with a full featured built-in monitoring solution.
+
+However, there are a number of open-source solutions available today, such as the Metrics server, Prometheus, Elastic stack, and proprietary solutions like OpsRamp, Datadog and dynatrace.
+
+Heapster vs Metrics Server
+Heapster is the one of the original projects that enabled monitoring and analysis feature for Kubernetes.
+
+You will see a lot of reference online when you look for reference architecture on monitoring Kubernetes.
+
+However, Heapster is now deprecated and a slimmed down version was formed known as the Metric Server.
+
+You can have one metrics server per Kubernetes cluster. The metric server retrieves metrics from each of the Kubernetes nodes and PODs, aggregates them and stores them in memory.
+
+Note that the metric server is only an in-memory monitoring solution and doesn’t store the metrics on the disk and as a result you cannot see historical performance data.
+
+For that you must rely on one of the advanced monitoring solutions we discussed earlier in this tutorial.
+
+So how are the metrics generated for the PODs on these nodes?
+
+Kubernetes runs an agent on each node known as the Kubelet, which is responsible for receiving instructions from the Kube API Server and running PODs on the nodes.
+
+The Kubelet also contains a sub component known as cAdvisor or Container Advisor. cAdvisor is responsible for retrieving performance metrics from PODs, and exposing them through the Kubelet API to make the metrics available for the Metric Server.
+
+![L&M](Image/CKA-36.png)
+
+- Metrics Server
+
+If you are using minikube for your local cluster, then run the following command.
+
+```sh
+minikube addons enable metrics-server
+```
+
+For all other environments deploy the metric server by cloning the metric server deployment files from the git hub repository and then deploy the required components.
+
+Once Metric Server processed cluster performance can be viewed by following command.
+
+```sh
+kubectl top node
+NAME          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%  
+kube-master    1032m        12%    2917Mi          47%  
+kube-node-01   540m         5%     1897Mi          27%
+kube-node-02   102m         2%     1012Mi          11%  
+```
+
+This provides the CPU and Memory consumption of each of the nodes. Use the following command to view performance metrics of PODs in Kubernetes.
+
+```sh
+kubectl top pod
+NAME                          CPU(cores)   MEMORY(bytes)   
+redis                         5m           25Mi
+nginx                         9m           52Mi
+```
+
+#### Manage Application Logs
+
+In real time applications development, we may get number of problems or bugs or exceptions while executing or testing the applications.
+
+To identify the problems and their locations then we have to trace the applications flow of execution.
+
+Logs will help us to understand data flow through applications, as well as spot when and where errors are occurring.
+
+Let us start with logging in docker. I run a docker container called my-webapp-events and all that it does is generate random events simulating my web server.
+
+```sh
+docker run hub.waytoeasylearn.com/my-webapp-events:1.0.0
+[2020-10-29 11:25:15,561] INFO in event-simulator: USER1 logged in
+[2020-10-29 11:24:32,066] INFO in event-simulator: USER3 is viewing page2
+[2020-10-29 11:24:33,067] INFO in event-simulator: USER1 is viewing page2
+[2020-10-29 11:24:34,068] INFO in event-simulator: USER3 is viewing page1
+[2020-10-29 11:24:35,069] INFO in event-simulator: USER3 is viewing page3
+[2020-10-29 11:24:36,070] INFO in event-simulator: USER2 logged out
+[2020-10-29 11:24:37,072] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2020-10-29 11:24:37,072] INFO in event-simulator: USER3 is viewing page2
+[2020-10-29 11:24:38,074] INFO in event-simulator: USER4 is viewing page2
+[2020-10-29 11:24:39,075] INFO in event-simulator: USER1 logged out
+[2020-10-29 11:24:40,077] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2020-10-29 11:24:40,078] INFO in event-simulator: USER2 logged out
+[2020-10-29 11:24:41,079] INFO in event-simulator: USER3 logged in
+[2020-10-29 11:24:42,081] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2020-10-29 11:24:42,081] INFO in event-simulator: USER2 is viewing page2
+[2020-10-29 11:24:43,081] INFO in event-simulator: USER3 logged out
+[2020-10-29 11:24:44,082] INFO in event-simulator: USER2 is viewing page3
+[2020-10-29 11:24:45,083] INFO in event-simulator: USER4 is viewing page3
+[2020-10-29 11:24:46,085] INFO in event-simulator: USER3 logged out
+```
+
+These are events streamed to the standard output by my application.
+
+Now, if I were to run the docker container in the background, in a detached mode using the -d option, I wouldn’t see the logs.
+
+```sh
+docker run -d hub.waytoeasylearn.com/my-webapp-events:1.0.0
+```
+
+If I wanted to view the logs, I could use following command
+
+```sh
+docker logs -f 50ab19a9548f
+[2020-10-29 11:30:53,150] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:30:54,152] INFO in event-simulator: USER1 is viewing page2
+[2020-10-29 11:30:55,152] INFO in event-simulator: USER4 is viewing page1
+[2020-10-29 11:30:56,154] INFO in event-simulator: USER4 is viewing page3
+[2020-10-29 11:30:57,155] INFO in event-simulator: USER3 is viewing page3
+[2020-10-29 11:30:58,156] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2020-10-29 11:30:58,157] INFO in event-simulator: USER4 logged in
+[2020-10-29 11:30:59,158] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:31:00,159] INFO in event-simulator: USER3 is viewing page1
+[2020-10-29 11:31:01,161] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2020-10-29 11:31:01,161] INFO in event-simulator: USER2 logged out
+[2020-10-29 11:31:02,162] INFO in event-simulator: USER2 is viewing page3
+```
+
+Here -f option helps us to see live logs of the container.
+
+Now let’s back to the Kubernetes. We create a POD with the same docker image using the POD definition file.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-webapp-events-pod
+spec:
+  containers:
+  - name: my-webapp-events
+    image: hub.waytoeasylearn.com/my-webapp-events:1.0.0
+```
+
+Once the POD is running, we can view the logs using the following command.
+
+```sh
+kubectl logs -f my-webapp-events-pod
+[2020-10-29 11:30:53,150] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:30:54,152] INFO in event-simulator: USER1 is viewing page2
+[2020-10-29 11:30:55,152] INFO in event-simulator: USER4 is viewing page1
+[2020-10-29 11:30:56,154] INFO in event-simulator: USER4 is viewing page3
+[2020-10-29 11:30:57,155] INFO in event-simulator: USER3 is viewing page3
+[2020-10-29 11:30:58,156] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2020-10-29 11:30:58,157] INFO in event-simulator: USER4 logged in
+[2020-10-29 11:30:59,158] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:31:00,159] INFO in event-simulator: USER3 is viewing page1
+[2020-10-29 11:31:01,161] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2020-10-29 11:31:01,161] INFO in event-simulator: USER2 logged out
+[2020-10-29 11:31:02,162] INFO in event-simulator: USER2 is viewing page3
+```
+
+Here you can use -f option to stream the logs live just like the docker command.
+Now these logs are specific to the container running inside the POD. As we discussed before, Kubernetes PODs can have multiple docker containers in them.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-webapp-events-pod
+spec:
+  containers:
+  - name: my-webapp-events
+    image: hub.waytoeasylearn.com/my-webapp-events:1.0.0
+  - name: my-webapp-queue-listener
+    image: hub.waytoeasylearn.com/my-webapp-queue:1.0.0
+```
+
+Now if you run the kubectl logs command with the POD name, which container’s log would it show?
+
+If there are multiple containers within a POD then you must specify the name of the container explicitly in the command. Otherwise it would fail asking you to specify a name.
+
+So in this case i will specify the name of the first container my-webapp-events and that prints the relevant logs.
+
+```yaml
+kubectl logs -f my-webapp-events-pod my-webapp-events
+[2020-10-29 11:30:53,150] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:30:54,152] INFO in event-simulator: USER1 is viewing page2
+[2020-10-29 11:30:55,152] INFO in event-simulator: USER4 is viewing page1
+[2020-10-29 11:30:56,154] INFO in event-simulator: USER4 is viewing page3
+[2020-10-29 11:30:57,155] INFO in event-simulator: USER3 is viewing page3
+[2020-10-29 11:30:58,156] WARNING in event-simulator: USER5 Failed to Login as the account is locked due to MANY FAILED ATTEMPTS.
+[2020-10-29 11:30:58,157] INFO in event-simulator: USER4 logged in
+[2020-10-29 11:30:59,158] INFO in event-simulator: USER2 logged in
+[2020-10-29 11:31:00,159] INFO in event-simulator: USER3 is viewing page1
+[2020-10-29 11:31:01,161] WARNING in event-simulator: USER7 Order failed as the item is OUT OF STOCK.
+[2020-10-29 11:31:01,161] INFO in event-simulator: USER2 logged out
+[2020-10-29 11:31:02,162] INFO in event-simulator: USER2 is viewing page3
+```
+
+Conclusion:
+
+There is a lot of nuance surrounding logging in Kubernetes. Although Kubernetes offers some basic built-in logging and monitoring functionality, it’s a far cry from a full-fledged logging solution.
+
+To get the most out of Kubernetes logging, you’ll need an external log collection, analysis, and management tool like LogDNA, which is very easy to set up on Kubernetes distributions like IKS, where it is one of the officially supported logging solutions.
+
+### Application Lifecycle Management
+
+#### Rolling Updates and Rollbacks
+
+Before we discuss at how we upgrade our application, lets try to understand rollout and versioning in a deployment.
+
+When we first create a deployment, it triggers a rollout. A new rollout creates a new deployment revision. Lets call it as revision 1.
+
+![ALM](Image/CKA-37.png)
+
+In the future, when the application is upgraded meaning when the container version is updated to a new one. A new rollout is triggered and new deployment revision is created named version 2.
+
+![ALM](Image/CKA-38.png)
+
+This helps us keep track of the changes made to our deployment and enables us to roll back to a previous version of deployment if necessary.
+
+We can see the status of our rollout by using following command.
+
+```sh
+kubectl rollout status deployment/myapp-deployment
+```
+
+To check the revisions and history of rollout, you can use following command.
+
+```sh
+kubectl rollout history deployment/myapp-deployment
+```
+
+The above command will show you the revisions and history of the deployment.
+
+There are 2 types of deployment strategies. Say for example you have 5 replicas of your web application instance deployed.
+
+One way to upgrade these to a newer version is to destroy all of these and then create newer versions of application instances. This means First destroy the 5 running instances and then deploy 5 new instances of the new application version.
+
+![ALM](Image/CKA-39.png)
+
+Rolling Updates and Rollbacks
+The problem with this, as you can imagine is that during the period after the older versions are down and before any newer version is up. The application is down and inaccessible to users. This strategy is known as the recreate strategy and thankfully this is not the default strategy.
+
+Rolling update
+The second strategy is where we did not destroy all of them at once. Instead we take down the older version and bring up a newer version one by one. This way the application never goes down and the upgrade is seamless.
+
+![ALM](Image/CKA-40.png)
+
+Rolling Updates and Rollbacks
+If you don’t specify a strategy while creating the deployment it will assume it to be rolling update. In other words rolling update is the default deployment strategy.
+
+So how exactly do we update our deployment. When we say update, it could be different things such as updating our application version by updating the version of docker containers used, updating their labels or updating the number of replicas etc.
+
+Since we have already have a deployment definition file it is easy for us to modify this file. Once we make the necessary changes, we run the following command to apply the changes. Once we run the above command, a new rollout is triggered and a new revision after deployment is created.
+
+```sh
+kubectl apply -f deployment-definition.yaml
+```
+
+But there is another way to do the same thing. You could use the following command to update the image of your application.
+
+```sh
+kubectl set image deployment/myapp-deployment nginx=nginx:1.7.1
+```
+
+But remember doing it this way will result in the deployment definition file having a different configuration. So you must be careful when using the same definition file to make changes in the future.
+
+The difference between the recreate and rolling update strategies can also be seen when you view the deployments in detail by running the following command.
+
+```sh
+kubectl describe deployment myapp-deployment
+```
+
+You will notice when the recreate strategy was used, the events indicate that the old replica set was scaled down to zero first and then the new replica sets scaled up to 5.
+
+However when the rolling update strategy was used the old replica set was scaled down one at a time, simultaneously scaling up the new replica set one at a time.
+
+Upgrades:
+
+Lets look at how a deployment performs an upgrade. When a new deployment is created say to deploy 5 replicas, it first creates a ReplicaSet automatically, which in turn creates a ReplicaSet automatically, which in turn creates the number of PODs required to meet the number of replicas.
+
+When you upgrade your application, the Kubernetes deployment object creates a new replicaset under the hood and starts deploying the containers there.
+
+At the same time, taking down the PODs in the old replica set following a rolling update strategy.
+
+![ALM](Image/CKA-40.png)
+
+This can be seen when you try to list the replicasets using the following command.
+
+Here we see the old replicaset with 0 PODs and the new replicaset with 5 PODs.
+
+Rollbacks:
+
+Say for instance, once you upgrade your application you realize something is inferior right. Something is wrong with the new version of the build when you used to upgrade.
+
+So you would like to roll back your update. Kubernetes deployments allow you to roll back to a previous revision. To undo a change, run the following command.
+
+```sh
+kubectl rollout undo deployment/myapp-deployment
+```
+
+Once you run the above command, the deployment will then destroy the PODs in the new replicaset and bring the older ones in the old replicaset. And your application is back to its older format. When you compare the output of the kubectl get replicasets command, before and after the rollback, you will be able to notice this difference.
+
+#### Commands and Arguments
+
+Say you were to run a docker container from an Ubuntu image. When we run the “**docker run ubuntu**” command, it runs an instance of Ubuntu image and exits immediately.
+
+If you were to list the running containers you wouldn’t see the container running. If you list all containers including those that are stopped you will see that the new container you ran is in an exited state.
+
+Now why is that? Unlike virtual machines, containers are not meant to host an operating system. Containers are meant to run a specific task or process. Such as to host an instance of a web server or application server or a database or simply carry out some kind of computation or analysis.
+
+Once the task is complete, the container exits. A container only lives as long as the process inside it is alive.
+
+If the web service inside the container is stopped or crashes the container exits. So who defines what process is run within the container?
+
+If you look at the docker file for popular docker images like Nginx you will see an instruction called CMD which stands for command that defines the program that will be run within the container when it starts.
+
+For the Nginx image it is the nginx command, for MySQL image it is the mysqld command.
+
+What we tried to do earlier was to run a container with a plain Ubuntu operating system. Lets look at the docker file for this image you will see that it uses bash as the default command.
+
+Now bash is not really a process like a web server or database server. It is a shell that listens for inputs from a terminal if it cannot find a terminal it exists.
+
+When we ran the Ubuntu container, Docker created a container from the Ubuntu image and launched the bash program.
+
+By default docker doesn’t attach a terminal to a container when it is run. And so the bash program doesn’t find the terminal and so it exits.
+
+Since the process that was started when the container was created finished the container exits as well.
+
+How do you specify a different command to start a container?
+One option is to append a command to the docker run command and that way it overrides the default command specified within the image.
+
+In our case, I run the docker run ubuntu command with the sleep 10 command as the added option.
+
+```sh
+docker run ubuntu sleep 10
+```
+
+This way when the container starts it runs the sleep program waits to 10 seconds and then exits. But how do we make that change permanent?
+
+Say we want the image to always run the sleep command when it starts. You would then create create your own image from the base Ubuntu image and specify new command.
+
+```dockerfile
+FROM ubuntu
+
+CMD sleep 10
+```
+
+There are different ways to specifying the command either the command simply as is in a shell form or in JSON array format like as follows.
+
+```dockerfile
+CMD ["sleep","10"]
+```
+
+But remember when you specify in a JSON array format, the first element in the array should be the executable.
+
+Note that don’t specify the command and parameters together like “sleep 10”. The command and its parameters should be separate elements in the list.
+
+So now I build my new image using docker build command and name it as ubuntu-sleeper. I could now simple run the docker run ubuntu-sleeper command and gets the same results.
+
+```sh
+docker build -t ubuntu-sleeper:1.0.0
+
+docker run ubuntu-sleeper:1.0.0
+```
+
+It always sleep for 10 seconds and exits. But what if I wish to change the number of seconds it sleeps. Currently it hard coded to 10 seconds. As we discussed before, one option is to run the docker run command with the new command appended to it.
+
+In this case sleep 20 and the command that will be run at startup will be sleep 20 but it doesn’t look very good.
+
+```sh
+docker run ubuntu-sleeper:1.0.0 sleep 20
+```
+
+The name of the image ubuntu-sleeper in itself that the container will sleep. So we shouldn’t have to specify the sleep command again.
+
+Instead we would like it to be something like below
+
+```sh
+docker run ubuntu-sleeper 20
+```
+
+We only want to pass in the number of seconds the container should sleep and sleep command should be invoked automatically and this is where the ENTRYPOINT instructions comes into play.
+
+```dockerfile
+FROM ubuntu
+
+ENTRYPOINT ["sleep"]
+```
+
+- ENTRYPOINT
+
+The ENTRYPOINT instruction is like the CMD instruction as in you can specify the program that will be run when the container starts.
+
+And whatever you specify on the command line, in this case 20 will get appended to the ENTRYPOINT (like sleep 20).
+
+So the commands that will be run when the container starts is sleep 20. So that’s the different between ENTRYPOINT and CMD.
+
+**In case of CMD instruction the command line parameters passed will get replaced entirely where as in case of ENTRYPOINT the command line parameters will get appended.**
+
+Now in the second case what if we run the ubuntu-sleeper image command without appending the number of seconds? then the command at startup will be just sleep and you get the error that the operand is missing.
+
+So, how do we configure a default value of the command? If one was not specified in the command line that’s where you would use ENTRYPOINT as well as the command instruction.
+
+```dockerfile
+FROM ubuntu
+
+ENTRYPOINT ["sleep"]
+
+CMD ["5"]
+```
+
+In this case the CMD instruction will be appended to the ENTRYPOINT instruction.
+
+So at startup the command would be “sleep 5”, if you didn’t specify any parameters in the command line. If you did then that will override the CMD instruction.
+
+Please note that, for this to happen you should always specify the ENTRYPOINT and CMD instructions in a JSON format.
+
+Finally what if you feel you really want to modify the ENTRYPOINT during runtime, say from sleep to an imaginary sleep 2.0 command?
+
+Well in that case you can override it by using the ENTRYPOINT option in the docker run command.
+
+```sh
+docker run --entrypoint sleep2.0 ubuntu-sleeper 30
+```
+
+In the Above, we crated a simple docker image that sleeps for a given number of seconds. We named it ubuntu-sleeper and we ran it using the following docker command.
+
+```sh
+docker run --name ubuntu-sleeper ubuntu-sleeper
+```
+
+By default it sleeps for 10 seconds. But we can override it by passing a command line argument.
+
+```sh
+docker run --name ubuntu-sleeper ubuntu-sleeper 20
+```
+
+We will now create a POD using this docker image. We start with a following POD definition file
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-sleeper-pod
+spec:
+  containers:
+    - name: ubuntu-sleeper
+      image: ubuntu-sleeper
+```
+
+Now if you need the container to sleep for 30 seconds as in the second command. How do you specify the additional argument in the POD definition file?
+
+Anything that is appended to the docker run command will go into the “args” property of the POD definition file in the form of an array like as follows
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-sleeper-pod
+spec:
+  containers:
+    - name: ubuntu-sleeper
+      image: ubuntu-sleeper
+      args: ["30"]
+```
+
+Let us try to relate that to the docker file we created earlier. The Dockerfile has an Entrypoint as well as a CMD instruction specified.
+
+The Entrypoint is the command that is run at startup, and the CMD is the default parameter passed to the command.
+
+```dockefile
+FROM Ubuntu
+
+ENTRYPOINT ["sleep"]
+
+CMD ["10"]
+```
+
+With the args option in the POD definition file, we override the CMD instruction in the Dockerfile.
+
+But what if you need to override the entrypoint? Say from sleep to sleep2.0 command.
+
+In the docker world we would run the docker run command with the entry point option set to the new command.
+
+```sh
+docker run --name ubuntu-sleeper --entrypoint sleep2.0 ubuntu-sleeper 30
+```
+
+The corresponding entry in the POD definition file would be using a command field corresponds to entry point instruction in the Dockerfile.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-sleeper-pod
+spec:
+  containers:
+    - name: ubuntu-sleeper
+      image: ubuntu-sleeper
+      command: ["sleep2.0"]
+      args: ["30"]
+```
+
+So to summarize there are 2 fields that correspond to two instructions in the Dockerfile. The command field overrides the entrypoint instruction and the args field overrides the command instruction in the Dockerfile.
+
+Remember it is not the command field that overrides the CMD instruction in the Dockerfile.
+
+#### Env Variables
+
+Environment variables define the external state of deployed services. These are particularly important because production grade applications do not run in single environments.
+
+Applications deployed in these environments do not tend to work with the exact same configurations. Environment variables provide a way to specify parameters for deployed services that vary from environment to environment.
+
+An example environment setup could have development, staging and production environments:
+
+- Development
+
+The development environment would be the first line of defense against bugs. Here, developers deploy their code and test any newly implemented features.
+
+Any bugs found are dealt with before re-deploying for further testing. The process is iterated until the code is ready for the next stage of testing.
+
+- Staging
+
+Once developers are satisfied with their code and consider it fairly stable, it is then deployed to the staging environment for further testing. This is where Quality Assurance (QA) is performed.
+
+Testers access the staging servers and ensure that the application works as it should. They run test cases to detect bugs and run performance tests to find areas that could be improved.
+
+Any bugs or enhancements are reported back to the developers and the process is repeated until the code passes the staging phase.
+
+- Production
+
+Once the code has been thoroughly tested, it is then pushed to production where it is made available to end-users.
+
+Kubernetes allows users to provide environment variables when defining Pods. A Pod definition generally looks like as following
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-web-app
+spec:
+  containers:
+  - name: my-web-app-container
+    image: my-web-app
+    ports:
+      - containerPort: 8080
+    env:
+      - name: APP_COLOR
+        value: pink
+```
+
+Here env is an array. So every item under the env property start with a dash, indicating an item in the array. Each item has a name and a value property.
+
+The name is the name of the environment variable made available within the container and the value is its value.
+
+What we just discussed was a direct way of specifying the environment variables using a plain key value pair format.
+
+However there are other ways of setting the environment variables such as using config maps and secrets.
+
+- Configure Environment Variables
+
+![ENV](Image/CKA-42.png)
+
+The main different in this case is that instead of specifying value, we say valueFrom. And then a specification of configMap or secret.
+
+We will discuss about configMaps and secrets in the next tutorials.
+
+#### Secrets
+
+Let us assume we have a simple python web application that connects to a MySQL database.
+
+```py
+import os 
+from flask import Flask 
+
+app = Flask(__name__)
+
+@app.route("/")
+def main():
+    mysql.connector.connect(host="mysql", database="ashok", user="ashok", password="ashok123")
+    
+    return render_template("hellp.html", color=fetchcolor())
+    
+if __name__ == __main__:
+    app.run(host="0.0.0.0", port="8080")
+```
+
+If you look closely into the code you will see the host name, user name and password hard coded. This is of course not good idea.
+
+As we discussed in the previous tutorial, one option would be to move these values into a ConfigMap.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DB_HOST: mysql
+  DB_USER: ashok
+  DB_DATABASE: ashok
+  DB_PASSWORD: ashok123
+```
+
+The ConfigMap stores configuration data in plain text format. So while it would be okay to move the host name, database and user name into ConfigMap. But it is definitely not the right place to store password in ConfigMap. This is where secrets coming.
+
+Secrets are used to store sensitive information like passwords or keys. They’re similar to ConfigMap except that they’re stored in an encoded or hashed format.
+
+As with ConfigMaps, there are 2 steps involved in working with secrets. First create the secret and second injected into POD.
+
+There are 2 ways of creating a secret. The imperative way – without using secret definition file and the declarative way by using a secret definition file.
+
+- Imperative method
+
+With the imperative method, you can directly specify the key value pairs in the command line itself.
+
+To create a secret of the given values, run the following command.
+
+```sh
+kubectl create secret generic <secret-name> --from-literal=<key>=<value>
+kubectl create secret generic app-secret --from-literal=DB_HOST=mysql
+```
+
+If you wish to add additional key value pairs then simply specify the –from-leteral options multiple times
+
+```sh
+kubectl create secret generic app-secret --from-literal=DB_HOST=mysql --from-literal=DB_USER=ashok --from-literal=DB_PASSWORD=ashok123
+```
+
+However this will get complicated when you have too many configuration items. Another way to input configuration data is through a file.
+
+```sh
+kubectl create secret generic <secret-name> --from-file=app-secret.properties
+kubectl create secret generic app-secret --from-file=<path-to-file>
+```
+
+- Declarative Approach
+
+In this approach we create a definition file just like how we did for the ConfigMap. The file has apiVersion, kind, metadata and data.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-secret
+data:
+  DB_HOST=mysql 
+  DB_USER=ashok
+  DB_PASSWORD=ashok123
+```
+
+However one thing we discussed about secrets was that used to store sensitive data and are stored in an encoded format.
+
+Here we have specified the data in plain text which is not very safe. So while creating a secret with declarative approach you must specify the secret values in a hashed format.
+
+So you must specify the data in an encoded form like as below,
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-secret
+data:
+  DB_HOST=bXlzcWw= 
+  DB_USER=YXNob2s=
+  DB_PASSWORD=YXNob2sxMjM=
+```
+
+But how do you convert the data from plain text to an encoded format? On a Linux host run the command echo -n followed by the text you are trying to convert, which is mysql in this case and pipe that to the base64 utility.
+
+```sh
+$ echo -n mysql | base64
+bXlzcWw=
+
+$ echo -n ashok | base64
+YXNob2s=
+
+$ echo -n ashok123 | base64
+YXNob2sxMjM=
+```
+
+To view secrets run the following command
+
+```sh
+$ kubectl get secrets
+NAME                        TYPE                                  DATA   AGE
+default-token-kdm9m         kubernetes.io/service-account-token   3      8h
+app-secret                  Opaque                                3      2h
+```
+
+Above command lists the newly created secret along with another secret previously created by Kubernetes for its internal purpose.
+
+To view more information on the newly created secret, run the following command.
+
+```sh
+kubectl describe secrets
+```
+
+The above command shows the attributes in the secret. But hides the value themselves. To view the values as well, run the following command.
+
+```sh
+kubectl get secret app-secret -o yaml
+```
+
+The above command will display YAML format. You can now see the hashed values as well. So how do you decode these hashed values?
+
+Use the same base64 command used earlier to encode it. But this time add a decode option to it.
+
+```sh
+$ echo -n bXlzcWw= | base64 --decode
+mysql
+
+$ echo -n YXNob2s= | base64 --decode
+ashok
+
+$ echo -n YXNob2sxMjM= | base64 --decode
+ashok123
+```
+
+Now that we have secret created. Let us proceed with step 2, configuring it with a POD.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-web-app
+spec:
+  containers:
+  - name: my-web-app-container
+    image: my-web-app
+    ports:
+      - containerPort: 8080
+    envFrom:
+      - secretRef:
+          name: app-secret
+```
+
+#### ConfigMap
+
+When you have a lot of POD definition files, it will become difficult to manage the environment data stored within the query files.
+
+We can take this information out of the POD definition file and manage it centrally using configuration maps.
+
+ConfigMaps are used to pass configuration data in the form of key value pairs in Kubernetes.
+
+When a POD is created, inject the ConfigMap into the POD. So the key value pairs that are available as environment variables for the application hosted inside the container in the POD.
+
+There are 2 phases involved in configuring ConfigMaps. First create the ConfigMaps and second inject them into the POD.
+
+Just like any other Kubernetes object, there are 2 ways of creating a ConfigMap.
+
+The imperative way – without using ConfigMap definition file and the declarative way – by using a ConfigMap definition way.
+
+- Imperative Approach:
+
+If you do not wish to create a ConfigMap definition, you could simply use following command
+
+```sh
+kubectl create configmap <config-name> --from-literal=<key>=<value>
+```
+
+```sh
+kubectl create configmap app-config --from-literal=APP_COLOR=pink
+```
+
+If you wish to add additional key value pairs then simply specify the –from-leteral options multiple times
+
+```sh
+kubectl create configmap app-config --from-literal=APP_COLOR=pink --from-literal=APP_MODE=production
+```
+
+However this will get complicated when you have too many configuration items. Another way to input configuration data is through a file.
+
+```sh
+kubectl create configmap <config-name> --from-file=<path-to-file>
+kubectl create configmap app-config --from-file=app-config.properties
+```
+
+- Declarative Approach
+
+In this approach we create a definition file just like how we did for the POD.
+
+The file has apiVersion, kind, metadata and instead of spec, here we have “data”.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_COLOR: pink
+  APP_MODE: production
+```
+
+Once you are ready then you need to run the following command.
+
+```sh
+kubectl create -f config-map.yaml
+```
+
+Above command will creates the app-config ConfigMap with the values we specified. You can create as many ConfigMaps as you need.
+
+To view ConfigMaps, you need to run the following command.
+
+```sh
+kubectl get configmaps
+NAME            DATA           AGE
+app-config      2              3s
+```
+
+To describe ConfigMaps, you need to run the following command.
+
+```sh
+kubectl describe configmaps
+```
+
+Above command will list the configuration data as well under the data section.
+
+Now that we have the ConfigMap created let us proceed with another step configuring it with a POD.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-web-app
+spec:
+  containers:
+  - name: my-web-app-container
+    image: my-web-app
+    ports:
+      - containerPort: 8080
+    envFrom:
+      - configMapRef:
+          name: app-config
+```
+
+#### Scale Application
+
+The kubectl scale command lets your instantaneously change the number of replicas you want to run your application.
+
+To use kubectl scale, you specify the new number of replicas by setting the `--replicas` flag. For example, to scale my-app to four replicas, run the following command, substituting CONTROLLER for deployment, statefulset, or another controller object type:
+
+```sh
+kubectl scale CONTROLLER my-app --replicas 4
+```
+
+If successful, this command's output should be similar to deployment "my-app" scaled.
+
+Next, run:
+
+```sh
+kubectl get CONTROLLER my-app
+
+# The output should look similar to the following:
+
+NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+my-app                4         4         4            4           15m
+```
+
+=========OR=========
+
+You can use kubectl apply to apply a new configuration file to an existing controller object. kubectl apply is useful for making multiple changes to a resource, and may be useful for users who prefer to manage their resources in configuration files.
+
+To scale using kubectl apply, the configuration file you supply should include a new number of replicas in the replicas field of the object's specification.
+
+The following is an updated version of the configuration file for the example my-app object. The example shows a Deployment, so if you use another type of controller, such as a StatefulSet, change the kind accordingly. This example works best on a cluster with at least three Nodes.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: my-container
+        image: us-docker.pkg.dev/google-samples/containers/gke/hello-app:2.0
+```
+
+In this file, the value of the replicas field is 3. When this configuration file is applied, the object my-app scales to three replicas.
+
+To apply an updated configuration file, run the following command:
+
+```sh
+kubectl apply -f config.yaml
+```
+
+Next, run:
+
+```sh
+kubectl get CONTROLLER my-app
+
+# The output should look similar to the following:
+
+NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+my-app                3         3         3            3           15m
+```
+
+- AutoScaling Deployment
+
+kubectl autoscale creates a HorizontalPodAutoscaler (or HPA) object that targets a specified resource (called the scale target) and scales it as needed. The HPA periodically adjusts the number of replicas of the scale target to match the average CPU utilization that you specify.
+
+When you use kubectl autoscale, you specify a maximum and minimum number of replicas for your application, as well as a CPU utilization target. For example, to set the maximum number of replicas to six and the minimum to four, with a CPU utilization target of 50% utilization, run the following command:
+
+```sh
+kubectl autoscale deployment my-app --max 6 --min 4 --cpu-percent 50
+```
+
+In this command, the --max flag is required. The --cpu-percent flag is the target CPU utilization over all the Pods. This command does not immediately scale the Deployment to six replicas, unless there is already a systemic demand.
+
+After running kubectl autoscale, the HorizontalPodAutoscaler object is created and targets the application. When there is a change in load, the object increases or decreases the application's replicas.
+
+To get a list of the HorizontalPodAutoscaler objects in your cluster, run:
+
+```sh
+kubectl get hpa
+```
+
+To see a specific HorizontalPodAutoscaler object in your cluster, run:
+
+```sh
+kubectl get hpa HPA_NAME
+```
+
+Replace HPA_NAME with the name of your HorizontalPodAutoscaler object.
+
+To see the HorizontalPodAutoscaler configuration:
+
+```sh
+kubectl get hpa HPA_NAME -o yaml
+```
+
+The output of this command is similar to the following:
+
+```yaml
+apiVersion: v1
+items:
+- apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    creationTimestamp: ...
+    name: HPA_NAME
+    namespace: default
+    resourceVersion: "664"
+    selfLink: ...
+    uid: ...
+  spec:
+    maxReplicas: 10
+    minReplicas: 1
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: HPA_NAME
+    targetCPUUtilizationPercentage: 50
+  status:
+    currentReplicas: 0
+    desiredReplicas: 0
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""
+
+```
+
+In this example output, the targetCPUUtilizationPercentage field holds the 50 percentage value passed in from the kubectl autoscale example.
+
+To see a detailed description of a specific HorizontalPodAutoscaler object in the cluster:
+
+```sh
+kubectl describe hpa HPA_NAME
+```
+
+You can modify the HorizontalPodAutoscaler by applying a new configuration file with kubectl apply, using kubectl edit, or using kubectl patch.
+
+To delete a HorizontalPodAutoscaler object:
+
+```sh
+kubectl delete hpa HPA_NAME
+```
+
+#### Multi Container
+
+The multi container pods are the pods that contain two or more related containers that share resources like network space, shared volumes, etc and work together as a single unit.
+
+If you need to run a single container in Kubernetes, then you have to create a pod for it which is nothing but Single Container Pod.
+
+If you have to run two or more containers in a pod, then the pod created to place these containers is called a Multi Container Pod.
+
+Basically, these are helper processes or containers enhance the main containers by providing additional functionality.
+
+Multi container PODs share the same life cycle, which means they are created together and destroyed together. They share the same network space which means they can refer to each other as localhost and they have access to the same storage volumes.
+
+This way you don’t have to establish volume sharing or services between PODs to enable communication between them.
+
+![Multi-Pod](Image/CKA-43.png)
+
+Since containers should not be deployed directly to save ourselves from inevitable disasters, we use pods to deploy them as discussed previous tutorials.
+
+But what if there are tightly-coupled containers, for example, a database container and a data container, should we place them in two different pods or a single one? This is where a Multi Container Pods comes in.
+
+To create a multi container POD, add the new container information to the POD definition file.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-webapp
+spec:
+  containers:
+  - name: my-webapp-container
+    image: my-webapp
+    ports:
+      - containerPort: 8080
+  - name: queue-listener
+    image: queue-listener
+```
+
+Design-patterns Of Multi Container Pods:
+
+There are 3 common patterns when it comes to designing multi container PODs.
+
+1. Sidecar pattern
+2. Adaptor pattern
+3. Ambassador pattern.
+
+Sidecar pattern
+
+Sidecars derive their name from motorcycle sidecars. While your motorcycle can work fine without the sidecar, having one enhances or extends the functionality of your bike, by giving it an extra seat.
+
+Similarly, in Kubernetes, a sidecar pattern is used to enhance or extend the existing functionality of the container.
+
+Your container works perfectly well without the sidecar, but with it, it can perform some extra functions. Some great examples are using a sidecar for monitoring and logging and adding an agent for these purposes.
+
+The most common sidecar containers are logging utilities, sync services, watchers, and monitoring agents.
+
+Adapter Pattern
+
+The Adapter is another pattern that you can implement with multiple containers.
+
+The adapter pattern is used to standardize the output by the primary container. Standardizing refers to format the output in a specific manner that fits the standards across your applications.
+
+For instance, an adapter container could expose a standardized monitoring interface to the application even though the application does not implement it in a standard way. The adapter container takes care of transforming the output into what is acceptable at the cluster level.
+
+Ambassador Pattern
+
+The ambassador design pattern is used to connect containers with the outside world.
+
+In this design pattern, the helper container can send network requests on behalf of the main application. It is nothing but a proxy that allows other containers to connect to a port on the localhost.
+
+This is a pretty useful pattern especially when you are migrating your legacy application into the cloud.
+
+For instance, some legacy applications that are very difficult to modify, and can be migrated by using ambassador patterns to handle the request on behalf of the main application.
+
+#### Init Container
+
+A Pod can have multiple containers running apps within it, but it can also have one or more init containers, which are run before the app containers are started.
+
+Init containers are exactly like regular containers, except:
+
+Init containers always run to completion.
+Each init container must complete successfully before the next one starts.
+If a Pod's init container fails, the kubelet repeatedly restarts that init container until it succeeds. However, if the Pod has a restartPolicy of Never, and an init container fails during startup of that Pod, Kubernetes treats the overall Pod as failed.
+
+To specify an init container for a Pod, add the initContainers field into the Pod specification, as an array of container items (similar to the app containers field and its contents). See Container in the API reference for more details.
+
+The status of the init containers is returned in .status.initContainerStatuses field as an array of the container statuses (similar to the .status.containerStatuses field).
+
+Because init containers have separate images from app containers, they have some advantages for start-up related code:
+
+- Init containers can contain utilities or custom code for setup that are not present in an app image. For example, there is no need to make an image FROM another image just to use a tool like sed, awk, python, or dig during setup.
+- The application image builder and deployer roles can work independently without the need to jointly build a single app image.
+- Init containers can run with a different view of the filesystem than app containers in the same Pod. Consequently, they can be given access to Secrets that app containers cannot access.
+- Because init containers run to completion before any app containers start, init containers offer a mechanism to block or delay app container startup until a set of preconditions are met. Once preconditions are met, all of the app containers in a Pod can start in parallel.
+- Init containers can securely run utilities or custom code that would otherwise make an app container image less secure. By keeping unnecessary tools separate you can limit the attack surface of your app container image.
+
+Eg:
+
+- Wait for a Service to be created, using a shell one-line command like:
+
+```sh
+for i in {1..100}; do sleep 1; if dig myservice; then exit 0; fi; done; exit 1
+```
+
+- Register this Pod with a remote server from the downward API with a command like:
+
+```sh
+curl -X POST http://$MANAGEMENT_SERVICE_HOST:$MANAGEMENT_SERVICE_PORT/register -d 'instance=$(<POD_NAME>)&ip=$(<POD_IP>)'
+```
+
+- Wait for some time before starting the app container with a command like
+
+```sh
+sleep 60
+```
+
+- Clone a Git repository into a Volume
+
+- Place values into a configuration file and run a template tool to dynamically generate a configuration file for the main app container. For example, place the POD_IP value in a configuration and generate the main app configuration file using Jinja.
+
+This example defines a simple Pod that has two init containers. The first waits for myservice, and the second waits for mydb. Once both init containers complete, the Pod runs the app container from its spec section.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+  - name: init-mydb
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup mydb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
+```
+
+- You can start this Pod by running:
+
+```sh
+kubectl apply -f myapp.yaml
+```
+
+And check on its status with:
+
+```sh
+kubectl get -f myapp.yaml
+
+
+# The output is similar to this:
+
+NAME        READY     STATUS     RESTARTS   AGE
+myapp-pod   0/1       Init:0/2   0          6m
+```
+
+or for more details:
+
+```sh
+kubectl describe -f myapp.yaml
+The output is similar to this:
+
+Name:          myapp-pod
+Namespace:     default
+[...]
+Labels:        app=myapp
+Status:        Pending
+[...]
+Init Containers:
+  init-myservice:
+[...]
+    State:         Running
+[...]
+  init-mydb:
+[...]
+    State:         Waiting
+      Reason:      PodInitializing
+    Ready:         False
+[...]
+Containers:
+  myapp-container:
+[...]
+    State:         Waiting
+      Reason:      PodInitializing
+    Ready:         False
+[...]
+Events:
+  FirstSeen    LastSeen    Count    From                      SubObjectPath                           Type          Reason        Message
+  ---------    --------    -----    ----                      -------------                           --------      ------        -------
+  16s          16s         1        {default-scheduler }                                              Normal        Scheduled     Successfully assigned myapp-pod to 172.17.4.201
+  16s          16s         1        {kubelet 172.17.4.201}    spec.initContainers{init-myservice}     Normal        Pulling       pulling image "busybox"
+  13s          13s         1        {kubelet 172.17.4.201}    spec.initContainers{init-myservice}     Normal        Pulled        Successfully pulled image "busybox"
+  13s          13s         1        {kubelet 172.17.4.201}    spec.initContainers{init-myservice}     Normal        Created       Created container with docker id 5ced34a04634; Security:[seccomp=unconfined]
+  13s          13s         1        {kubelet 172.17.4.201}    spec.initContainers{init-myservice}     Normal        Started       Started container with docker id 5ced34a04634
+```
+
+To see logs for the init containers in this Pod, run:
+
+```sh
+kubectl logs myapp-pod -c init-myservice # Inspect the first init container
+kubectl logs myapp-pod -c init-mydb      # Inspect the second init container
+```
+
+Here's a configuration you can use to make those Services appear:
+
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mydb
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9377
+```
+
+To create the mydb and myservice services:
+
+```sh
+kubectl apply -f services.yaml
+
+# The output is similar to this:
+
+service/myservice created
+service/mydb created
+```
+
+You'll then see that those init containers complete, and that the myapp-pod Pod moves into the Running state:
+
+```sh
+kubectl get -f myapp.yaml
+
+# The output is similar to this:
+
+NAME        READY     STATUS    RESTARTS   AGE
+myapp-pod   1/1       Running   0          9m
+```
+
+#### Probes
+
+Readiness Probes:
+
+POD LifeCycle
+A POD has a POD status and conditions.
+
+A POD status tells us where a POD is in its lifecycle.
+When a POD is creating, it will be in a pending state, this is when the scheduler tries to figure out, where to place the POD.
+If the scheduler cannot find a node to place the POD, it remains in the pending state.
+To find out, why it's stuck in a pending state run
+
+```sh
+kubectl describe pod <pod-name>
+```
+
+Once the POD is scheduled, it goes to containerCreating status, where are the images needed for the application are pulled and the container starts.
+
+Once all the containers in a POD starts, it goes into a running state. It continues to be in running state until the program gets completed successfully or it is terminated.
+
+The status of the POD can be seen under kubectl get pods. The POD status only gives us the high level summary of the POD.
+
+Conditions complement the POD status.
+It is an array of True or False values, that tell us the state of a POD.
+When a POD is scheduled on a node, the POD scheduled condition is set to True and when the POD is initialised, it's value is set to True.
+When all the containers in the POD are ready, the containersReady is set to True and finally the POD itself is considered to be ready.
+To see the status the POD conditions..
+
+```sh
+kubectl describe <pod-name> -- under conditions.
+```
+
+We also see the ready state of the POD in the output of kubectl get pods.
+The containersReady or Ready condition indicates that the containers inside the pod are ready to accept the user traffic.
+
+Normally servers takes some seconds to intialize the server and ready to serve the users. During this wait period, the pod continues to show that the container is ready to server. In this case, the status of the container is wrong. By default, kubernetes assumes as soon as the container is created, it is ready to serve the user traffic.
+This makes users to hit a pod that is not yet running a live application.
+
+We need a way to tie the ready condition to the actual state of the application inside the container.
+
+To check the application is ready or not, we can set up of different kinds of tests
+
+In case of webservers - HTTP test - /api/ready
+In case of database - TCP test - particular TCP socket is listening or not
+customer script in the container that executes successfully when container is ready.
+In the above cases, only when the test gets passed, the container will be set to ready state. These tests can be configures in pod-definition file as below
+
+![Probes](Image/CKA-44.png)
+
+For a minimum of 10 seconds warmup we can add initialDelaySeconds option To specify how often to probe, we can use periodSeconds option By default, if the application is not ready after 3 attemps the probe will stop.
+If we want to make more attempts use failureThreshold option.
+
+![Probes](Image/CKA-45.png)
+
+Liveness Probes
+When we run an image of nginx using docker, it starts to serve the users. For some reason, the web server crashes and nginx process exists. The container exists as well.
+Since, docker is not an orchestration engine, the container continues to stays to dead and denies services to users, until we manually create other nginx container.
+
+In kubernetes orchestation, when we run the same application with kubernetes, everytime the application crashes, kubernetes makes an attempt to restart the container to restore service to users. (if we observe, number of restarts in kubectl get pods command get increases)
+
+If the application is not working (because of coding issues) but the container continues stay alive i.e., container is up but the users hitting the container are not served. In this case, container needs to be restarted or destroyed and a new container needs to be brought up. Here comes the liveliness probe.
+
+A liveliness probe can be configured on the container to periodically test whether the application within the container is actually healthy? If the test fails, the container is considered unhealthy and is destroyed and recreated.
+As a developer, we need to define what it means to a application to be healthy.
+
+In case of a webapplication - when an api server is up and running.
+In case of a database - a particular TCP socket is listening.
+Simply execute a command to perform a test.
+Liveness probe is configured in the pod definitionfile as readiness probe
+
+![Probes](Image/CKA-46.png)
+![Probes](Image/CKA-47.png)
+
+#### Jobs
+
+There are different types of workloads that a container can serve.
+Workloads such as web servers continue to run for a long period of time, until manually taken down. There are other kinds of workloads such as batch processing, analytics or reporting, that are meant to carryout specific tasks and finish.
+Example: Performing a computation, processing an image, performing an analytic task, sending an email etc,. These are meant for short period of time.
+
+Let us first see how these workloads work in docker.
+In Docker,
+docker run ubuntu expr 3+2 (performs a simple math operation)
+In this case, docker container comes up, perform the simple operation, prints the output and then exists.
+when we run docker ps -a command, we see the container in exit state.
+
+In Kubernetes,
+
+![Jobs](Image/CKA-48.png)
+
+Though the container computes output and exits, kubernetes continues to restart the container and bring it up again. This continues to happen until a threshold is reached.
+
+Kubernetes wants our applications to live forever. The default behaviour of pods is to attempt to restart the container to keep it running.
+This behaviour is defined by the property restartPolicy set on the pod which is by default set to always. Therefore, the pod always recreates the container when it exits. We can overwrite this behaviour by setting this property to Never or Onfailure. Thus, the kubernetes does not restart the container once the job is finished.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: math-pod
+spec:
+  containers: 
+    - name: math-add
+      image: ubuntu
+      command: ['expr', '3', '+', '2']
+
+  restartPolicy: Never
+```
+
+While replicaset is used to make sure a specified number of pods are running at all time, a job is used to run a set of pods to perform a given task to completion.
+
+We create a job using a definition file.
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: math-add-job
+spec:
+  template:
+  # pod-definition specification
+    spec:
+      containers:
+        - name: math-add
+          image: ubuntu
+          command: ['expr', '2', '+', '3']
+      restartPolicy: Never
+```
+
+To create a job `kubectl create -f job-definition.yaml`
+
+To view the jobs
+
+```sh
+kubectl get jobs
+```
+
+The standard ouput of the container can be seen in container logs
+
+```sh
+kubectl logs <podname>
+```
+
+To delete the job
+
+```sh
+kubectl delete job <jobname>
+```
+
+![Jobs](Image/CKA-49.png)
+
+Job with multiple pods
+
+To run multiple pods we set a value for completions under the job specification.
+
+![Jobs](Image/CKA-50.png)
+
+By default, the pods are created one after the other. The second pod is created only after the first is finished.
+
+If the pod fails, the job tries to create new pods until it has three successful completions, and that completes the job.
+
+![Jobs](Image/CKA-51.png)
+
+Instead of getting the pods created sequentially, we can get them created in parallel. For this add the property called parallelism to the job specification. We set it to 3, to create 3 pods in parallel.
+
+![Jobs](Image/CKA-52.png)
+
+The job first creates 3 pods at once, two of which completes successfully. Now, we only need one more, it is intelligent enough to create one pod at a time, until we get a total 3 successful pods.
+
+CronJobs
+
+A CronJob is a job that can be scheduled. We can schedule and run a CronJob Periodically. Example: A job to generate a report and send an email.
+
+```yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata: 
+  name: reporting-cron-job
+spec:
+  # schedule option takes cron like format string, where it takes the time when the job is to be run
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    # Job spec
+    spec: 
+      completions: 3
+      parallelism: 3
+      template:
+        spec:
+          containers: 
+            - name: reporting-tool
+              image: reporting-tool
+          restartPolicy: Never
+```
+
+![Jobs](Image/CKA-53.png)
+
+To create cronjob
+
+```sh
+kubectl create -f <cronjob-definition-file>
+```
+
+To view the available cronjobs kubectl get cronjob
+
+#### Self-Healing
+
+Kubernetes supports self-healing applications through ReplicaSets and Replication Controllers. The replication controller helps in ensuring that a POD is re-created automatically when the application within the POD crashes. It helps in ensuring enough replicas of the application are running at all times.
+
+Kubernetes provides additional support to check the health of applications running within PODs and take necessary actions through Liveness and Readiness Probes. However these are not required for the CKA exam and as such they are not covered here. These are topics for the Certified Kubernetes Application Developers (CKAD) exam and are covered in the CKAD course.
+
+### Cluster Maintainance
+
+#### OS Upgrades
+
+#### Kubernetes Software Version
+
+#### Cluster Upgrade Process
+
+#### BackUp and Restore Method
+
+#### Working with ETCDCTL
+
+### Security
+
+#### Kubernetes Security Primitives
+
+#### Authentication
+
+#### TLS Introduction
+
+#### TLS in Basics
+
+#### TLS in Kubernetes
+
+#### TLS in Kubernetes - certificatin details
+
+#### Certificate API
+
+#### Kubeconfig
+
+#### Persistance key/value pair
+
+#### API Groups
+
+#### Authorization
+
+#### Role Based Access Controll
+
+#### Cluster Role and Role Binding
+
+#### Service Account
+
+#### Image Security
+
+#### Security Context
+
+#### Network Polocies
+
+#### Developing Network Policies
+
+### Storage
+
+#### Intoduction to Docker Storage
+
+#### Storage in Docker
+
+#### Volume Driver Plugin in Docker
+
+#### Container Storage Interface
+
+#### Volumes
+
+#### Persistent Volumes
+
+#### Persistent Volume Claims
+
+#### Using PVC's in Pods
+
+#### Application Configuration
+
+#### Additional Topics
+
+#### Storage Class
+
+### Network
+
+#### DNS
+
+#### CoreDNS
+
+#### Network Namespace
+
+#### FAQ
+
+#### Docker Network
+
+#### CNI
+
+#### Cluster Network
+
+#### Pod Network
+
+#### CNI in Kubernetes
+
+#### CNI Weave
+
+#### IP Address Management - Weave
+
+#### Service Network
+
+#### DNS in Kubernetes
+
+#### Core DNS in Kubernetes
+
+#### Ingress
+
+### Design and Install Kubernetes Cluster
+
+#### Design Kubernetes Cluster
+
+#### Choose Kubernetes Infrastructure
+
+#### Configure High Availability
+
+#### ETCD in HA
+
+### Install Kubernets hardway
+
+#### Resources
+
+#### Deploy with Kubeadm
+
+### End to End Test on a kubernets Cluster
+
+### Troubleshooting
+
+#### Application Failure
+
+#### Control Plane Failure
+
+#### Worker Node Failuer
+
+#### Network Troubleshooting
+
+#### Other Topics
+
+##### JSON Path
+
+##### Advance Kubectl Commands
+
+--------------------------------------
 
 AND
+
+--------------------------------------
 
 ### **Kubernetes Master Course**
 
