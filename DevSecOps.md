@@ -4267,19 +4267,707 @@ Kubernetes provides additional support to check the health of applications runni
 
 #### OS Upgrades
 
+we will discuss about cluster maintenance purposes like upgrade operating system or applying patches like security patches etc. on your cluster.
+
+![OS](Image/CKA-54)
+
+So you have a cluster with few nodes and PODs serving applications. What happens when one of these nodes go down? Of course the PODs on them are not accessible.
+
+![OS](Image/CKA-55)
+
+Now depending upon how you deployed these PODs, your users may be impacted.
+
+- Simple Example
+
+For example, since you have multiple replicas of the blue POD, the users accessing the blue application are not impacted as they are being served through the other blue POD that’s online.
+
+However users accessing the green POD, are impacted as that was the only POD running the green application. Now what does Kubernetes do in this case?
+
+If the node come back online immediately, then the kubelet process starts and the PODs come back online. However, if the node was down for more than 5 minutes, then the PODs are terminated from that node.
+
+Well, Kubernetes considers them as dead. If the PODs where part of a replicaset then they are recreated on other nodes. The time it waits for a POD to come back online is known as the POD eviction timeout and is set on the controller manager with a default value of 5 minutes.
+
+So when ever node goes offline, the master node waits for up to 5 minutes before considering the node dead.
+
+When the node comes back online after the POD eviction timeout it comes up blank without any PODs scheduled on it.
+
+Since the blue POD was part of a replicaset, it had a new POD created on another node. However since the green POD was not part of the replicaset it is just gone.
+
+Thus if you have maintenance tasks to be performed on a node, if you know that the workloads running on the node have other replicas and if it’s okay that they do down for a short period of time. And if you’re sure the node will come back online within 5 minutes you can make a quick upgrade and reboot.
+
+However you don’t for sure know if a node is going to be back online in 5 minutes. Well you cannot for sure say it is going to be back at all. So there is a safer way to do it.
+
+You can purposefully drain the node of all the workloads. So that the workloads are moved to other nodes in the cluster.
+
+![OS](Image/CKA-56)
+
+Well technically they are not moved. When you drain the node the PODs are gracefully terminated from the node that they’re on and recreated on another.
+
+```sh
+kubectl drain node1
+```
+
+The node is also cordoned or marked as unschedulable. Meaning no PODs can be scheduled on this node until you specifically remove the restriction.
+
+Now that the PODs are safe on the other nodes, you can reboot the first node. When it comes back online it is still unschedulable.
+
+You then need to uncordon it, so that PODs can be scheduled on it again.
+
+```sh
+kubectl uncordon node1
+```
+
+Now, remember the PODs that were moved to the other nodes, don’t automatically fall back. If any of those PODs were deleted or if new PODs were created in the cluster, then they would be created on this node.
+
+Apart from drain and uncordon, there is also another command called cordon.
+
+```sh
+kubectl cordon node1
+```
+
+Cordon simply marks a node unschedulable. Unlike drain it doesn’t terminate or move the PODs on an existing node. It simply makes sure that new PODs are not scheduled on that node.
+
+![OS](Image/CKA-57)
+
 #### Kubernetes Software Version
+
+we will discuss about the various Kubernetes releases and versions.
+
+So what do we know about API versions in Kubernetes so far? We know that when we install a Kubernetes cluster, we install a specific version of Kubernetes.
+
+We can see that when we run the `kubectl get nodes` command.
+
+```sh
+ kubectl get nodes
+NAME            STATUS   ROLES    AGE    VERSION
+node3           Ready    <none>   5d1h   v1.19.3-34+a56971609ff35a
+node2           Ready    <none>   5d1h   v1.19.3-34+a56971609ff35a
+node1           Ready    <none>   5d2h   v1.19.3-34+a56971609ff35a
+```
+
+In this case version is v1.19.3. In this tutorial we will see how Kubernetes project manages software releases.
+
+- About version
+
+![KSV](Image/CKA-58.png)
+
+Let’s take a closer look at the version number. The Kubernetes release versions consists of 3 parts. The first is the major version (v1), followed by the minor version (19) and then the patch version (3).
+
+While minor versions are released every few months with new features and functionalities, patches are released more often with critical bug fixes.
+
+Just like many other popular applications out there, Kubernetes follows a standard software release versioning procedure.
+
+Every few month it comes out with new features and functionalities through a minor release. The first major version was released in July of 2015. As of this tutorial the latest stable version is 1.19.3.
+
+Apart from this you will see alpha and beta releases. All the bug fixes and improvements first go into an alpha release tagged alpha. In this release, the features are disabled by default and may be buggy.
+
+Then from there they make their way to beta release where the code is well tested. The new features are enabled by default. And finally they make their way to the main stable release.
+
+![KSV](Image/CKA-59.png)
+
+You can find all the releases in the releases page of the Kubernetes GitHub repository.
+
+Download the Kubernetes.tar.gz file and extract it to find executables for all the Kubernetes components. The downloaded package when extracted has all the control plane components in it. All of them of the same version.
+
+Please note that there are other components within the control plane that don’t have the same version numbers (ETCD cluster and Core DNS servers).
+
+![KSV](Image/CKA-60.png)
+
+The ETCD cluster and Core DNS servers have their own versions as they are separate projects.
+
+The release notes of each release provide information about the supported versions of externally dependent applications like ETCD and Core DNS etc.
+
+- Release References
+
+[K8s-API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+
+[Release](https://github.com/kubernetes/kubernetes/releases)
+
+Here is a link to kubernetes documentation if you want to learn more about this topic (You don't need it for the exam though):
+
+[Kubernetes_API_Conventions](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md)
+
+[Kubernetes_API_Changes](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api_changes.md)
 
 #### Cluster Upgrade Process
 
+we will discuss about Cluster Upgrade Process in Kubernetes.
+
+In the previous tutorial, we will discuss how Kubernetes manages its software releases and how different components have their versions.
+
+![CUP](Image/CKA-60.png)
+
+We will keep dependencies on external components like ETCD and CoreDNS aside for now and focus on the core control plane components.
+
+![CUP](Image/CKA-61.png)
+
+It is mandatory that they all have the same version. Now the components can be in different release versions.
+
+Since the Kube API server is the primary component in the control plane and that is the component that all other components talked to. None of the other components should never be at a higher version than the Kube API server.
+
+The controller manager and scheduler can be at one version lower. So if the Kube API server was at X, control managers and scheduler can be at X-1 and the kubelet and kube-proxy components can be at 2 versions lower X-2.
+
+![CUP](Image/CKA-62.png)
+
+None of the components could be at higher version than the Kube API server like v1.11.
+
+Now this is not the case with the Kubectl. The Kubectl utility could be v1.11 a version higher than the Kube API server, v1.9 a version lower than the Kube API server or v1.10 same version of the Kube API server.
+
+Now this permissible SKU in versions allows us to carryout live upgrades. We can upgrade component by component if required.
+ 
+So, when should we upgrade? Let’s say you are at version 1.10 and Kubernetes versions is 1.11 & 1.12. At any time Kubernetes supports only up to recent 3 minor versions.
+
+So, with 1.12 is the latest release Kubernetes supports v1.12, v1.11 and v1.10. Therefore, when v1.13 is released only versions v1.13, v1.12 and v1.11 are supported.
+
+Before the release of v1.13 would be a good time to upgrade your cluster to the next release. So, how do we upgrade? do we upgrade directly from v1.10 to v1.13? Answer is No.
+
+The recommended approach is to upgrade a minor version at a time. v1.10 to v1.11 then v1.11 to v1.12 and then v1.12 to v1.13. The upgrade process depends on how our cluster is configured.
+
+For example, if out cluster is a managed Kubernetes cluster deployed on cloud service provider like Google. Google Kubernetes engine lets you upgrade our cluster easily by just a few clicks.
+
+If we deploy our Kubernetes cluster using tools like Kubeadm then the tool can help you plan and upgrade the cluster.
+
+If we deployed our Kubernetes cluster from scratch, then we manually upgrade the different components of cluster our self. In this tutorial, we will look at options by Kubeadm.
+
+So, we have a cluster with master nodes and worker nodes running in production hosing PODs that serving users.
+
+The nodes and components are at version 1.10. Upgrading the cluster involves 2 major steps.
+
+First, we upgrade our master nodes and then upgrade the worker nodes. While the master nodes being upgraded, the control plane components such as the API server, Scheduler and the controller manager go down briefly.
+
+The master go down doesn’t mean you worker nodes and applications are impacted. All workloads hosted on worker nodes continue to serve users normally.
+
+Since the master is down, all management functions are down. We can’t access the cluster using the Kubectl or other Kubernetes API. We can’t deploy new applications or delete or modify existing ones.
+
+The controller manager also didn’t work. If a POD is fails, a new POD will not be created automatically. But as long as nodes and PODs are up, our applications should be up and users will not be impacted.
+
+Once the upgrade is complete and cluster is backed up, it should function normally.
+
+Now we have the master and the main components had version v1.11 and the worker nodes had version v1.10.
+
+As we discussed earlier, this is a supported configuration. Now it’s time time to upgrade worker nodes. There are different strategies available to upgrade worker nodes.
+
+One is to upgrade all of them at once. But then PODs are down and users are no longer able to access the applications. Once the upgrade is complete, the nodes are backed up, new PODs are scheduled and users can resume access. This is one strategy that requires downtime.
+
+The second strategy is to upgrade one node at a time. So, going back to the state where we have our master upgraded and the nodes waiting to be upgraded.
+
+We first upgrade the first node, where the workloads moved to the second and third node and users are served from there. Once the first node is upgraded and backed up with an update the second node where the workloads moved to first and third nodes and finally the third node where the workloads are shared between first two.
+
+Until we have all the nodes are upgraded to a newer version. We then follow the same procedure to upgrade the nodes from v1.11 to v.12 and then v1.13.
+
+The third strategy would be to add a new node to the cluster. Nodes with newer software version. This is especially convenient if you are in a cloud environment where you can easily provision new nodes and decommission old nodes.
+
+Nodes with the newer software version that can be added to the cluster. Move the workload to the new one and remove the old node until you finally have all the new nodes with the new software versions.
+
+Let’s now how it is done? Say we were to upgrade this cluster from v1.11 to v1.13.
+
+Kubeadm has an upgrade command that helps upgrading clusters. With Kubeadm run the following command to know the information about current version, kubeadm tool version, latest stable version of Kubernetes.
+
+```sh
+kubeadm upgrade plan
+```
+
+This command also lists all the control plane components and their versions and what versions these can be upgraded to. It also tells us that after we upgrading the control plane components, you must manually upgrade the kubelet versions on each node.
+
+Please note that kubeadm doesn’t install or upgrade Kubelets. Finally it provides the commands to upgrade the cluster. Also note that we must upgrade the kubeadm tool itself before you can upgrade the cluster.
+
+The Kubeadm tool also follows the same software version as Kubernetes.
+
+So, we are at v1.11 and we want go to v1.13. But remember that we can only go one minor version at a time. So we first go to v1.12. First upgrade the kubeadm tool using following command
+
+```sh
+sudo apt-get upgrade -y kubeadm=1.12.0-00
+```
+
+Now upgrade the Kubernetes cluster using following command
+
+```sh
+kubeadm upgrade apply v1.12.0
+```
+
+Above command pulls the necessary images and upgrade the cluster components. Once upgrade complete our control plane components are now at v1.12. If you run following command you will still see the master node at v1.11.
+
+```sh
+kubectl get nodes
+NAME        STATUS       ROLES       AGE        VERSION
+node01      Ready        master      2d         v1.11.3
+node02      Ready        <none>      2d         v1.11.3
+node03      Ready        <none>      2d         v1.11.3
+```
+
+This is because, in the output of this command, it is showing the versions of the Kubelet on each of the nodes registered with API server and not the version of the API server version itself.
+
+So, the next step is to upgrade the Kubelets. Remember that, depending on our configuration we may or mayn’t have Kubelet running on the master node.
+
+In this case, the cluster deployed with the kubeadm as kubelets on the master nodes which are used to run the control plane components as part of the master node.
+
+So, the next step is to upgrade the kubelet on the master node if we have the kubelet on them. Run the following command to upgrade kubelet
+
+```sh
+sudo apt-get upgrade -y kubelet=1.12.0-00 
+```
+
+Once the package is upgraded, restart the kubelet using following command
+
+```sh
+systemctl restart kubelet
+```
+
+Now run the following command to check the version
+
+```sh
+kubectl get nodes
+NAME        STATUS       ROLES       AGE        VERSION
+node01      Ready        master      2d         v1.12.0
+node02      Ready        <none>      2d         v1.11.3
+node03      Ready        <none>      2d         v1.11.3
+```
+
+Now the master is upgraded to v1.12. The worker nodes are still at v1.11.
+
+So, next the worker nodes. Let us start one at a time. We need to first move the workloads from the first worker node to other nodes. The following command is used to safely shutdown all PODs from the node and reschedule to the other nodes.
+
+```sh
+kubectl drain node01
+```
+
+Now upgrade the kubeadm and kubelet packages on the worker node as we did in master node.
+
+```sh
+sudo apt-get upgrade -y kubeadm=1.12.0-00
+
+sudo apt-get upgrade -y kubelet=1.12.0-00 
+
+kubeadm upgrade node config --kubelet-version v1.12.0
+
+systemctl restart kubelet
+```
+
+The node should now be up with the new software version. However when we drain the node, we actually marked it unschedulable. So we need to unmark it by running the following command.
+
+```sh
+kubectl uncordon node01
+```
+
+The node is now schedulable. But remember that it is not necessary the PODs come back to this node. It is only marked it as schedulable. Only when the PODs are deleted from other nodes or when new PODs are scheduled they really come back to this node.
+
+Similarly we can upgrade other nodes as well. We now all the nodes are upgraded.
+
+Steps On Demo:
+
+1. Check the Upgrade Plan
+2. Upgrade the Kubeamd on control Plane
+3. Verify Upgrade successful with Upgrade Plan
+4. Drain the Control Plan to change the version
+5. Upgrade Kubelet and Kubectl
+6. Reload Daemon and Restart the kubelet
+7. Uncordon the drained Control Plane
+8. Same way Upgrade Kubeadm on the worker node
+9. Upgrade kubelet configuration `upgrade node-name`
+10. Drain the node --> Run drain command from control plane(master Node)
+11. Upgrade Kubelet and Kubectl
+12. Reload Daemon and Restart the kubelet
+13. Uncordon the drained worker node from control plane(master Node)
+
 #### BackUp and Restore Method
 
+we will discuss about various backup and restore methodologies in Kubernetes cluster.
+
+Let’s start by looking at what we should consider backing up in a Kubernetes cluster.
+
+So far we have deployed a number of different applications on our Kubernetes cluster using deployment, POD, Service definition files.
+
+We know that the ETCD cluster is where all cluster related information is stored. And if our applications are configured with persistent storage then that is another candidate for backups.
+
+- Imperative
+
+With respective to resources that we created in the cluster, at times we used the imperative way of creating an object by executing a command. Such as while creating a namespace or secret or configmap or at times for exposing applications.
+
+- Declarative
+
+And at times we used the declarative approach by first creating a definition file and then running the kubectl apply command on that file. This is the preferred approach if we want to save our configuration. Because now we have all the objects required for a single application in the form of object definition files in a single folder.
+
+This can be easily be reused at a later time or shared with others. Of course we must have a copy of these files saved at all times.
+
+A good practice is to store these on source code repositories. That it can be maintained by a team. The source code repository should be configured with the right backup solutions.
+
+With managed/public source code repositories like GitHub, we don’t have to worry about this. With that even when we lose our entire cluster, we can redeploy our application on the cluster by simply applying this configuration files on them.
+
+While the declarative approach is the preferred approach it is not necessary that all of our team members stick to those standards. What if someone created an object the imperative way without documenting that information anywhere?
+
+So a better approach to backing up resource configuration is to use query the Kube API Server.
+
+- Backup – Resource Configs
+
+Query the Kube API Sever using the Kubectl or by accessing the API server directly and save all resource configurations for all objects created on the cluster has a copy.
+
+For example, one of the commands that can be used in a backup script is to get all PODs, deployments and services in all namespaces using the following command
+
+```yaml
+kubectl get all --all-namespaces -o yaml > all-deploy-services.yaml
+```
+
+Using the above kubectl utility get all command and extract the output in a YAML format. Then save that file. And that’s just for a few resources groups. There are many other resource groups that must be considered.
+
+Of course you don’t have to develop that solutions yourself. There are tools like ARK or now called Velero by heptio that can do this for you. It can help in taking backups of your Kubernetes cluster using the Kubernetes API.
+
+- Backup – ETCD
+
+![B&R](Image/CKA-63.png)
+
+Let us now move on to ETCD. The ETCD cluster stores information about the state of the cluster. So information about the cluster itself, the nodes and every other resource as created within the cluster are stored here.
+
+So instead of backing up resource as before, you may chose to backup the ETCD server itself. As we have seen the ETCD cluster is hosted on the master nodes.
+
+While configuring ETCD we specified a location where all the data would be stored. The data directory. That is the directory that can be configured to be backup by your backup tool.
+
+ETCD also comes with a built in snapshot solution. You can take a snapshot of the ETCD database by using the etdctl utilities snapshot save command.
+
+```sh
+etcdctl snapshot save snapshot.db
+
+ls 
+snapshot.db
+```
+
+Once you run the above command, A snapshot file is created by the name in the current directory.
+
+If you wanted to be created in another location specified the full path. You can view the status of the backup using the snapshot status command.
+
+- Restore – ETCD
+
+To restore the cluster from this backup at a later point in time, first stop the kube-api server service, as the restore process will require you to restart the ETCD cluster and the kube-api server depends on it. Then run the etcdctl snapshot restore command with the path set to the path of the backup file which is the snapshot.db file.
+
+When ETCD restores from a backup, it initializes a new cluster configuration and configures the members of ETCD as new members to a new cluster. This is to prevent a new member from accidentally joining an existing cluster.
+
+Say for example, you use this backup snapshot to provision a new etcd-cluster for testing purposes. You don’t want the members in the new test cluster to accidentally join the production cluster.
+
+So during a restore you must specify a new cluster token and the same initial cluster configuration options specified in the original configuration file. On running this command a new data directory is created.
+
+We then configure the ETCD configuration file to use the new cluster-token and data directory. The reload the service daemon and restart etcd service.
+
+Finally start the kube-apiserver service. Your cluster should now be back in the original state.
+
 #### Working with ETCDCTL
+
+etcdctl is a command line client for etcd.
+
+In all our Kubernetes Hands-on labs, the ETCD key-value database is deployed as a static pod on the master. The version used is v3.
+
+To make use of etcdctl for tasks such as back up and restore, make sure that you set the ETCDCTL_API to 3.
+
+You can do this by exporting the variable ETCDCTL_API prior to using the etcdctl client. This can be done as follows:
+
+export `ETCDCTL_API=3`
+
+On the Master Node:
+
+![ETCD](Image/CKA-64.png)
+
+To see all the options for a specific sub-command, make use of the `-h or --help flag`.
+
+For example, if you want to take a snapshot of etcd, use:
+
+`etcdctl snapshot save -h` and keep a note of the mandatory global options.
+
+Since our ETCD database is TLS-Enabled, the following options are mandatory:
+
+| --cacert                     | verify certificates of TLS-enabled secure servers using this CA bundle |
+| ---------------------------- | ------------------------------------------------------------ |
+| --cert                       | identify secure client using this TLS certificate file       |
+| --endpoints=[127.0.0.1:2379] | This is the default as ETCD is running on master node and exposed on localhost 2379. |
+| --key                        | identify secure client using this TLS key file               |
+
+Similarly use the help option for snapshot restore to see all available options for restoring the backup.
+
+`etcdctl snapshot restore -h`
+
+For a detailed explanation on how to make use of the etcdctl command line tool and work with the -h flags, check out the solution video for the Backup and Restore Lab.
+
+- Reference
+
+[Backing up an etcd cluster](https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster)
+
+[Recovey](https://github.com/etcd-io/website/blob/main/content/en/docs/v3.5/op-guide/recovery.md)
+
+[Video](https://www.youtube.com/watch?v=qRPNuT080Hk)
 
 ### Security
 
 #### Kubernetes Security Primitives
 
+we will discuss about security primitives in Kubernetes.
+
+Kubernetes being the go to platform for hosting production grade applications. Security is of primary concern.
+
+![Security](Image/CKA-66.png)
+
+In this tutorial we discuss the various security primitives in Kubernetes at a high level before diving deeper into those in the upcoming tutorials.
+
+Let’s begin with the host that formed the cluster itself. Of course all access to these hosts must be secured, root access disabled, password based authentication disabled, and only SSH key based authentication to be made available.
+
+![Security](Image/CKA-67.png)
+
+And of course any other measures you need to take to secure your physical or virtual infrastructure that hosts Kubernetes. Of course if that is compromised, everything is compromised.
+
+Our focus in this tutorial is more on Kubernetes related security. What are the risks and what measures do you need to take to secure the cluster.
+
+As we have seen already, the Kube API server is at the center of all operations within Kubernetes.
+
+We interact with it through the kubectl utility or by accessing the API directly and through that you can perform almost any operation on the cluster.
+
+So that’s the first line of defense. Controlling access to the API server itself. We need to make two types of decisions. Who can access the cluster? and What can they do?
+
+- Who can access?
+
+Who can access the API server is defined by the Authentication mechanisms.
+
+![Security](Image/CKA-68.png)
+
+![Security](Image/CKA-69.png)
+
+There are different ways that you can authenticate to the API server. Starting with user IDs and passwords stored in a static file, to tokens, certificates or even integration with external authentication providers like LDAP.
+
+Finally for machines we create service accounts. We will look at these in more detail in the upcoming tutorials.
+
+Once they gain access to the cluster, What can they do is defined by authorization mechanisms.
+
+Authorization is implemented using Role Based Access Control, where users are associated to groups with specific permissions.
+
+In addition there are other authorization modules like Attribute based access control, Node Authorizers, webhooks etc.
+
+All communication with the cluster, between the various components such as the ETCD cluster, kube controller manager, scheduler, api server, as well as those running on the worker nodes such as the kubelet and kubeproxy is secured using TLS Encryption.
+
+![Security](Image/CKA-65.png)
+
+Security Primitives
+We have a section entirely for this where we discuss and practice how to setup the certificates between the various components.
+
+What about communication between applications within the cluster?
+
+By default all PODs can access all other PODs within the cluster. You can restrict access between them using Network Policies.
+
 #### Authentication
+
+we are going to discuss about authentication in a Kubernetes cluster.
+
+As we have discussed already the Kubernetes cluster consists of multiple nodes physical/virtual and various components that work together.
+
+![Auth](Image/CKA-70.png)
+
+Kubernetes authentication
+We have users like,
+
+1. Administrators that access the cluster to perform administrative tasks
+2. Developers that access to cluster to test or deploy applications
+3. End users who access the applications deployed on the cluster
+4. Third party applications accessing the cluster for integration purposes.
+
+Throughout this tutorial we will discuss how to secure our Kubernetes cluster by securing the communication between internal components and securing management access to the cluster through authentication and authorization mechanisms.
+
+In this tutorial our focus is on securing access to the Kubernetes cluster with authentication mechanisms.
+
+So we discussed about the different users that may be accessing the cluster security of end users who access the applications deployed on the cluster is managed by the applications themselves internally.
+
+So we will take them out of our discussion. Our focus is on users access to the Kubernetes cluster for administrative purposes.
+
+- Accounts
+
+So we are left with 2 types of users. Humans, such as the Administrators and Developers and Robots such as other processes/services or applications that requires access to the cluster.
+
+Kubernetes does not manage user accounts natively it relies on an external source like a file with user details or certificates or a third party identity service like LDAP to manage these users.
+
+And so you cannot create users in a Kubernetes cluster or view the list of users.
+
+![Auth](Image/CKA-71.png)
+
+However in case of Service Accounts Kubernetes can manage them. You can create and manage service accounts using the Kubernetes API.
+
+We will discuss and practice more about service accounts in further tutorials. For this section we will focus on users in Kubernetes.
+
+All user access is managed by the API server. Weather you are accessing the cluster through kubectl tool or the API directly, all of these requests go through the Kube API Server.
+
+![Auth](Image/CKA-72.png)
+
+The Kube API Server authenticates the requests before processing it. So how does the Kube API Server authenticate?
+
+- Authentication mechanisms
+
+There are different authentication mechanisms that can be configured.
+
+You can have a list of username and passwords in a static password file, or usernames and tokens in a static token file or you can authenticate using certificates.
+
+![Auth](Image/CKA-73.png)
+
+And another option is to connect to third party authentication protocols like LDAP, Kerberos etc. We will discuss at some of these in upcoming tutorials.
+
+Let’s start with static password and token files as it is the easiest to understand.
+
+![Auth](Image/CKA-74.png)
+
+Let’s start with the simplest form of authentication. You can create a list of users and their passwords in a csv file and use that as the source for user information.
+
+The file has 3 columns password, user name and user id.
+
+```sh
+ashok123,ashok,u0001
+ramu@123,ramu,u0002
+lakshman@321,lakshman,u0003
+seetha@12345,seetha,u0004
+hanuma@123,hanuma,u0005
+```
+
+We then pass the file name as an option to the Kube API Server. (kube-apiserver.service file)
+
+`--basic-auth-file=user-details.csv`
+
+You must then restart the Kube API Server for these options to take effect.
+
+If you setup your cluster using the kubeadm tool, then you must modify the Kube API Server POD definition file.
+
+![Auth](Image/CKA-75.png)
+
+Kubeadm tool will automatically restart the Kube API Server once you update the file.
+
+To authenticate using the basic credentials while accessing the API server specify the user and password in a curl command like this.
+
+```sh curl -v -k https://10.0.1.2:6443/api/v1/pods -u "ashok:ashok123"```
+
+![Auth](Image/CKA-76.png)
+
+In the csv file with the user details that we saw we can optionally have a fourth column with the group details to assign users to specific groups.
+
+```sh
+ashok123,ashok,u0001,group1
+ramu@123,ramu,u0002,group1
+lakshman@321,lakshman,u0003,group2
+seetha@12345,seetha,u0004,group2
+hanuma@123,hanuma,u0005,group2
+```
+
+Similarly instead of a static password file, You can have a static token file here instead of password you specify a token pass the token file as an option token-auth-file to the Kube API Server.
+
+```sh
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9,ashok,u0001,group1
+eyJtZXNzYWdlIjoiSldUIFJ1bGVzISIsImlhdCI6M,ramu,u0002,group1
+6MTQ1OTQ0ODExOSwiZXhwIjoxNDU5NDU0N,lakshman,u0003,group2
+b73C75osbmwwshQNRC7frWUYrqaTjTpza2y4,seetha,u0004,group2
+VzISIsImlhdCI6MTQ1OTQ0ODExOSwiZXhwIjoxND,hanuma,u0005,group2
+```
+
+`token-auth-file=user-details.csv`
+
+![Auth](Image/CKA-77.png)
+
+While authenticating specify the token as an Authorization bearer token to your requests like this.
+
+```sh curl -v -k https://10.0.1.2:6443/api/v1/pods --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"```
+
+Note
+
+1. This authentication mechanism that stores user names, passwords and tokens in clear text in a static file is not a recommended approach as it is insecure. But I thought this was the easiest way to understand the basics of authentication in Kubernetes.
+2. If you were trying this out in a kubeadm setup you must also consider volume mounts to pass in the auth file.
+
+- Article
+
+Setup basic authentication on Kubernetes (Deprecated in 1.19)
+Note: This is not recommended in a production environment. This is only for learning purposes. Also note that this approach is deprecated in Kubernetes version 1.19 and is no longer available in later releases
+
+Follow the below instructions to configure basic authentication in a kubeadm setup.
+
+- Create a file with user details locally at /tmp/users/user-details.csv
+
+User File Contents
+
+```sh
+password123,user1,u0001
+password123,user2,u0002
+password123,user3,u0003
+password123,user4,u0004
+password123,user5,u0005
+```
+
+- Edit the kube-apiserver static pod configured by kubeadm to pass in the user details. The file is located at /etc/kubernetes/manifests/kube-apiserver.yaml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+      <content-hidden>
+    image: k8s.gcr.io/kube-apiserver-amd64:v1.11.3
+    name: kube-apiserver
+    volumeMounts:
+    - mountPath: /tmp/users
+      name: usr-details
+      readOnly: true
+  volumes:
+  - hostPath:
+      path: /tmp/users
+      type: DirectoryOrCreate
+    name: usr-details
+```
+
+- Modify the kube-apiserver startup options to include the basic-auth file
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+    - --authorization-mode=Node,RBAC
+      <content-hidden>
+    - --basic-auth-file=/tmp/users/user-details.csv
+```
+
+- Create the necessary roles and role bindings for these users:
+
+```yaml
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+```
+
+- This role binding allows "jane" to read pods in the "default" namespace.
+
+```yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: user1 # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Once created, you may authenticate into the kube-api server using the users credentials
+
+```sh curl -v -k https://localhost:6443/api/v1/pods -u "user1:password123"```
 
 #### TLS Introduction
 
