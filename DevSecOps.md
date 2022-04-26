@@ -183,6 +183,44 @@
       - [Storage In Kubernetes](#storage-in-kubernetes)
       - [Security In Kubernetes](#security-in-kubernetes)
       - [Monitoring and Autoscaling kubernetes Cluster](#monitoring-and-autoscaling-kubernetes-cluster)
+  - [OpenShift](#openshift)
+  - [IBM ACE](#ibm-ace)
+  - [MQ](#mq)
+  - [APIC and DP](#apic-and-dp)
+  - [Linux](#linux)
+  - [Docker](#docker)
+  - [GitLab](#gitlab)
+  - [Git](#git)
+  - [Nexus](#nexus)
+  - [Prometheus, grafana and Alertmanger](#prometheus-grafana-and-alertmanger)
+  - [Vault](#vault)
+  - [ELK](#elk)
+  - [Cri-O](#cri-o)
+  - [Nginx](#nginx)
+  - [Apache](#apache)
+  - [Tomcat](#tomcat)
+  - [Maven](#maven)
+  - [Ant](#ant)
+  - [Jenkins](#jenkins)
+  - [UCD](#ucd)
+  - [Ansible](#ansible)
+  - [Eclipse](#eclipse)
+  - [Java](#java)
+  - [Python](#python)
+  - [Go](#go)
+  - [Github](#github)
+  - [AWS](#aws)
+  - [Bitbucket](#bitbucket)
+  - [Junit](#junit)
+  - [Svn](#svn)
+  - [Jira](#jira)
+  - [Vs Code](#vs-code)
+  - [Confluence](#confluence)
+  - [Nagois](#nagois)
+  - [Splunk](#splunk)
+  - [Release Management Tool](#release-management-tool)
+  - [Gradle](#gradle)
+  - [NodeJS](#nodejs)
 
 --------------------------------------
 
@@ -5120,3 +5158,157 @@ AND
 #### Security In Kubernetes
 
 #### Monitoring and Autoscaling kubernetes Cluster
+
+--------------------------------------
+
+## OpenShift
+
+--------------------------------------
+
+## IBM ACE
+
+--------------------------------------
+
+## MQ
+
+--------------------------------------
+
+## APIC and DP
+
+--------------------------------------
+
+## Linux
+
+--------------------------------------
+
+## Docker
+
+--------------------------------------
+
+## GitLab
+
+--------------------------------------
+
+## Git
+
+--------------------------------------
+
+## Nexus
+
+--------------------------------------
+
+## Prometheus, grafana and Alertmanger
+
+--------------------------------------
+
+## Vault
+
+--------------------------------------
+
+## ELK
+
+--------------------------------------
+
+## Cri-O
+
+--------------------------------------
+
+## Nginx
+
+--------------------------------------
+
+## Apache
+
+--------------------------------------
+
+## Tomcat
+
+--------------------------------------
+
+## Maven
+
+--------------------------------------
+
+## Ant
+
+--------------------------------------
+
+## Jenkins
+
+--------------------------------------
+
+## UCD
+
+--------------------------------------
+
+## Ansible
+
+--------------------------------------
+
+## Eclipse
+
+--------------------------------------
+
+## Java
+
+--------------------------------------
+
+## Python
+
+--------------------------------------
+
+## Go
+
+--------------------------------------
+
+## Github
+
+--------------------------------------
+
+## AWS
+
+--------------------------------------
+
+## Bitbucket
+
+--------------------------------------
+
+## Junit
+
+--------------------------------------
+
+## Svn
+
+--------------------------------------
+
+## Jira
+
+--------------------------------------
+
+## Vs Code
+
+--------------------------------------
+
+## Confluence
+
+--------------------------------------
+
+## Nagois
+
+--------------------------------------
+
+## Splunk
+
+--------------------------------------
+
+## Release Management Tool
+
+--------------------------------------
+
+## Gradle
+
+--------------------------------------
+
+## NodeJS
+
+--------------------------------------
