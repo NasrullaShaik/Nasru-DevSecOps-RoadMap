@@ -48,20 +48,6 @@
         - [Pros of Docker Swarm](#pros-of-docker-swarm)
         - [Cons of Docker Swarm](#cons-of-docker-swarm)
       - [K8s vs K3s](#k8s-vs-k3s)
-  - [**Kubernetes Development**](#kubernetes-development)
-    - [What is Kubernets?](#what-is-kubernets)
-    - [Demo App in Kubernets](#demo-app-in-kubernets)
-    - [Docker Container for App](#docker-container-for-app)
-    - [Kubernetes On Minikube](#kubernetes-on-minikube)
-    - [Moving to Azure AKS](#moving-to-azure-aks)
-    - [DevOps for Kubernetes using Azure DevOps](#devops-for-kubernetes-using-azure-devops)
-    - [CI/CD Pipelines for Kubernetes using YAML pipelines](#cicd-pipelines-for-kubernetes-using-yaml-pipelines)
-    - [Deploying using Helm](#deploying-using-helm)
-    - [Ingress Controller](#ingress-controller)
-    - [GitOps with Kubernetes](#gitops-with-kubernetes)
-    - [Kubernetes NodePools](#kubernetes-nodepools)
-    - [Upgrade the Cluster](#upgrade-the-cluster)
-    - [Cluster backup](#cluster-backup)
   - [**Kubernetes Administration**](#kubernetes-administration)
     - [Introduction](#introduction)
     - [Core Concepts](#core-concepts)
@@ -256,18 +242,52 @@
         - [**Documentation**](#documentation)
         - [An important tip about deploying Network Addons in a Kubernetes cluster](#an-important-tip-about-deploying-network-addons-in-a-kubernetes-cluster)
       - [Pod Network](#pod-network)
+        - [**Networking Model**](#networking-model)
+        - [**Assigning IP Address**](#assigning-ip-address)
+        - [**Attach a container**](#attach-a-container)
+        - [**Add route in the routing table**](#add-route-in-the-routing-table)
+        - [**Container Network Interface (CNI)**](#container-network-interface-cni-1)
       - [CNI in Kubernetes](#cni-in-kubernetes)
+        - [**Configuring CNI**](#configuring-cni)
+        - [**View Kubelet Options**](#view-kubelet-options)
       - [CNI Weave](#cni-weave)
       - [IP Address Management - Weave](#ip-address-management---weave)
       - [Service Network](#service-network)
+        - [**ClusterIP**](#clusterip)
+        - [**NodePort**](#nodeport)
+        - [**Services**](#services-1)
+        - [**How kube-proxy rules**](#how-kube-proxy-rules)
+        - [**Get the Service**](#get-the-service)
+        - [**Check the Service Cluster IP Range**](#check-the-service-cluster-ip-range)
       - [DNS in Kubernetes](#dns-in-kubernetes)
       - [Core DNS in Kubernetes](#core-dns-in-kubernetes)
+        - [**Move entries into a central DNS server**](#move-entries-into-a-central-dns-server)
+        - [**CoreDNS**](#coredns-1)
+        - [**CoreDNS Configuration File**](#coredns-configuration-file)
+        - [**Pods to point to the CoreDNS**](#pods-to-point-to-the-coredns)
       - [Ingress](#ingress)
+        - [**ClusterIP Service**](#clusterip-service)
+        - [**NodePort Service**](#nodeport-service)
+        - [**Public cloud environment**](#public-cloud-environment)
+        - [**Deploying new service**](#deploying-new-service)
+        - [**Enable SSL**](#enable-ssl)
+        - [**Ingress**](#ingress-1)
+        - [**Load balancing solutions**](#load-balancing-solutions)
+        - [**Ingress Controller**](#ingress-controller)
+        - [**Deployment**](#deployment)
+        - [**ConfigMap**](#configmap-1)
+        - [**Ingress Resources**](#ingress-resources)
+        - [**Ingress Resource Rules**](#ingress-resource-rules)
+        - [**Configure ingress resources**](#configure-ingress-resources)
+        - [**Describe Ingress Resource**](#describe-ingress-resource)
+        - [**host field**](#host-field)
+        - [Article](#article)
+        - [**References:-**](#references-)
     - [Design and Install Kubernetes Cluster](#design-and-install-kubernetes-cluster)
       - [Design Kubernetes Cluster](#design-kubernetes-cluster)
       - [Choose Kubernetes Infrastructure](#choose-kubernetes-infrastructure)
       - [Configure High Availability](#configure-high-availability)
-      - [ETCD in HA](#etcd-in-ha)
+      - [Reference](#reference)
     - [Install Kubernets hardway](#install-kubernets-hardway)
       - [Resources](#resources)
       - [Deploy with Kubeadm](#deploy-with-kubeadm)
@@ -277,9 +297,17 @@
       - [Control Plane Failure](#control-plane-failure)
       - [Worker Node Failuer](#worker-node-failuer)
       - [Network Troubleshooting](#network-troubleshooting)
+        - [**Network Plugin in kubernetes**](#network-plugin-in-kubernetes)
+        - [**DNS in Kubernetes**](#dns-in-kubernetes-1)
+        - [**Memory and Pods**](#memory-and-pods)
+        - [Troubleshooting issues related to coreDNS](#troubleshooting-issues-related-to-coredns)
+        - [**Kube-Proxy**](#kube-proxy-2)
+        - [Troubleshooting issues related to kube-proxy](#troubleshooting-issues-related-to-kube-proxy)
+        - [**References**](#references)
       - [Other Topics](#other-topics)
         - [JSON Path](#json-path)
         - [Advance Kubectl Commands](#advance-kubectl-commands)
+        - [Questions](#questions)
     - [**Kubernetes Master Course**](#kubernetes-master-course)
       - [Kubernetes Introduction](#kubernetes-introduction)
       - [Understanding the Kubernetes Architechture](#understanding-the-kubernetes-architechture)
@@ -292,6 +320,20 @@
       - [Storage In Kubernetes](#storage-in-kubernetes)
       - [Security In Kubernetes](#security-in-kubernetes)
       - [Monitoring and Autoscaling kubernetes Cluster](#monitoring-and-autoscaling-kubernetes-cluster)
+  - [**Kubernetes Development**](#kubernetes-development)
+    - [What is Kubernets?](#what-is-kubernets)
+    - [Demo App in Kubernets](#demo-app-in-kubernets)
+    - [Docker Container for App](#docker-container-for-app)
+    - [Kubernetes On Minikube](#kubernetes-on-minikube)
+    - [Moving to Azure AKS](#moving-to-azure-aks)
+    - [DevOps for Kubernetes using Azure DevOps](#devops-for-kubernetes-using-azure-devops)
+    - [CI/CD Pipelines for Kubernetes using YAML pipelines](#cicd-pipelines-for-kubernetes-using-yaml-pipelines)
+    - [Deploying using Helm](#deploying-using-helm)
+    - [Ingress Controller](#ingress-controller-1)
+    - [GitOps with Kubernetes](#gitops-with-kubernetes)
+    - [Kubernetes NodePools](#kubernetes-nodepools)
+    - [Upgrade the Cluster](#upgrade-the-cluster)
+    - [Cluster backup](#cluster-backup)
   - [OpenShift](#openshift)
   - [IBM ACE](#ibm-ace)
   - [MQ](#mq)
@@ -1577,36 +1619,6 @@ The main reason we have chosen Kubernetes over Docker Swarm is related to the fo
 | At the same time, we can see that Kubernetes, due to its heavy size, takes advantage of hosting workloads and spin up clusters in multiple clouds. K3s is a standalone server, unlike K8s, which is a part of the Kubernetes cluster. K8s relies on CRI-O to integrate Kubernetes with CRI (Container Runtime Interface) while K3s uses CRI-O, and therefore is compatible with all of the supported container runtimes. K8s uses kubelet to schedule containers, but K3s uses the host’s scheduling mechanism to schedule containers. | K3s uses [kube-proxy](<https://kubernetes.io/docs/concepts/overview/components/#:~:text=kube-proxy> is a network,or outside of your cluster.) to proxy the network connections of the Kubernetes nodes, but K8s uses kube-proxy to proxy the network connections of an individual container. It also uses kube-proxy to set up IP masquerading, while K3s does not use kube-proxy to do that.                                                                                                                                                                                                 |
 | Again, K8s uses [kubelet](<https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/#:~:text=The> kubelet is the primary,object that describes a pod.) to watch the Kubernetes nodes for changes in the configuration, while K3s does not watch Kubernetes nodes for changes in the configuration. Instead, it receives a deployment manifest containing the configuration information from the Kubernetes control plane and makes changes accordingly.                                                               | k3s can have [tighter security](https://sysdig.com/blog/k3s-sysdig-falco/) deployment than k8s because of their small attack surface area. Another advantage of k3s is that it can reduce the dependencies and steps needed to install, run or update a Kubernetes cluster.                                                                                                                                                                                                                                                                                                                   |
 | Kubernetes can be very beneficial when it comes to [orchestration](https://www.redhat.com/en/topics/containers/what-is-container-orchestration) (arrangement and coordination of automated tasks) of large databases as it can maintain the load of the database. At the same time, k3s can be more than useful for small databases. It happens to come in a single binary file of less than 100 MB, which will help to fire up quick clusters, faster scheduling pods and other tasks.                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-
---------------------------------------
-
-## **Kubernetes Development**
-
-### What is Kubernets?
-
-### Demo App in Kubernets
-
-### Docker Container for App
-
-### Kubernetes On Minikube
-
-### Moving to Azure AKS
-
-### DevOps for Kubernetes using Azure DevOps
-
-### CI/CD Pipelines for Kubernetes using YAML pipelines
-
-### Deploying using Helm
-
-### Ingress Controller
-
-### GitOps with Kubernetes
-
-### Kubernetes NodePools
-
-### Upgrade the Cluster
-
-### Cluster backup
 
 --------------------------------------
 
@@ -4561,7 +4573,7 @@ None of the components could be at higher version than the Kube API server like 
 Now this is not the case with the Kubectl. The Kubectl utility could be v1.11 a version higher than the Kube API server, v1.9 a version lower than the Kube API server or v1.10 same version of the Kube API server.
 
 Now this permissible SKU in versions allows us to carryout live upgrades. We can upgrade component by component if required.
- 
+
 So, when should we upgrade? Let’s say you are at version 1.10 and Kubernetes versions is 1.11 & 1.12. At any time Kubernetes supports only up to recent 3 minor versions.
 
 So, with 1.12 is the latest release Kubernetes supports v1.12, v1.11 and v1.10. Therefore, when v1.13 is released only versions v1.13, v1.12 and v1.11 are supported.
@@ -7629,15 +7641,39 @@ Read more about CoreDNS here:
 
 #### NETWORK ADDRESS TRANSLATION (NAT)
 
+[geeks-nat](https://www.geeksforgeeks.org/network-address-translation-nat/)
+
+![NW](Image/CKA-147.png)
+![NW](Image/CKA-148.png)
+![NW](Image/CKA-149.png)
+![NW](Image/CKA-150.png)
+![NW](Image/CKA-151.png)
+![NW](Image/CKA-152.png)
+
 #### NETWORKING VLAN & VXLAN
+
+[VLAN](https://www.guru99.com/vlan-definition-types-advantages.html)
+
+[VXLAN](https://www.techtarget.com/whatis/definition/VXLAN)
+
+![NW](Image/CKA-153.png)
 
 #### NETWORKING VIRTUAL MACHINES
 
+![NW](Image/CKA-154.png)
+
 ##### Host Only
+
+![NW](Image/CKA-155.png)
 
 ##### NAT
 
+![NW](Image/CKA-156.png)
+
 ##### Bridge
+
+![NW](Image/CKA-157.png)
+![NW](Image/CKA-158.png)
 
 #### Network Namespace
 
@@ -8350,53 +8386,1376 @@ At this moment in time, there is still one place within the documentation where 
 
 #### Pod Network
 
+we are going to discuss about POD networking in [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/). So far we have setup several [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) master and worker nodes and configured networking between them so they are all on a network that can reach each other.
+
+We also made sure the firewall and network security groups are configured correctly to allow for the [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) control plane components to reach each other.
+
+Assume that we have also setup all the [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) control plane components such as the kube-api server, the etcd servers, kubelets etc. And we are finally ready to deploy our applications.
+
+But before we can do that there is something that we must address. We talked about the Network that connects the nodes together. But there is also another layer of networking that is crucial to the clusters functioning and that is the networking at the POD layer.
+
+Our [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) cluster is soon going to have a large number of PODs and services running on it. How are these PODs addressed, How do they communicate with each other, how do you access the services running on these PODs internally from within the cluster, as well as externally from outside the cluster.
+
+These are challenges that [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) expects you to solve. As of today, Kubernetes does not come with a built-in solution for this. It expects you to implement a networking solution that solves these challenges. However, Kubernetes have laid out, clearly, the requirements for POD networking.
+
+Let’s take a look at what they are.
+
+![NW](Image/CKA-159.png)
+
+##### **Networking Model**
+
+1. Kubernetes expects every POD to get its own unique IP address.
+2. Every POD should be able to communicate with every other POD within the same node using that IP address.
+3. Every POD should be able to communicate with every other POD on other nodes other nodes as well using the same IP address.
+
+It doesn’t care what IP address that is and what range or [subnet](https://en.wikipedia.org/wiki/Subnetwork) it belongs to. As long as you can implement a solution that takes care of automatically assigning IP addresses and establish connectivity between the PODs in a node as well as PODs on different nodes, you are good.
+
+Without having to configure any [NAT](https://en.wikipedia.org/wiki/Network_address_translation) rules. So how do you implement a model that solves these requirements.
+
+Now there are many networking solutions available out there that does these. But we have already discussed about networking concepts, routing, IP Address management, namespaces and CNI.
+
+So let’s try to use that knowledge to solve this problem by ourselves first. This will help in understanding how other solutions work.
+
+I know there is a bit of repetition but I’m trying to relate the same concept and approach all the way way from plain network namespaces on Linux all the way to Kubernetes.
+
+So we have a 3 node cluster. It doesn’t matter which one is master or worker. They all run pods either for management or workload purposes.
+
+As far as networking is concerned we’re going to consider all of them as the same. So first let’s plan what we’re going to do.
+
+The nodes are part of an external network and has IP addresses in the 192.168.1 series. Node1 is assigned 192.168.1.11, node2 is 192.168.1.12 and node3 is 192.168.1.13.
+
+##### **Assigning IP Address**
+
+Next step, When containers are created Kubernetes creates network namespaces for them. To enable communication between them we attach these namespaces to a network. But what network?
+
+We’ve discussed about bridge networks that can be created within nodes to attach namespaces. So we create a bridge network on each node and then bring them up.
+
+Now It’s time to assign an IP address to the bridge interfaces or networks. But what IP address. We decide that each bridge network will be on its own subnet. Chose any private IP address range. Say 10.244.1, 10.244.2 and 10.244.3.
+
+Next we said the IP address for the bridge interface. So we have built our base. The remaining steps are to be performed for each container and every time a new container is created. So we write a script for it.
+
+Now you don’t have to know any kind of complicated scripting. It’s just a file that has all commands we will be using. And we can run this multiple times for each container going forward.
+
+##### **Attach a container**
+
+To attach a container to the network. We need a pipe or virtual network cable. We create that using the ip link add command. Don’t focus on the options as they are similar to what we saw in our previous tutorials.
+
+Assume that they vary depending on the inputs. We then attach one end to the container and another to the bridge using the ip link set command. We then assigned IP address using the ip addr command and add a route to default gateway. But what IP do we add?
+
+We either manage that ourselves or store that information in some kind of database. For now we will assume it is 10.244.1.2 which is a free IP in the subnet.
+
+Finally we bring up the interface. We then run the same script this time from the second container with its information and gets the container connected to the network.
+
+The two containers can now communicate with each other. We copy the script to the other nodes and run the script on them to assign IP address and connect those containers to their own internal networks.
+
+So we have solved the first part of the challenge. The pods all get their own unique IP address and are able to communicate with each other on their own nodes. The next part to is to enable them to reach other PODs on other nodes.
+
+Say for example the pod at 10.244.1.2 on Node1 wants to ping pod 10.244.2.2 on Node2. As of now the first has no idea where the address 10.244.2.2 is, because it is on a different network than its own. so it routes to Node1’s IP as it is set to be the default gateway.
+
+![NW](Image/CKA-160.png)
+
+##### **Add route in the routing table**
+
+Node1 doesn’t know either since 10.244.2.2 is a private network on Node2. Add a route to Node1s routing table to route traffic to 10.244.2.2 via second node IP at 192.168.1.12. Once the route is added the bluepod is able to ping across.
+
+Similarly we configure route on all hosts to all other hosts with information regarding the respective networks within them.
+
+```bash
+node1$ ip route add 10.244.2.2 via 192.168.1.12 
+node1$ ip route add 10.244.3.2 via 192.168.1.13
+
+node2$ ip route add 10.244.1.2 via 192.168.1.11
+node2$ ip route add 10.244.3.2 via 192.168.1.13
+
+node3$ ip route add 10.244.1.2 via 192.168.1.11
+node3$ ip route add 10.244.2.2 via 192.168.1.12
+```
+
+Now this works fine in this simple setup. But this will require a lot more configuration as and when your underlying network architecture gets complicated.
+
+Instead of having to configure routes on each server a better solution is to do that on a router. If you have one in your network and point all host to use that as the default gateway. That way you can easily manage routes to all networks in the routing table on the router.
+
+With that the individual virtual networks we created with the address 10.244.1.0/24 on each node. Now form a single large network with the address 10.244.0.0/16.
+
+![NW](Image/CKA-161.png)
+
+![NW](Image/CKA-162.png)
+
+![NW](Image/CKA-163.png)
+
+![NW](Image/CKA-164.png)
+
+![NW](Image/CKA-165.png)
+
+![NW](Image/CKA-166.png)
+
+It’s time to tie everything together. We performed a number of manual steps to get the environment ready with the bridge networks and routing tables.
+
+We then wrote a script that can be run for each container that performs the necessary steps required to connect each container to the network and we executed the script manually.
+
+Of course we don’t want to do that as in large environments where thousands of PODs are created every minute. So how do we run the script automatically when a pod is created on Kubernetes? That’s where CNI comes in acting as the middleman.
+
+##### **Container Network Interface (CNI)**
+
+CNI tells Kubernetes that this is how you should call a script as soon as you create a container. And CNI tells us this is how your script should look like.
+
+So we need to modify the script a little bit to meet CNI’s standards. It should have an ADD section that will take care of adding a container to the network. And a DELETE section that will take care of deleting container interfaces from the network and freeing the IP address etc.
+
+So our script is ready. The kubelet on each node is responsible for creating containers.
+
+Whenever a container is created, the kubelet looks at the CNI configuration passed as a command line argument when it was run, and identifies our scripts name it then looks in the CNI bin directory to find our script and then executes the script with the add command and the name and namespace ID of the container and then our scripts takes care of the rest.
+
+![NW](Image/CKA-167.png)
+
+![NW](Image/CKA-168.png)
+
 #### CNI in Kubernetes
+
+![NW](Image/CKA-169.png)
+
+In the previous tutorials, we started all the way from the absolute basics of network namespaces, then we saw how it is done in Docker, we then discussed why you need standards for networking containers and how the container network interface came to be and then we saw a list of supported plugins available with [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/).
+
+So, in this tutorial we will see how Kubernetes is configured to use these network plugins. As we discussed in the previous tutorials, [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) defines the responsibilities of container runtime.
+
+As per [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/), container runtimes, in our case Kubernetes, is responsible for creating container network namespaces, identifying and attaching those namespaces to the right network by calling the right network plugin.
+
+![NW](Image/CKA-170.png)
+
+##### **Configuring CNI**
+
+So where do we specify the [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) plugins for Kubernetes to use? The [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) plugin must be invoked by the component within Kubernetes that is responsible for creating containers. Because that component must then invoke the appropriate network plugin after the container is created.
+
+The [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) plugin is configured in the kubelet service on each node in the cluster. If you look at the kubelet service file, you will see an option called network-plugin set to [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/).
+
+![NW](Image/CKA-171.png)
+
+##### **View Kubelet Options**
+
+You can see the same information on viewing the running kubelet service. You can see the network plugins set to [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) and a few other options related to [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) such as the [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) bin directory and [CNI](https://www.waytoeasylearn.com/learn/container-network-interface/) Config directory. The CNI bin directory has all the supported CNI plugins as executables. Such as the bridge, dhcp, flannel etc. The CNI conflig directory has a set of configuration files. This is where kubelet looks to find out which plugin needs to be used.
+
+In this case it finds the bridge configuration file. If there are multiple files here, It will choose the one in alphabetical order.
+
+If you look at the bridge conf file, it looks like following. This is a format defined by the CNI standard for a plugin configuration file. It’s name is mynet, type is bridge.
+
+```json
+$ ls /etc/cni/net.d
+10-bridge.conf
+
+$ cat /etc/cni/net.d/10-bridge.conf
+{
+    "cniVersion": "0.2.0",
+    "name": "mynet",
+    "type": "bridge",
+    "bridge": "cni0",
+    "isGateway": true,
+    "ipMasq": true,
+    "ipam": {
+        "type": "host-local",
+        "subnet": "10.22.0.0/16",
+        "routes": [
+            { "dst": "0.0.0.0/0" }
+        ]
+    }
+}
+```
+
+It also has a set of other configurations which can be related to the concepts we discussed in the previous tutorials on bridging, routing and masquerading in NAT.
+
+The is Gateway defines whether the bridge network interface should get an IP address assigned so it can act as a gateway.
+
+The IP masquerade defines if a NAT rule should be added for IP masquerading. The IPAM section defines IPAM configuration. This is where you specify the [subnet](https://en.wikipedia.org/wiki/Subnetwork) or the range of IP addresses that will be assigned to PODs and any necessary routes.
+
+The type host-local indicates that the IP addresses are managed locally on this host. Unlike a DHCP server maintaining it remotely. The type can also be set to DHCP to configure an external DHCP server.
+
+![NW](Image/CKA-172.png)
 
 #### CNI Weave
 
+![NW](Image/CKA-173.png)
+
+As we already have script for the plugin to add or delete as shown in above picture.
+
+![NW](Image/CKA-164.png)
+![NW](Image/CKA-175.png)
+![NW](Image/CKA-176.png)
+
+The weave depoyed as a daemonsets which will deploy its agents on all the worker nodes to read and transfer the packets.
+
+![NW](Image/CKA-177.png)
+![NW](Image/CKA-178.png)
+![NW](Image/CKA-179.png)
+
+To instll waeve in kubernetes cluster please follow above slides.
+
 #### IP Address Management - Weave
+
+[IPAM](https://www.weave.works/docs/net/latest/tasks/ipam/ipam/)
+
+![NW](Image/CKA-180.png)
+![NW](Image/CKA-181.png)
+![NW](Image/CKA-182.png)
+![NW](Image/CKA-183.png)
 
 #### Service Network
 
+we are going to discuss about service networking. In the previous tutorials we discussed about [POD networking](https://www.waytoeasylearn.com/learn/pod-networking/). How bridge networks are created within each node and how [PODs](https://www.waytoeasylearn.com/learn/pods/) get a namespace created for them and how interfaces are attached to those name spaces and how parts get an IP address assigned to them within the subnet assigned for that node.
+
+And we also discussed through routes or other overlay techniques, we can get the [PODs](https://www.waytoeasylearn.com/learn/pods/) in different nodes to talk to each other forming a large virtual network where all [PODs](https://www.waytoeasylearn.com/learn/pods/) can reach each other.
+
+Now you would rarely configure your [PODs](https://www.waytoeasylearn.com/learn/pods/) to communicate directly with each other. If you want a [POD](https://www.waytoeasylearn.com/learn/pods/) to access services hosted on another pod you would always use a service.
+
+![NW](Image/CKA-184.png)
+
+![Service Networking](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Service-Networking.png)
+
+Let’s quickly recap the different kinds of services. To make the orange pod accessible to the blue pod, we create an orange service. The orange service gets an IP address and a name assigned to it.
+
+The blue pod can now access the orange pod through the orange services IP or its name. We’ll talk about name resolution in the upcoming tutorials.
+
+For now let’s just focus on IP addresses. The blue and orange POD around the same node. What about access from the other [PODs](https://www.waytoeasylearn.com/learn/pods/) on other nodes?
+
+##### **ClusterIP**
+
+When a service is created it is accessible from all parts of the cluster, irrespective of what nodes the [PODs](https://www.waytoeasylearn.com/learn/pods/) are on. While a pod is hosted on a node, a service is hosted across the cluster. It is not bound to a specific node.
+
+But remember, the service is only accessible from within the cluster. This type of service is known as ClusterIP.
+
+![NW](Image/CKA-185.png)
+
+![Service Networking](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Service-Networking-1.png)
+
+If the orange POD was hosting a database application that is to be only accessed from within the cluster, then this type of service works just fine.
+
+##### **NodePort**
+
+Say for instance the purple pod was hosting a web application. To make the application on the POD accessible outside the cluster, we create another service of type [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport).
+
+![NW](Image/CKA-186.png)
+
+![NodePort](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/NodePort.png)
+
+This service also gets an IP address assigned to it and works just like ClusterIP. As in all the other PODs can access this service using it’s IP.
+
+But, in addition it also exposes the application on a port on all nodes in the cluster. That way external users or applications have access to the service.
+
+![NW](Image/CKA-187.png)
+
+![img](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/NodePort-1.png)
+
+So that’s the topic of our discussion for this tutorial. Our focus is more on services and less on PODs.
+
+##### **Services**
+
+How are the services getting these IP addresses and how are they made available across all the nodes in the cluster? How is the service made available to external users through a port on each node. Who is doing that and how and where do we see it.
+
+So let’s get started. Let’s start on a clean slate. We have a three node cluster, no pods or services yet. We know that every Kubernetes node runs a kubelet process, which is responsible for creating PODs.
+
+Each kubelet service on each node watches the changes in the cluster through the kube-api server, and every time a new POD is to be created, it creates the POD on the nodes.
+
+It then invokes the CNI plugin to configure networking for that POD. Similarly, each node runs another component known as kube-proxy.
+
+Kube-proxy watches the changes in the cluster through kube-api server, and every time a new service is to be created, kube-proxy gets into action.
+
+Unlike PODs, services are not created on each node or assigned to each node. Services are a cluster wide concept. They exist across all the nodes in the cluster.
+
+As a matter of fact they don’t exist at all. There is no server or service really listening on the IP of the service. We have seen that PODs have containers and containers have namespaces with interfaces and IP’s assigned to those interfaces.
+
+With services Nothing like that exists. There are no processes or name spaces or interfaces for a service. It’s just a virtual object. Then how do they get an IP address and how were we able to access the application on the POD through service?
+
+When we create a service object in Kubernetes, it is assigned an IP address from a pre-defined range.
+
+The kube-proxy components running on each node, get’s that IP address and creates forwarding rules on each node in the cluster, saying any traffic coming to this IP, the IP of the service, should go to the IP of the POD.
+
+Once that is in place, whenever a POD tries to reach the IP of the service, it is forwarded to the PODs IP address which is accessible from any node in the cluster. Now remember it’s not just the IP it’s an IP and port combination.
+
+##### **How kube-proxy rules**
+
+Whenever services are created or deleted the kube-proxy component creates or deletes these rules.
+
+![NW](Image/CKA-188.png)
+
+![img](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Service-1024x486.png)
+
+So how are these rules created? kube-proxy supports different ways, such as userspace where kube-proxy listens on a port for each service and proxies connections to the PODs by creating ipvs rules or the third and the default option and the one familiar to us is using IP tables.
+
+The proxy mode can be set using the proxy mode option while configuring the kube-proxy service. If this is not set, it defaults to iptables. So we’ll see how iptables are configured by kube-proxy and how you can view them on the nodes.
+
+```bash
+$ kubectl get pods -o wide
+NAME    READY   STATUS    RESTARTS   AGE   IP           NODE     
+nginx   1/1     Running   0          1m    10.244.1.2   node-1
+```
+
+We have a pod named db deployed on node-1. It has IP address 10.244.1.2. We create a service of type ClusterIP to make this POD available within the cluster.
+
+##### **Get the Service**
+
+When the service is created kubernetes assigns an IP address to it. It is set to 10.103.132.104. This range is specified in the kube-apiservers option called service-cluster-ip-range. Which is by default set to 10.0.0.0/24.
+
+```bash
+$ kubectl get service
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+db-service      ClusterIP   10.103.132.104                3306/TCP       12h
+```
+
+In my case, if I look at my kube-api-server option.
+
+##### **Check the Service Cluster IP Range**
+
+```bash
+$ ps aux | grep kube-api-server
+kube-apiserver --authorization-mode=Node,RBAC --service-cluster-ip-range=10.96.0.0/12
+```
+
+I see it is set to 10.96.0.0/12. That gives my services IP any where from 10.96.0.0 to 10.111.255.255. A relative point to mention here.
+
+When I setup my POD networking, I provided a POD network CIDR range of 10.244.0.0/16 which gives my pods IP addresses from 10.244.0.0 to 10.244.255.255.
+
+The reason I brought this up here is because whatever range is specified for each of these networks it shouldn’t overlap which it doesn’t in this case.
+
+Both of these should have its own dedicated range of IPs to work with. There shouldn’t be a case where a POD and a service are assigned the same IP address.
+
+So getting back to services. That’s how my service got an IP address of 10.103.132.104. You can see the rules created by kube-proxy in the iptables nat table output.
+
+```bash
+iptables -L -t nat | grep local-cluster
+```
+
+Search for the name of the service as all rules created by kube-proxy have a comment with the name of the service on it.
+
 #### DNS in Kubernetes
+
+we are going to discuss about [DNS](https://www.waytoeasylearn.com/learn/dns/) in the Kubernetes cluster. If you are new to [DNS](https://www.waytoeasylearn.com/learn/dns/) make sure you go through the [prerequisite section](https://www.waytoeasylearn.com/learn/dns/) on [DNS](https://www.waytoeasylearn.com/learn/dns/) where we discuss what [DNS](https://www.waytoeasylearn.com/learn/dns/) is, what are the tools used for working with DNS such as host, NS Lookup and dig utility and the different types of DNS records like A, [CNAME](https://en.wikipedia.org/wiki/CNAME_record) etc.
+
+We also discussed how to setup our own DNS server using CoreDNS. In this tutorial we will see what names are assigned to what objects, what our service DNS records, POD DNS records, What are the different ways you can reach one part from another.
+
+In the next tutorial, we will see how Kubernetes implements DNS in the cluster.
+
+So we have a 3 node Kubernetes cluster with some PODs and services deployed on them. Each node has a node name and IP address assigned to it.
+
+The node names and IP addresses of the cluster are probably registered in a DNS server in your organization. Now how that is managed who accesses them are not of concern in this tutorial.
+
+In this tutorial, we discuss about DNS resolution within the cluster between the different components in the cluster such as PODs and services.
+
+Kubernetes deploys a built-in DNS server by default when you setup a cluster. If you setup Kubernetes manually, then you do it by yourself.
+
+We will see how that is done and how it is configured in the next tutorial. As far as this tutorial is concerned we will see how it helps pods resolve other pods and services within the cluster.
+
+So we don’t really care about nodes. We focus purely on PODs and services within the cluster. As long as our cluster networking is set up correctly, following the best practices we discussed so far in this section, and all pods and services can get their own IP address and can reach each other.
+
+Let’s start with just two PODs and a service. I have a test POD with the IP set to 10.244.1.5. And I have a web POD with the IP set to 10.244.2.5.
+
+Looking at their IPs, you can guess that they are probably hosted on two different nodes. But that doesn’t matter, as far as DNS is concerned.
+
+We assume that all PODs and services can reach other using their IP addresses. To make the web server accessible to the test POD, we create a service. We name it web service.
+
+![NW](Image/CKA-189.png)
+
+![DNS in Kubernetes](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/DNS-in-Kubernetes.png)
+
+The service gets an IP 10.107.37.188. Whenever a service is created, the Kubernetes DNS service creates a record for the service. It maps the service name to the IP address.
+
+So within the cluster any POD can now reach the service using its service name.
+
+```bash
+$ curl http://web-service
+Welcome to NGINX!
+```
+
+Remember we discussed about [name spaces](https://www.waytoeasylearn.com/learn/network-namespaces/) earlier. That everyone within the namespace address each other just with their first names and to address anyone in another namespace you use their full names.
+
+In this case since the test POD and the web POD and its associated service are all in the same namespace, the default namespace.
+
+You were able to simply reach the web-service from the test pod using just the service name web service.
+
+Let’s assume the web service was in a separate namespace named apps. Then to refer to it from the default namespace. You would have to say web-service.apps. The last name of the service is now the name of the namespace.
+
+So here web service is the name of the service and apps is the name of the namespace.
+
+```bash
+$ curl http://web-service.apps
+Welcome to NGINX!
+```
+
+For each namespace, The DNS server creates a subdomain. All the services are grouped together into another subdomain called SVC. So what was that about?
+
+Let’s take a closer look. web-service is the name of the service and apps is the name of the namespace. For each namespace the DNS server creates a subdomain with its name.
+
+All pods and services for a namespace are thus grouped together within a subdomain in the name of the namespace.
+
+All the services are grouped together into another subdomain called svc. So you can reach your application with the name web-service.apps.svc.
+
+Finally, all the services and PODs are grouped together into a root domain for the cluster, which is set to cluster.local by default. So you can access the service using the URL web-service.apps.svc.cluster.local.
+
+So that’s how services are resolved within the cluster. What about PODs? Records for PODs are not created by default. But we can enable that explicitly, We will see that in the next tutorial. Once enabled, Records are created for pods as well.
+
+It does not use the POD name though. For each POD Kubernetes generates a name by replacing the dots in the IP address with dashes. The namespace remains the same and type is set to pod. The root domain is always cluster.local.
+
+```bash
+$ curl http://10-244-2-5.apps.pod.cluster.local
+Welcome to NGINX!
+```
+
+Similarly the test POD in the default namespace, gets a record in the DNS server, with its IP converted to a dashed hostname 10-244-1-5 and namespace set to default, type is POD and root is cluster.local. This resolve to the IP address of the POD.
 
 #### Core DNS in Kubernetes
 
+we are going to discuss about Core DNS in Kubernetes and how Kubernetes implements in the cluster.
+
+In the [previous tutorial](https://www.waytoeasylearn.com/learn/dns-in-kubernetes/) we saw how you can address a service or POD from another POD. So in this tutorial, we will see how Kubernetes makes that possible.
+
+![NW](Image/CKA-190.png)
+
+![Core DNS in Kubernetes](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Core-DNS-in-Kubernetes.png)
+
+Say you were given two pods with two IP addresses. How would you do it? Based on what we discussed in the [prerequisite tutorial](https://www.waytoeasylearn.com/learn/dns/) on [DNS](https://www.waytoeasylearn.com/learn/dns/), an easy way to get them to resolve each other is to add an entry into each of their /etc/hosts files.
+
+On the first POD, I would say the second POD web is at 10.244.2.5 and on the second pod I would say the first POD test is at 10.244.1.5.
+
+![NW](Image/CKA-191.png)
+
+![Core DNS in Kubernetes](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Core-DNS-in-Kubernetes-1-1024x297.png)
+
+But of course, when you have 1000s of PODs in the cluster, and 100s of them being created and deleted every minute. So this is not a suitable solution.
+
+##### **Move entries into a central DNS server**
+
+So we move these entries into a central DNS server. We then point these PODs to the DNS server by adding an entry into their /etc/resolv.conf file specifying that the [nameserver](https://en.wikipedia.org/wiki/Name_server) is at the IP address of the DNS server, which happens to be 10.96.0.10 in this case.
+
+![NW](Image/CKA-192.png)
+
+![Core DNS in Kubernetes](https://www.waytoeasylearn.com/wp-content/uploads/2021/05/Core-DNS-in-Kubernetes-2-1024x633.png)
+
+So every time a new POD is created, we add a record in the DNS server for that POD. So that other pods can access the new POD, and configure the /etc/resolv.conf file in the POD to the DNS server so that the pod can resolve other PODs in the cluster.
+
+This is kind of how Kubernetes does it. Except that it does not create similar entries for PODs to map pod name to its IP address as we have seen in the [previous tutorial](https://www.waytoeasylearn.com/learn/dns-in-kubernetes/).
+
+It does that for services. For PODs it forms host names by replacing dots with dashes in the IP address of the pod.
+
+Kubernetes implements DNS in the same way. It deploys a DNS server within the cluster. Prior to version v1.12 the DNS implemented by Kubernetes was known as kube-dns.
+
+##### **CoreDNS**
+
+With Kubernetes version 1.12 the recommended DNS server is CoreDNS. So how is the core DNS setup in the cluster?
+
+The CoreDNS server is deployed as a POD in the kube-system namespace in the Kubernetes cluster. Well they are deployed as two pods for redundancy, as part of a ReplicaSet.
+
+They are actually a replicaset within a deployment. But it doesn’t really matter. We’ll just see CoreDNS as a POD in this tutorial.
+
+This POD runs the coreDNS executable, the same executable that we ran when we deployed CoreDNS ourselves.
+
+##### **CoreDNS Configuration File**
+
+CoreDNS requires a configuration file. In our case we used a file named Corefile. So does Kubernetes. It uses a file named Corefile located at /etc/coredns.
+
+```bash
+$ cat /etc/coredns/Corefile
+.:53 {
+    errors
+    health 
+    kubernetes cluster.local in-addr.arpa ip6.arpa {
+       pods insecure
+       fallthrough in-addr.arpa ip6.arpa
+       ttl 30
+    }
+    prometheus :9153
+    forward . /etc/resolv.conf
+    cache 30
+    reload
+}
+```
+
+Within this file you have a number of plugins configured. Plugins are configured for handling errors, reporting health, monitoring metrics, cache etc.
+
+The plugin that makes CoreDNS work with Kubernetes, is the Kubernetes plugin. And this is where the top level domain name for the cluster is set.
+
+In this case cluster.local. So every record in the coredns DNS server falls under this domain. Within the Kubernetes plugin there are multiple options.
+
+The PODs option you see here, is what is responsible for creating a record for PODs in the cluster. Remember we talked about a record being created for each POD by converting their IPs into a dashed format that’s disabled by default.
+
+But it can be enabled with this entry here. Any record that this DNS server can’t solve, for example say a POD tries to reach www.google.com it is forwarded to the nameserver specified in the coredns pods /etc/resolv.conf file.
+
+The /etc/resolv.conf file is set to use the nameserver from the Kubernetes node. Also note, that this core file is passed into the pod has a ConfigMap object. That way if you need to modify this configuration you can edit the ConfigMap object.
+
+We now have the CoreDNS POD up and running using the appropriate Kubernetes plugin. It watches the Kubernetes cluster for new PODs or services, and every time a POD or a service is created it adds a record for it in its database.
+
+##### **Pods to point to the CoreDNS**
+
+Next step is for the PODs to point to the CoreDNS server. What address do the PODs use to reach the DNS server? When we deploy CoreDNS solution, It also creates a service to make it available to other components within a cluster.
+
+The service is named as kube-dns by default. The IP address of this service is configured as nameserver on the PODs.
+
+Now you don’t have to configure this yourself. The DNS configurations on PODs are done by Kubernetes automatically when the PODs are created.
+
+Want to guess which Kubernetes component is responsible for that? The kubelet. If you look at the config file of the kubelet you will see the IP of the DNS server and domain in it.
+
+Once the pods are configured with the right nameserver, you can now resolve other pods and services. You can access the web-service using just web-service, or web-service.default or web-service.default.svc or web-service.default.svc.cluster.local.
+
+```bash
+$ curl web-service
+
+$ curl web-service.default
+
+$ curl web-service.default.svc
+
+curl web-service.default.svc.cluster.local
+```
+
+If you try to manually lookup the web-service using nslookup or the host command web-service command, it will return the fully qualified domain name of the web-service, which happens to be web-service.default.svc.cluster.local.
+
+```bash
+$ host web-service
+web-service.default.svc.cluster.local has address 10.97.206.196
+```
+
+But you didn’t ask for that you just set up service. So how did it look up for the full name. It so happens, the resolv.conf file also has a search entry which is set to default.svc.cluster.local as well as svc.cluster.local and cluster.local.
+
+```bash
+$ cat /etc/resolv.conf
+nameserver     10.96.0.10
+search    default.svc.cluster.local svc.cluster.local cluster.local
+```
+
+This allows you to find the service using any name. web-service or web-service.default or web-service.default.svc.
+
+```bash
+$ host web-service
+web-service.default.svc.cluster.local has address 10.97.206.196
+
+$ host web-service.default
+web-service.default.svc.cluster.local has address 10.97.206.196
+
+$ host web-service.default.svc
+web-service.default.svc.cluster.local has address 10.97.206.196
+
+$ host web-service.default.svc.cluster.local
+web-service.default.svc.cluster.local has address 10.97.206.196
+```
+
+However, notice that it only has search entries for service . So you won’t be able to reach a pod the same way.
+
+```bash
+$ host 10-244-2-5
+host 10-244-2-5 not found: 3(NXDOMAIN)
+```
+
+For example, you need to specify the full FQDN of the pod to to reach the POD.
+
+```bash
+$ host 10-244-2-5.default.svc.cluster.local
+web-service.default.svc.cluster.local has address 10.97.206.196
+```
+
 #### Ingress
+
+we are going to discuss about ingress in [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/). One of the common questions that most people reach out about usually is regarding services and ingress. What’s the difference between the two and when to use what.
+
+So we’re going to briefly revisit services and work our way towards ingress. We will start with a simple scenario. You are deploying an application on Kubernetes for a company that has an online store selling products.
+
+Your application would be available at say my-online-store.com. You build the application into a Docker Image and deploy it on the [Kubernetes](https://www.waytoeasylearn.com/learn/what-is-kubernetes/) cluster as a POD in a Deployment.
+
+##### **ClusterIP Service**
+
+Your application needs a database so you deploy a MySQL database as a POD and create a service of type ClusterIP called mysql-service to make it accessible to your application.
+
+##### **NodePort Service**
+
+So your application is now working. To make the application accessible to the outside world, you create another service, this time of type NodePort and make your application available on a high-port on the nodes in the cluster.
+
+![NW](Image/CKA-193.png)
+
+![Ingress in Kubernetes example](https://cdn-cphgg.nitrocdn.com/ECjjMaQtlUbNOMwKnqynOjHguXiKHhRP/assets/static/optimized/rev-754239d/wp-content/uploads/2021/05/Kubernetes-Example.png)
+
+In this example a port 38080 is allocated for the service. The users can now access your application using the URL http: //nodeip:38080.
+
+Now this setup works and users are able to access the application. Whenever traffic increases, we increase the number of replicas of the [POD](https://www.waytoeasylearn.com/learn/pods/) to handle the additional traffic and the service takes care of splitting traffic between the PODs.
+
+However if you have deployed a production grade application before you know that there are many more things involved in addition to simply splitting the traffic between the [PODs](https://www.waytoeasylearn.com/learn/pods/).
+
+For example we do not want the users to have to type in IP address every time you configure your DNS server to point to the IP of the nodes your users can now access your application using the URL my-online-store.com and port 38080.
+
+Now you don’t want your users to have to remember port number either. However service node ports can only allocate high numbered ports which are greater than 30000.
+
+So you then bring in an additional layer between the DNS server and your cluster like a proxy server that proxies requests on port 80 to port 38080 on your nodes.
+
+You then point your DNS to this server, and users can now access your application by simply visiting my-online-store.com.
+
+![NW](Image/CKA-194.png)
+
+![Ingress in Kubernetes example](https://cdn-cphgg.nitrocdn.com/ECjjMaQtlUbNOMwKnqynOjHguXiKHhRP/assets/static/optimized/rev-754239d/wp-content/uploads/2021/05/Kubernetes-Example-1.png)
+
+Now this is if your application is hosted on premises in your data center.
+
+##### **Public cloud environment**
+
+Let’s take a step back and see what you could do if you were on a public cloud environment like Google Cloud Platform.
+
+In that case, instead of creating a service of type NodePort for your wear application, you could set it to type load balancer.
+
+When you do that Kubernetes would still do everything that it has to do for a NodePort, which is to provision a high port for the service.
+
+But in addition to that Kubernetes also sends a request to Google Cloud Platform to provision a network load balancer for the service.
+
+On receiving the request GCP would then automatically deploy a load balancer configured to route traffic to the service ports on all the nodes and return its information to Kubernetes.
+
+The LoadBalancer has an external IP that can be provided to users to access the application. In this case we set the DNS to point to this IP and users access the application using the URL my-online-store.com.
+
+![NW](Image/CKA-195.png)
+
+![Ingress in Kubernetes example](https://cdn-cphgg.nitrocdn.com/ECjjMaQtlUbNOMwKnqynOjHguXiKHhRP/assets/static/optimized/rev-754239d/wp-content/uploads/2021/05/Kubernetes-Example-2-1024x633.png)
+
+##### **Deploying new service**
+
+Now your company’s business grows and you now have new services for your customers. For example a video streaming service you want your users to be able to access your new video streaming service by going to my-online-store.com/watch.
+
+You’d like to make your old application accessible at my-online.store.com/wear. Your developers developed the new video streaming application as a completely different application as it has nothing to do with the existing one.
+
+However in order to share the same cluster resources, you deploy the new application as a separate deployment within the same cluster. You create a service called video-service of type LoadBalancer.
+
+Kubernetes provisions port 38282 for this service and also provisions a Network LoadBalancer on the cloud. The new load balancer has a new IP remember you must pay for each of these load balancers and having many such load balancers can inversely affect your cloud build.
+
+So how do you direct traffic between each of these load balancers based on the URL that the users type in.? Here you need yet another proxy or load balancer that can redirect traffic based on URLs to the different services.
+
+![NW](Image/CKA-196.png)
+
+![Ingress in Kubernetes example](https://cdn-cphgg.nitrocdn.com/ECjjMaQtlUbNOMwKnqynOjHguXiKHhRP/assets/static/optimized/rev-754239d/wp-content/uploads/2021/05/Kubernetes-Example-3-1024x632.png)
+
+Every time you introduce a new service, you have to reconfigure the load balancer.
+
+##### **Enable SSL**
+
+Finally you also need to enable SSL for your applications so your users can access your application using https. Where do you configure that?
+
+It can be done at different levels either at the application level itself or at the load balancer or proxy server level but which one? You don’t want your developers to implement it in their application as they would do it in different ways.
+
+You want it to be configured in one place with minimal maintenance. Now that’s a lot of different configuration and all of this becomes difficult to manage when your application scales.
+
+It requires involving different individuals and different teams. You need to configure your firewall rules for each new service and it’s expensive as well as for each service in you cloud native load balancer needs to be provision.
+
+Wouldn’t it be nice if you could manage all of that within the Kubernetes cluster, and have all that configuration as just another Kubernetes as definition file that lives along with the rest of your application deployment files. That’s where ingress comes in ingress helps your users access your application.
+
+##### **Ingress**
+
+Using a single Externally accessible URL, that you can configure to route to different services within your cluster based on the URL path, at the same time implement SSL security as well.
+
+Simply put, think of ingress as a layer 7 load balancer built-in to the Kubernetes cluster that can be configured using native Kubernetes primitives just like any other object in Kubernetes.
+
+Now remember, even with Ingress you still need to expose it to make it accessible outside the cluster so you still have to either publish it as a NodePort or with a cloud native load balancer. But that is just a one time configuration.
+
+Going forward you are going to perform all your load balancing, Authentication, SSL and URL based routing configurations on the Ingress controller.
+
+So how does it work? What is it? Where is it? How can you see it and h can you configure it? How does it load balance? And how does it implement SSL? Without ingress, how would you do all of these?
+
+##### **Load balancing solutions**
+
+I would use a reverse-proxy or a load balancing solution like NGINX or HAProxy or Traefik. I would deploy them on my Kubernetes cluster and configure them to route traffic to other services.
+
+The configuration involves defining URL Routes, configuring SSL certificates etc. Ingress is implemented by Kubernetes in kind of the same way.
+
+You first deploy a supported solution, which happens to be any of these listed above and then specify a set of rules to configure ingress.
+
+The solution you deploy is called as an ingress controller and the set of rules you configure are called as ingress resources.
+
+Ingress resources are created using definition files like the ones we use to create pods deployments and services earlier in these tutorials.
+
+Now remember a Kubernetes cluster does NOT come with an Ingress Controller by default. If you setup a cluster you won’t have an ingress controller built into it.
+
+So if you simply create ingress resources and expect them to work they won’t. let’s look at each of these in a bit more detail.
+
+##### **Ingress Controller**
+
+As I mentioned you do not have an Ingress Controller on Kubernetes by default. So you must deploy one. What do you deploy?
+
+There are a number of solutions available for ingress. A few of them being GCE – which is Googles Layer 7 HTTP Load Balancer. NGINX, Contour, HAPROXY, TRAFIK and Istio. Out of this, GCE and NGINX are currently being supported and maintained by the Kubernetes project.
+
+And in this tutorial we will use NGINX as an example. These Ingress Controllers are not just another load balancer or nginx server. The load balancer components are just a part of it.
+
+The Ingress controllers have additional intelligence built into them to monitor the Kubernetes cluster for new definitions or ingress resources and configure the nginx server accordingly.
+
+An NGINX Controller is deployed as just another deployment in Kubernetes. So we start with a deployment file definition, named nginx-ingress-controller. With 1 replica and a simple pod definition template.
+
+We will label it nginx-ingress and the image used is nginx-ingress-controller with the right version.
+
+##### **Deployment**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nginx-ingress
+  template:
+    metadata:
+      labels:
+        name: nginx-ingress
+    spec:
+      serviceAccountName: ingress-serviceaccount
+      containers:
+        - name: nginx-ingress-controller
+          image: >-
+            quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+          args:
+            - /nginx-ingress-controller
+            - '--configmap=$(POD_NAMESPACE)/nginx-configuration'
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+```
+
+Now this is a special build of NGINX built specifically to be used as an ingress controller in Kubernetes. So it has its own set of requirements.
+
+Within the image the nginx program is stored at location /nginx-ingress-controller. So you must pass that as the command to start the nginx-controller-service.
+
+If you have worked with NGINX before, you know that it has a set of configuration options such as the path to store the logs, keep-alive threshold, ssl settings, session timeout etc.
+
+In order to decouple these configuration data data from the nginx-controller image, you must create a ConfigMap object and pass that in.
+
+##### **ConfigMap**
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-configuration
+```
+
+Now remember the ConfigMap object need not have any entries at this point. A blank object will do. But creating one makes it easy for you to modify a configuration setting in the future.
+
+You will just have to add it in to this ConfigMap and not have to worry about modifying the nginx configuration files.
+
+You must also pass in two environment variables that carry the POD’s name and namespace it is deployed to. The nginx service requires these to read the configuration data from within the POD.
+
+And finally specify the ports used by the ingress controller which happens to be 80 and 443.
+
+We then need a service to expose the ingress controller to the external world. So we create a service of type NodePort with the nginx-ingress label selector to link the service to the deployment.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+  selector:
+    name: nginx-ingress
+```
+
+As mentioned before, the Ingress controllers have additional intelligence built into them to monitor the Kubernetes cluster for ingress resources and configure the underlying nginx server when something is changed.
+
+But for the ingress controller to do this it requires a service account with a right set of permissions for that we create a service account with the correct roles and roles bindings.
+
+So to summarize, with a deployment of the nginx-ingress image, a service to expose it, a ConfigMap to feed nginx configuration data, and a service account with the right permissions to access all of these objects.
+
+We should be ready with an ingress controller in its simplest form.
+
+##### **Ingress Resources**
+
+Now on onto the next part of creating ingress resources. An ingress resource is a set of rules and configurations applied on the ingress controller.
+
+You can configure rules to say simply forward all incoming traffic to a single application or route traffic to different applications based on the URL.
+
+So if user goes to my-online-store.com/wear, then route to one app, or if the user visits the /watch URL then route to the video app etc or you could route user based on the domain name itself.
+
+For example, if the user visits wear.my-online-store.com, the route to the wear app or else route to the video app. Let us look at how to configure these in a bit more detail.
+
+The Ingress Resource is created with a Kubernetes Definition file. In this case, ingress-wear.yaml.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear
+spec:
+  backend:
+    serviceName: wear-service
+    servicePort: 80
+```
+
+So the traffic is, of course, routed to the application services and not PODs directly. As you might know already the back end section defines where the traffic will be routed to.
+
+So if it’s a single backend then you don’t really have any rules. You can simply specify the service name and port of the backend wear service.
+
+You create the ingress resource by using following command
+
+```bash
+$ kubectl create -f ingress-wear.yaml
+ingress.extensions/ingress-wear created
+```
+
+To view the created ingress by running the following command
+
+```bash
+kubectl get ingress
+```
+
+The new ingress is now created and routes all incoming traffic directly to the wear-service.
+
+##### **Ingress Resource Rules**
+
+Now you can use rules, when you want to route traffic based on different conditions. For example you create one rule for traffic originating from each domain or hostname.
+
+![NW](Image/CKA-192.png)
+
+![Ingress Resource Rules](https://cdn-cphgg.nitrocdn.com/ECjjMaQtlUbNOMwKnqynOjHguXiKHhRP/assets/static/optimized/rev-754239d/wp-content/uploads/2021/05/Ingress-Example-1024x93.png)
+
+That means when users reach your cluster using the domain name, my-online-store.com, you can handle that traffic using rule1.
+
+When users reach your cluster using domain name wear.my-online-store.com, you can handle that traffic using a separate Rule2.
+
+Use Rule3 to handle traffic from watch.my-online-store.com and say use a 4th rule to handle everything else.
+
+Now within each rule you can handle different paths. For example, within Rule 1 you can handle the wear path to route that traffic to the clothes application.
+
+And a watch path to route traffic to the video streaming application and a third path that routes anything other than the first two to a 404 not found page.
+
+Similarly, the second rule handles all traffic from wear.my-online-store.com. You can have path definition within this rule, to route traffic based on different paths.
+
+For example, say you have different applications and services within the apparel section for shopping, or returns, or support, when a user goes to wear.my-online.store.com/, by default they reach the shopping page. But if they go to exchange or support URL, they reach different backend services.
+
+The same goes for Rule 3, where you route traffic to watch.my-online-store.com to the video streaming application. But you can have additional paths in it such as movies or tv.
+
+And finally anything other than the ones listed here will go to the fourth rule, that would simply show a 404 Not Found Error page.
+
+So remember you have rules at the top for each host or domain name and within each rule you have different paths to route traffic based on the URL.
+
+##### **Configure ingress resources**
+
+Now, let’s look at how we configure ingress resources in Kubernetes. We will start where we left off. We start with a similar definition file. This time under spec, We start with a set of rules.
+
+Now our requirement here is to handle all traffic coming to my-online-store.com and route them based on the URL path.
+
+So we just need a single rules for this. since we are only handling traffic to a single domain name, which is my-online-store.com. Under rules we have one item, which is an http rule in which we specify different paths. So paths is an array of multiple items.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /wear
+            backend:
+              serviceName: wear-service
+              servicePort: 80
+          - path: /watch
+            backend:
+              serviceName: watch-service
+              servicePort: 80
+```
+
+Create the ingress resource using the kubectl create command.
+
+##### **Describe Ingress Resource**
+
+Once created, view additional details about the ingress resource by running the following command
+
+```bash
+$ kubectl describe ingress ingress-wear-watch
+Name:             ingress-wear-watch
+Namespace:        default
+Address:
+Default backend:  default-http-backend:80 ()
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /wear    wear-service:80 ()
+              /watch   watch-service:80 ()
+Annotations:  
+Events:
+  Type    Reason  Age   From                      Message
+  ----    ------  ----  ----                      -------
+  Normal  CREATE  23s   nginx-ingress-controller  Ingress default/ingress-wear-watch
+```
+
+You now see two backend URLs under the rules, and the backend service they are pointing to.
+
+Now if you look closely in the output of above command you see that there is something about a default backend. What might that be?
+
+If a user tries to access a URL that does not match any of these rules, then the user is directed to the service specified as the default backend. In this case it happens to be a service named default-http-backend.
+
+So you must remember to deploy such a service back in your application, say a user visits the URL my-online-store.com/listen or /eat and you don’t have an audio streaming or a food delivery service. You might want to show them a nice message.
+
+You can do this by configuring a default backend service to display this 404 Not found error page.
+
+The third type of configuration is using domain names or host names. We start by creating a similar definition file for ingress.
+
+##### **host field**
+
+Now that we have two domain names we create two rules one for each domain. Display traffic by domain name, we use the host field.
+
+The host field in each rule matches the specified value with the domain name used in the request URL and routes traffic to the appropriate backend.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  rules:
+    - host: wear.my-online-store.com
+      http:
+        paths:
+          - backend:
+              serviceName: wear-service
+              servicePort: 80
+    - host: watch.my-online-store.com
+      http:
+        paths:
+          - backend:
+              serviceName: watch-service
+              servicePort: 80
+```
+
+Now remember in the previous case we did not specify the host field.
+
+If you don’t specify the host field it will simply consider it as a ***** or accept all the incoming traffic through that particular rule without matching the hostname.
+
+In this case, note that we only have a single backend path for each rule which is fine. All traffic from these domain names will be routed to the appropriate backend irrespective of the URL path.
+
+You can still have multiple path specifications in each of these to handle different URL paths as we saw in the example earlier. So let’s compare the two.
+
+Splitting traffic by URL had just one rule and we split the traffic with two paths. To split traffic by hostname, We used two rules and one path specification in each rule.
+
+##### Article
+
+As we already discussed **Ingress** in our previous lecture. Here is an update.
+
+In this article, we will see what changes have been made in previous and current versions in **Ingress**.
+
+Like in **apiVersion**, **serviceName** and **servicePort** etc.
+
+![NW](Image/CKA-198.png)
+
+![img](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-08-17_16-08-15-344e2f95e7ebee44be33e8b5f78acacb.png)
+
+Now, in k8s version **1.20+** we can create an Ingress resource from the imperative way like this:-
+
+Format - kubectl create ingress ingress-name --rule="host/path=service:port"
+
+Example - kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear=wear-service:80"
+
+Find more information and examples in the below reference link:-
+
+[More here](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-ingress-em-)
+
+##### **References:-**
+
+[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress)
+
+[Path Types](https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types)
 
 ### Design and Install Kubernetes Cluster
 
 #### Design Kubernetes Cluster
 
+![DKC](Image/CKA-199-1.png)
+
+Before you step forward to install, first you need to ask yourself as mntioned on above image.
+
+![DKC](Image/CKA-199.png)
+
+When we talk more detailed way about purpose please refer the above image.
+
+![DKC](Image/CKA-200.png)
+
+In order to host the production cluster we have cloud providers auto selection with respect to number of nodes.
+
+![DKC](Image/CKA-201.png)
+
+Even you select cloud or OnPremise kubernetes is available everywhere.
+
+![DKC](Image/CKA-202.png)
+
+To select the storage we have to use SSD for the high performance and other lists as mentioned in above image.
+
+![DKC](Image/CKA-203.png)
+
+To select nodes to host the workloads, please refer above image
+
+![DKC](Image/CKA-204.png)
+
+In Master Node all the control plane objects are present or we can seperate the ETCD from the master node and made ETCD as the stand alone server.
+
+![DKC](Image/CKA-205.png)
+
 #### Choose Kubernetes Infrastructure
+
+While installing kubernetes on Laptop we can have two options like cloud and on-premise as shown below:
+
+![DKC](Image/CKA-206.png)
+
+The Laptop may be either linux or windows. As kubernetes needs the linux libraries it will be esay to install on linux systems, but if it is windows then we need to have vertual box / docker containers / MiniKube
+
+![DKC](Image/CKA-207.png)
+
+Difference b/w Minikube and Kubeadm is as given below:
+
+![DKC](Image/CKA-208.png)
+
+We have two types of platforms for kubernetes as given below with its eolutions:
+
+![DKC](Image/CKA-209.png)
+![DKC](Image/CKA-210.png)
+![DKC](Image/CKA-211.png)
+
+And also here is the mostly used way to spin up / Install the cluster
+
+![DKC](Image/CKA-212.png)
 
 #### Configure High Availability
 
-#### ETCD in HA
+![DKC](Image/CKA-213.png)
+
+We are selecting one master and two workers and if a master goes down there there will be no interaction with kubectl to workloads because kubectl will talk to kube-api servers.
+
+![DKC](Image/CKA-214.png)
+
+So by keeptng that in mind will setup two master nodes as High Availability but how they sync each other?
+
+![DKC](Image/CKA-215.png)
+
+Let us concentrate more on api-server as this is the main component to talk to cluste here the api-server must be active-active status because everytime kubectl access cluster it should go through both api-servers. So, we need to place a Load balancer in b/w there master nodes.
+
+![DKC](Image/CKA-216.png)
+
+Same way when we talk abot the control-manager and Scheduler It should be active and standby status as it continueously checkes the replicas and schedule the workloads respectively.
+
+![DKC](Image/CKA-217.png)
+
+In order to acheive this we need to elect the leader asgiven above.
+
+![DKC](Image/CKA-218.png)
+
+In same way when we talk about the ETCD, here we have two types the stacked as shown above and the External as shown below with its operations.
+
+![DKC](Image/CKA-219.png)
+
+And we need to configure like below:
+![DKC](Image/CKA-220.png)
+
+Below are the network solutions:
+
+![DKC](Image/CKA-221.png)
+
+#### Reference
+
+Installing Kubernetes the hard way can help you gain a better understanding of putting together the different components manually.
+
+An optional series on this is available at our youtube channel here:
+
+[Youtube](https://www.youtube.com/watch?v=uUupRagM7m0&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo)
+
+The GIT Repo for this tutorial can be found here: [GIT](https://github.com/mmumshad/kubernetes-the-hard-way)
 
 ### Install Kubernets hardway
 
 #### Resources
 
+The vagrant file used in the next video is available here:
+
+[vagrant](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)
+
+Here's the link to the documentation:
+
+[Docs](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+
 #### Deploy with Kubeadm
+
+[Kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 
 ### End to End Test on a kubernets Cluster
 
+As per the CKA exam changes (effective September 2020), End to End tests is no longer part of the exam and hence it has been removed from the course.
+
+If you are still interested to learn this, please check out the complete tutorial and demos in our YouTube playlist:
+
+[Youtube](https://www.youtube.com/watch?v=-ovJrIIED88&list=PL2We04F3Y_41jYdadX55fdJplDvgNGENo&index=18)
+
 ### Troubleshooting
+
+[Troubleshoot](https://kubernetes.io/docs/tasks/debug/debug-application/)
 
 #### Application Failure
 
+![DKC](Image/CKA-222.png)
+
+Whenever Application fails then we need to know the flow of application and then we need to check the web interface of frontend first.
+
+![DKC](Image/CKA-223.png)
+
+Then we need to check the status of the service and along with that we need to check the connection b/w the pod and service i.e the selectors
+
+![DKC](Image/CKA-224.png)
+
+Then we need to check the pod status and logs of pods with previous restarted pod as well
+
+![DKC](Image/CKA-225.png)
+![DKC](Image/CKA-226.png)
+
+And then we need to check for the backend service and backend application.
+
 #### Control Plane Failure
+
+[Cluster](https://kubernetes.io/docs/tasks/debug/debug-cluster/_print/)
+
+![DKC](Image/CKA-227.png)
+![DKC](Image/CKA-228.png)
+![DKC](Image/CKA-229.png)
+![DKC](Image/CKA-230.png)
+![DKC](Image/CKA-231.png)
 
 #### Worker Node Failuer
 
+![DKC](Image/CKA-232.png)
+![DKC](Image/CKA-233.png)
+![DKC](Image/CKA-234.png)
+![DKC](Image/CKA-235.png)
+
 #### Network Troubleshooting
+
+##### **Network Plugin in kubernetes**
+
+Kubernetes uses CNI plugins to setup network. The kubelet is responsible for executing plugins as we mention the following parameters in kubelet configuration.
+
+***- cni-bin-dir*:**  Kubelet probes this directory for plugins on startup
+
+***- network-plugin:*** The network plugin to use from cni-bin-dir. It must match the name reported by a plugin probed from the plugin directory.
+
+**There are several plugins available and these are some.**
+
+**1. Weave Net:**
+
+These is the only plugin mentioned in the kubernetes documentation. To install,
+
+```bash
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+```
+
+You can find this in following documentation :
+
+`**https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/**`
+
+**2. Flannel :**
+
+To install,
+
+`kubectl apply -f        https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml`
+
+**Note: As of now flannel does not support kubernetes network policies.**
+
+**3. Calico :**
+
+To install,
+
+`curl https://docs.projectcalico.org/manifests/calico.yaml -O`
+
+**Apply the manifest using the following command.**
+
+`kubectl apply -f calico.yaml`
+
+Calico is said to have most advanced cni network plugin.
+
+In CKA and CKAD exam, you won't be asked to install the cni plugin. But if asked you will be provided with the exact url to install it. If not, you can install weave net from the documentation
+
+`https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/`
+
+**Note: If there are multiple CNI configuration files in the directory, the kubelet uses the configuration file that comes first by name in lexicographic order.**
+
+##### **DNS in Kubernetes**
+
+Kubernetes uses **CoreDNS**. **CoreDNS** is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS.
+
+##### **Memory and Pods**
+
+In large scale Kubernetes clusters, CoreDNS's memory usage is predominantly affected by the number of Pods and Services in the cluster. Other factors include the size of the filled DNS answer cache, and the rate of queries received (QPS) per CoreDNS instance.
+
+Kubernetes resources for **coreDNS** are:  
+
+1. **a service account named** ***coredns***
+2. **cluster-roles named** ***coredns*** and ***kube-dns***
+3. **clusterrolebindings named** ***coredns*** and ***kube-dns***
+4. **a deployment named** ***coredns***
+5. **a configmap named** ***coredns*** and
+6. **service named** ***kube-dns***
+
+While analyzing the coreDNS deployment you can see that the the ***Corefile plugin*** consists of important configuration which is defined as a ***configmap***.
+
+Port **53** is used for for *DNS resolution*.
+
+```yaml
+    kubernetes cluster.local in-addr.arpa ip6.arpa {       pods insecure       fallthrough in-addr.arpa ip6.arpa       ttl 30    }
+```
+
+This is the backend to k8s for *cluster.local and reverse domains*.
+
+```bash
+proxy . /etc/resolv.conf
+```
+
+Forward out of cluster domains directly to right *authoritative DNS server*.
+
+##### Troubleshooting issues related to coreDNS
+
+1. If you find **CoreDNS** pods in pending state first check network plugin is installed.
+
+2. coredns pods have **CrashLoopBackOff or Error state**
+
+If you have nodes that are running SELinux with an older version of Docker you might experience a scenario where the coredns pods are not starting. To solve that you can try one of the following options:
+
+a)Upgrade to a newer version of Docker.
+
+b)Disable **SELinux.**
+
+c)Modify the coredns deployment to set **allowPrivilegeEscalation** to *true*:
+
+```bash
+kubectl -n kube-system get deployment coredns -o yaml | \  sed 's/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g' | \  kubectl apply -f -
+```
+
+d)Another cause for **CoreDNS** to have CrashLoopBackOff is when a **CoreDNS** Pod deployed in Kubernetes detects a loop.
+
+There are many ways to work around this issue, some are listed here:
+
+- Add the following to your kubelet config yaml: ***resolvConf: path-to-your-real-resolv-conf-file*** This flag tells ***kubelet*** to pass an alternate ***resolv.conf*** to Pods. For systems using **systemd-resolved**, ***/run/systemd/resolve/resolv.conf*** is typically the location of the ***"real" resolv.conf***, although this can be different depending on your distribution.
+
+- Disable the local DNS cache on host nodes, and restore ***/etc/resolv.conf*** to the original.
+
+- A quick fix is to edit your **Corefile**, replacing forward ***. /etc/resolv.conf*** with the IP address of your upstream DNS, for example forward **. 8.8.8.8**. But this only fixes the issue for **CoreDNS**, ***kubelet*** will continue to forward the invalid ***resolv.conf*** to all default dnsPolicy Pods, leaving them unable to resolve DNS.
+
+If **CoreDNS** pods and the **kube-dns** service is working fine, check the **kube-dns** service has valid ***endpoints***.
+
+​       **kubectl -n kube-system get ep kube-dns**
+
+If there are no endpoints for the service, inspect the service and make sure it uses the correct selectors and ports.
+
+##### **Kube-Proxy**
+
+**kube-proxy** is a network proxy that runs on each node in the cluster. **kube-proxy** maintains *network rules on nodes*. These network rules allow network communication to the Pods from network sessions inside or outside of the cluster.
+
+In a cluster configured with **kubeadm**, you can find **kube-proxy** as a ***daemonset***.
+
+**kubeproxy** is responsible for watching *services and endpoint associated with each service*. When the client is going to connect to the service using the *virtual IP* the **kubeproxy** is responsible for *sending traffic to actual pods*.
+
+If you run a `kubectl describe ds kube-proxy -n kube-system` you can see that the **kube-proxy** binary runs with following command inside the kube-proxy container.
+
+```bash
+    Command:      /usr/local/bin/kube-proxy      --config=/var/lib/kube-proxy/config.conf      --hostname-override=$(NODE_NAME)
+```
+
+So it fetches the configuration from a configuration file ie, ***/var/lib/kube-proxy/config.conf*** and we can override the hostname with the node name of at which the pod is running.
+
+In the config file we define the **clusterCIDR, kubeproxy mode, ipvs, iptables, bindaddress, kube-config** etc.
+
+##### Troubleshooting issues related to kube-proxy
+
+1. Check **kube-proxy** pod in the **kube-system** namespace is running.
+2. Check **kube-proxy** logs.
+3. Check **configmap** is correctly defined and the config file for running **kube-proxy** binary is correct.
+4. **kube-config** is defined in the **config map**.
+5. check **kube-proxy** is *running* inside the container
+
+```bash
+# netstat -plan | grep kube-proxytcp        0      0 0.0.0.0:30081           0.0.0.0:*               LISTEN      1/kube-proxytcp        0      0 127.0.0.1:10249         0.0.0.0:*               LISTEN      1/kube-proxytcp        0      0 172.17.0.12:33706       172.17.0.12:6443        ESTABLISHED 1/kube-proxytcp6       0      0 :::10256                :::*                    LISTEN      1/kube-proxy
+```
+
+##### **References**
+
+Debug Service issues:
+
+`*https://kubernetes.io/docs/tasks/debug-application-cluster/debug-service/*`
+
+DNS Troubleshooting:
+
+`*https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/*`
 
 #### Other Topics
 
 ##### JSON Path
 
+In the upcoming lecture we will explore some advanced commands with kubectl utility. But that requires JSON PATH. If you are new to JSON PATH queries get introduced to it first by going through the lectures and practice tests available here.
+
+[Quiz](https://kodekloud.com/p/json-path-quiz)
+
+Once you are comfortable head back here:
+
+I also have some JSON PATH exercises with Kubernetes Data Objects. Make sure you go through these:
+
+[Questions](https://mmumshad.github.io/json-path-quiz/index.html#!/?questions=questionskub1)
+
+[Questions-2](https://mmumshad.github.io/json-path-quiz/index.html#!/?questions=questionskub2)
+
 ##### Advance Kubectl Commands
+
+[Json Path](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
+
+##### Questions
+
+Note: These tests are in beta/experimental phase as of now. Please report any issues/concerns through the slack channel or Q&A section.
+
+These exams were built to give you a real exam like feel in terms of your ability to read and interpret a given question, validate your own work, manage time to complete given tasks within the given time, and see where you went wrong.
+
+Having said that:
+
+Please note that this exam is not a replica of the actual exam
+
+Please note that the questions in these exams are not the same as in the actual exam
+
+Please note that the interface is not the same as in the actual exam
+
+Please note that the scoring system may not be the same as in the actual exam
+
+Please note that the difficulty level may not be the same as in the actual exam
+
+Mock Test Link - [mock](https://uklabs.kodekloud.com/topic/mock-exam-1-4/)
+
+This is the first of its kind. More on the way!
+
+Mock Test Link - [mock-2](https://uklabs.kodekloud.com/topic/mock-exam-2-4/)
+
+Mock Exam Link: [mock-3](https://uklabs.kodekloud.com/topic/mock-exam-3-3/)
+
+Am I ready for the real exam?
+
+A. If you have completed all lectures, labs and mock exams in this course, you are almost ready for the exam. To be sure, randomly different labs or mock exams and see how you perform. If you can breeze through those without having to peek at the hints or answer files, consider yourself ready. Remember, you only need 66% to clear the real exam, and you also have a free retake. So go for it!
+
+![CKA](Image/CKA-236.png)
+
+Official Tips:
+
+[tips](https://docs.linuxfoundation.org/tc-docs/certification/tips-cka-and-ckad)
+
+**Link:** [practice](https://uklabs.kodekloud.com/courses/labs-certified-kubernetes-administrator-with-practice-tests/)
+
+Apply the coupon code **udemystudent151113**
+
+[Become a DevOps Expert By Gaining Experience for Free with KodeKloud Engineer](https://www.youtube.com/watch?v=CnqjHRCZEt0)
 
 --------------------------------------
 
@@ -8427,6 +9786,36 @@ AND
 #### Security In Kubernetes
 
 #### Monitoring and Autoscaling kubernetes Cluster
+
+--------------------------------------
+
+## **Kubernetes Development**
+
+### What is Kubernets?
+
+### Demo App in Kubernets
+
+### Docker Container for App
+
+### Kubernetes On Minikube
+
+### Moving to Azure AKS
+
+### DevOps for Kubernetes using Azure DevOps
+
+### CI/CD Pipelines for Kubernetes using YAML pipelines
+
+### Deploying using Helm
+
+### Ingress Controller
+
+### GitOps with Kubernetes
+
+### Kubernetes NodePools
+
+### Upgrade the Cluster
+
+### Cluster backup
 
 --------------------------------------
 
